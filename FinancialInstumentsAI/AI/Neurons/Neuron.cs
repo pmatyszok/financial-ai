@@ -27,7 +27,7 @@ namespace AI.Neurons
                 throw new ApplicationException("Wrong number of data on neuron' inputs!");
 
             double ret = threshold;
-            for (int i = 0; i < input.Count; i++)
+            for (int i = 0; i < input.Length; i++)
                 ret += weights[i] * input[i];
 
             output = ActivationFunction.Calculate(ret);

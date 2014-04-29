@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Functions\IActivationFunction.cs" />
     <Compile Include="Functions\Sigmoid.cs" />
+    <Compile Include="Layer.cs" />
+    <Compile Include="Network.cs" />
     <Compile Include="Neurons\AbstractNeuron.cs" />
     <Compile Include="Neurons\INeuronInitilizer.cs" />
     <Compile Include="Neurons\Neuron.cs" />

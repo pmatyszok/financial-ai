@@ -11,10 +11,17 @@ namespace AI.Neurons
         private Random random;
         private double randomMin;
         private double randomMax;
+        public RandomInitializer()
+            : this(0.0, 1.0)
+        { 
+            
+        }
 
         public RandomInitializer(double randMin = 0.0, double randMax = 1.0)
         {
             random = new Random((int)DateTime.Now.Ticks);
+            randomMin = randMin;
+            randomMax = randMax;
         }
 
         public void Initialize(double[] weights)
