@@ -23,16 +23,16 @@ namespace AI.Neurons
 
         public override double ComputeOutput(double[] input)
         {
-            if (input.Length != inputs)
+            if (input.Length != Inputs)
                 throw new ApplicationException("Wrong number of data on neuron' inputs!");
 
             double ret = threshold;
             for (int i = 0; i < input.Length; i++)
-                ret += weights[i] * input[i];
+                ret += Weights[i] * input[i];
 
-            output = ActivationFunction.Calculate(ret);
+            Output = ActivationFunction.Calculate(ret);
             
-            return output;
+            return Output;
             
         }
     }

@@ -25,6 +25,10 @@ namespace AI.Functions
         {
             return (1 / (1 + Math.Exp(-Alpha * x)));
         }
-    
+
+        public double DerivativeFromY(double y)
+        {
+            return (Alpha * y * (1 - y));
+        }
     }
 }

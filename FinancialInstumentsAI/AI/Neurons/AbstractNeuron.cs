@@ -8,19 +8,21 @@ namespace AI.Neurons
 {
     abstract class AbstractNeuron
     {
-        public int inputs
+        public int Inputs
         {
             get;
             protected set;
         }
 
-        public double output
+        public double Output
         {
             get;
             protected set;
         }
 
-        protected double[] weights;
+        public double Noise { get; set; }
+
+        public double[] Weights;
 
         public Functions.IActivationFunction ActivationFunction { get; set; }
 
@@ -28,8 +30,8 @@ namespace AI.Neurons
 
         public AbstractNeuron(int inputCount, INeuronInitilizer init, Functions.IActivationFunction function)
         {
-            inputs = inputCount;
-            weights = new double[inputCount];
+            Inputs = inputCount;
+            Weights = new double[inputCount];
             ActivationFunction = function;
             Initializer = init;
             Initialize();
@@ -37,7 +39,7 @@ namespace AI.Neurons
 
         public virtual void Initialize()
         {
-            Initializer.Initialize(weights);
+            Initializer.Initialize(Weights);
         }
 
         public abstract double ComputeOutput(double[] input);

@@ -14,5 +14,7 @@ namespace AI.Functions
         double Calculate(double x);
 
         double Derivative(double x);
+
+        double DerivativeFromY(double y);
     }
 }

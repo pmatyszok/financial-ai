@@ -13,7 +13,7 @@ namespace AI
 
         public int Inputs { get; set; }
         public double[] Output { get; set; }
-        
+        public int Size { get { return neurons.Length; } }
         public Layer(int inputsCount, int neuronsCount, Functions.IActivationFunction function, INeuronInitilizer initializer)
         {
             Inputs = inputsCount;
@@ -37,5 +37,6 @@ namespace AI
                 Output[i] = neurons[i].ComputeOutput(input);
             return Output;
         }
+        public Neuron this[int i] { get { return neurons[i]; } }
     }
 }
