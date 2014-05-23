@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI.Neurons
 {
-    abstract class AbstractNeuron
+    public abstract class AbstractNeuron
     {
         public int Inputs
         {

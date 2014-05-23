@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\BipolarSigmoid.cs" />
     <Compile Include="Functions\IActivationFunction.cs" />
     <Compile Include="Functions\Sigmoid.cs" />
     <Compile Include="Layer.cs" />

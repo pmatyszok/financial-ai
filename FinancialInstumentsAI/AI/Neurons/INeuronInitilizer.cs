@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI.Neurons
 {
-    interface INeuronInitilizer
+    public interface INeuronInitilizer
     {
         void Initialize(double[] weights);
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AI
 {
-    class Teacher
+    public class Teacher
     {
         private Network net;
 
@@ -17,13 +17,13 @@ namespace AI
         public double Rate
         {
             get { return rate; }
-            set { rate = Math.Min(0.0, Math.Min(1.0, value)); }
+            set { rate = Math.Max(0.0, Math.Min(1.0, value)); }
         }
 
         public double Momentum
         {
             get { return momentum; }
-            set { momentum = Math.Min(0.0, Math.Min(1.0, value));}
+            set { momentum = Math.Max(0.0, Math.Min(1.0, value));}
         }
 
         private double[][] errors;
@@ -68,7 +68,7 @@ namespace AI
                 error += err * err;
             }
 
-            for (int i = net.LayersCount - 2; i >= 0; i++)
+            for (int i = net.LayersCount - 2; i >= 0; i--)
             {
                 lastLayer = net[i];
                 currError = errors[i];
@@ -104,9 +104,9 @@ namespace AI
         private void UpdateNetwork(double[] input)
         {
             //last layer 
-            for (int i = 0; i < net[net.LayersCount - 1].Size; i++)
+            for (int i = 0; i < net[0].Size; i++)
             { 
-                for (int j = 0; j < net[net.LayersCount - 1][i].Inputs; j++ )
+                for (int j = 0; j < net[0][i].Inputs; j++ )
                 {
                     if (useMomentum)
                         updates[0][i][j] = rate * (momentum * updates[0][i][j] + (1.0 - momentum) * errors[0][i] * input[j]); 

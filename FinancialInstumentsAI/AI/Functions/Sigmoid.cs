@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI.Functions
 {
-    class Sigmoid : IActivationFunction
+    public class Sigmoid : IActivationFunction
     {
         public double Alpha { get; set; }
 

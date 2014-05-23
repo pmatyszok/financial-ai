@@ -7,7 +7,7 @@ using AI.Neurons;
 
 namespace AI
 {
-    class Layer
+    public class Layer
     {
         private Neuron[] neurons;
 

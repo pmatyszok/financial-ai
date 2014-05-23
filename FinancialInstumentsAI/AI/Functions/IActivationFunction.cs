@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI.Functions
 {
-    interface IActivationFunction
+    public interface IActivationFunction
     {
         /// <summary>
         /// Calculates function value at given point

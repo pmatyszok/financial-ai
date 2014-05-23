@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI.Neurons
 {
-    class Neuron : AbstractNeuron
+    public class Neuron : AbstractNeuron
     {
         public double threshold { get; set; }
 

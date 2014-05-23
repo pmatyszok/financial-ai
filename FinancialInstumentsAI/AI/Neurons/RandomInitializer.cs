@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI.Neurons
 {
-    class RandomInitializer : INeuronInitilizer
+    public class RandomInitializer : INeuronInitilizer
     {
         private Random random;
         private double randomMin;

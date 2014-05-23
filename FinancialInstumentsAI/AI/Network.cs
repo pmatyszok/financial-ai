@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI
 {
-    class Network
+    public class Network
     {
         public int Inputs { get; set; }
         public int LayersCount { get; set; }
@@ -20,7 +20,7 @@ namespace AI
             NetworkInit(inputsCount, layersCount);
             if (neuronsCountInHiddenLayers.Count != layersCount)
                 throw new ApplicationException("Number of layers and provided layer's neuron count do not match!");
-            layers[0] = new Layer(inputsCount, neuronsCountInHiddenLayers[0], function, initializer);
+            layers[0] = new Layer(inputsCount, inputsCount, function, initializer);
             for(int i = 1; i < layers.Length; i++)
                 layers[i] = new Layer(neuronsCountInHiddenLayers[i-1], neuronsCountInHiddenLayers[i], function, initializer);
         }
