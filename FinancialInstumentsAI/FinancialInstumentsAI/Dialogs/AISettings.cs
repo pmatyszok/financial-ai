@@ -1,17 +1,25 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace FinancialInstumentsAI.Dialogs
 {
-    public partial class AISettings : Form
+    public sealed partial class AISettings : Form
     {
-        public AISettings()
+        private static AISettings instance;
+
+        private AISettings()
         {
             InitializeComponent();
         }
 
-        private void btnOK_Click(object sender, System.EventArgs e)
+        public static AISettings Instance
         {
-            DialogResult = DialogResult.OK;;
+            get { return instance ?? (instance = new AISettings()); }
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
         }
     }
 }

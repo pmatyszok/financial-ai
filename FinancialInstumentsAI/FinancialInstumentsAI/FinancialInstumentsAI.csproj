@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ChartTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ChartTabPage.Designer.cs">
+      <DependentUpon>ChartTabPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\AISettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +71,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\ChartTabPage.resx">
+      <DependentUpon>ChartTabPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\AISettings.resx">
       <DependentUpon>AISettings.cs</DependentUpon>
     </EmbeddedResource>
