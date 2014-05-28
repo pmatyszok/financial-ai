@@ -24,10 +24,6 @@ namespace AI.Neurons
             randomMax = randMax;
         }
 
-        public void SetOptimalRandomRange()
-        {
-        }
-
         public void Initialize(double[] weights)
         {
             double range = randomMax - randomMin;
