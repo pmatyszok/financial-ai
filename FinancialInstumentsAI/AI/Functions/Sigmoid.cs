@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace AI.Functions
 {
+    [Serializable]
+    [System.Runtime.Serialization.DataContract]    
     public class Sigmoid : IActivationFunction
     {
         public double Alpha { get; set; }

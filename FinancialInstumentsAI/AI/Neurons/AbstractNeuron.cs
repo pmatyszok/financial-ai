@@ -6,26 +6,29 @@ using System.Threading.Tasks;
 
 namespace AI.Neurons
 {
+    [Serializable]
+    [System.Runtime.Serialization.DataContract]    
     public abstract class AbstractNeuron
     {
+        [System.Runtime.Serialization.DataMember]
         public int Inputs
         {
             get;
             protected set;
         }
-
+        [System.Runtime.Serialization.DataMember]
         public double Output
         {
             get;
             protected set;
         }
-
+        [System.Runtime.Serialization.DataMember]
         public double Noise { get; set; }
-
+        [System.Runtime.Serialization.DataMember]
         public double[] Weights;
-
+        [System.Runtime.Serialization.DataMember]
         public Functions.IActivationFunction ActivationFunction { get; set; }
-
+        [System.Runtime.Serialization.DataMember]
         public INeuronInitilizer Initializer { get; set; }
 
         public AbstractNeuron(int inputCount, INeuronInitilizer init, Functions.IActivationFunction function)

@@ -5,6 +5,10 @@ using AI.Neurons;
 using AI.Functions;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
+
 namespace AITest
 {
     [TestClass]
@@ -175,6 +179,26 @@ namespace AITest
                     aproximated[i] = solution[i,1];
                     writer.WriteLine((aproximated[i]).ToString());
                 }
+            }
+        }
+
+        [TestMethod()]
+        public void TestXMLSerialization()
+        {
+            IActivationFunction func = new BipolarSigmoid(2.0);
+            var layerCounts = new List<int>();
+            layerCounts.Add(5);
+            layerCounts.Add(10);
+            layerCounts.Add(1);
+            var network = new Network(5, 3, layerCounts, func, new RandomInitializer());
+
+            var serializer = new DataContractSerializer(typeof(Network),new[]{func.GetType(), typeof(RandomInitializer)});
+            var settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.IndentChars = "    ";//4 spaces
+            using (var writer = XmlWriter.Create("serialized_net.xml", settings))
+            {
+                serializer.WriteObject(writer, network);
             }
         }
     }
