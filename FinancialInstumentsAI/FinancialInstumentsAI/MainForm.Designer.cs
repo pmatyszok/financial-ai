@@ -46,6 +46,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.splitter = new System.Windows.Forms.Splitter();
+            this.obliczToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -95,7 +96,8 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem});
+            this.settingsToolStripMenuItem,
+            this.obliczToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -103,7 +105,7 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.settingsToolStripMenuItem.Text = "AI Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -186,6 +188,13 @@
             this.splitter.TabIndex = 7;
             this.splitter.TabStop = false;
             // 
+            // obliczToolStripMenuItem
+            // 
+            this.obliczToolStripMenuItem.Name = "obliczToolStripMenuItem";
+            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.obliczToolStripMenuItem.Text = "oblicz";
+            this.obliczToolStripMenuItem.Click += new System.EventHandler(this.obliczToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -229,6 +238,7 @@
         private System.Windows.Forms.Splitter splitter;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem obliczToolStripMenuItem;
     }
 }
 

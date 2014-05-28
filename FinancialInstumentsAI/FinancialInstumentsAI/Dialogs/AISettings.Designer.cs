@@ -29,70 +29,55 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
+            this.layersNumeric = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.momentumNumeric = new System.Windows.Forms.NumericUpDown();
+            this.rateNumeric = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.alphaNumeric = new System.Windows.Forms.NumericUpDown();
+            this.activFuncComboBox = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnOK = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.constValueTextBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.initFuncComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.momentumNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rateNumeric)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.alphaNumeric)).BeginInit();
             this.panel1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.numericUpDown2);
-            this.groupBox1.Controls.Add(this.numericUpDown1);
-            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.layersNumeric);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(208, 62);
+            this.groupBox1.Size = new System.Drawing.Size(208, 44);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Network";
             // 
-            // numericUpDown2
+            // layersNumeric
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(105, 14);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(97, 20);
-            this.numericUpDown2.TabIndex = 3;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(105, 35);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(97, 20);
-            this.numericUpDown1.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 37);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Neurons per layer:";
+            this.layersNumeric.Location = new System.Drawing.Point(105, 14);
+            this.layersNumeric.Name = "layersNumeric";
+            this.layersNumeric.Size = new System.Drawing.Size(97, 20);
+            this.layersNumeric.TabIndex = 3;
             // 
             // label1
             // 
@@ -105,32 +90,32 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.numericUpDown4);
-            this.groupBox2.Controls.Add(this.numericUpDown3);
+            this.groupBox2.Controls.Add(this.momentumNumeric);
+            this.groupBox2.Controls.Add(this.rateNumeric);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(12, 80);
+            this.groupBox2.Location = new System.Drawing.Point(12, 62);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(208, 60);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Learner";
             // 
-            // numericUpDown4
+            // momentumNumeric
             // 
-            this.numericUpDown4.DecimalPlaces = 2;
-            this.numericUpDown4.Location = new System.Drawing.Point(74, 35);
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(128, 20);
-            this.numericUpDown4.TabIndex = 5;
+            this.momentumNumeric.DecimalPlaces = 2;
+            this.momentumNumeric.Location = new System.Drawing.Point(74, 35);
+            this.momentumNumeric.Name = "momentumNumeric";
+            this.momentumNumeric.Size = new System.Drawing.Size(128, 20);
+            this.momentumNumeric.TabIndex = 5;
             // 
-            // numericUpDown3
+            // rateNumeric
             // 
-            this.numericUpDown3.DecimalPlaces = 2;
-            this.numericUpDown3.Location = new System.Drawing.Point(74, 14);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(128, 20);
-            this.numericUpDown3.TabIndex = 4;
+            this.rateNumeric.DecimalPlaces = 2;
+            this.rateNumeric.Location = new System.Drawing.Point(74, 14);
+            this.rateNumeric.Name = "rateNumeric";
+            this.rateNumeric.Size = new System.Drawing.Size(128, 20);
+            this.rateNumeric.TabIndex = 4;
             // 
             // label4
             // 
@@ -152,32 +137,32 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.numericUpDown5);
-            this.groupBox3.Controls.Add(this.comboBox1);
+            this.groupBox3.Controls.Add(this.alphaNumeric);
+            this.groupBox3.Controls.Add(this.activFuncComboBox);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(12, 146);
+            this.groupBox3.Location = new System.Drawing.Point(12, 128);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(208, 68);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Activation function";
             // 
-            // numericUpDown5
+            // alphaNumeric
             // 
-            this.numericUpDown5.DecimalPlaces = 2;
-            this.numericUpDown5.Location = new System.Drawing.Point(74, 42);
-            this.numericUpDown5.Name = "numericUpDown5";
-            this.numericUpDown5.Size = new System.Drawing.Size(128, 20);
-            this.numericUpDown5.TabIndex = 6;
+            this.alphaNumeric.DecimalPlaces = 2;
+            this.alphaNumeric.Location = new System.Drawing.Point(74, 42);
+            this.alphaNumeric.Name = "alphaNumeric";
+            this.alphaNumeric.Size = new System.Drawing.Size(128, 20);
+            this.alphaNumeric.TabIndex = 6;
             // 
-            // comboBox1
+            // activFuncComboBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(74, 19);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(128, 21);
-            this.comboBox1.TabIndex = 4;
+            this.activFuncComboBox.FormattingEnabled = true;
+            this.activFuncComboBox.Location = new System.Drawing.Point(74, 19);
+            this.activFuncComboBox.Name = "activFuncComboBox";
+            this.activFuncComboBox.Size = new System.Drawing.Size(128, 21);
+            this.activFuncComboBox.TabIndex = 4;
             // 
             // label6
             // 
@@ -203,7 +188,7 @@
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 221);
+            this.panel1.Location = new System.Drawing.Point(0, 291);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(232, 22);
             this.panel1.TabIndex = 3;
@@ -240,13 +225,61 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.constValueTextBox);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.initFuncComboBox);
+            this.groupBox4.Location = new System.Drawing.Point(12, 203);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(208, 78);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Initialization function";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 54);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(34, 13);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Const";
+            // 
+            // constValueTextBox
+            // 
+            this.constValueTextBox.Location = new System.Drawing.Point(74, 47);
+            this.constValueTextBox.Name = "constValueTextBox";
+            this.constValueTextBox.Size = new System.Drawing.Size(128, 20);
+            this.constValueTextBox.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 22);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(34, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Type:";
+            // 
+            // initFuncComboBox
+            // 
+            this.initFuncComboBox.FormattingEnabled = true;
+            this.initFuncComboBox.Location = new System.Drawing.Point(74, 19);
+            this.initFuncComboBox.Name = "initFuncComboBox";
+            this.initFuncComboBox.Size = new System.Drawing.Size(128, 21);
+            this.initFuncComboBox.TabIndex = 0;
+            this.initFuncComboBox.SelectedIndexChanged += new System.EventHandler(this.initFuncComboBox_SelectedIndexChanged);
+            // 
             // AISettings
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(232, 243);
+            this.ClientSize = new System.Drawing.Size(232, 313);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox2);
@@ -256,16 +289,17 @@
             this.Text = "AISettings";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.momentumNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rateNumeric)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.alphaNumeric)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -283,13 +317,16 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown layersNumeric;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.NumericUpDown numericUpDown5;
+        private System.Windows.Forms.ComboBox activFuncComboBox;
+        private System.Windows.Forms.NumericUpDown momentumNumeric;
+        private System.Windows.Forms.NumericUpDown rateNumeric;
+        private System.Windows.Forms.NumericUpDown alphaNumeric;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox initFuncComboBox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox constValueTextBox;
     }
 }
