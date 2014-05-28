@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace AI.Neurons
 {
+    [System.Runtime.Serialization.DataContract]
     public class RandomInitializer : INeuronInitilizer
     {
+        [System.Runtime.Serialization.IgnoreDataMember]
         private Random random;
+        [System.Runtime.Serialization.DataMember]
         private double randomMin;
+        [System.Runtime.Serialization.DataMember]
         private double randomMax;
         public RandomInitializer()
             : this(0.0, 1.0)

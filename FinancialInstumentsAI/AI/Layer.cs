@@ -7,12 +7,19 @@ using AI.Neurons;
 
 namespace AI
 {
+    [Serializable]
+    [System.Runtime.Serialization.DataContract]
     public class Layer
     {
+        [System.Runtime.Serialization.DataMember]
         private Neuron[] neurons;
 
+        [System.Runtime.Serialization.DataMember]
         public int Inputs { get; set; }
+        [System.Runtime.Serialization.DataMember]
         public double[] Output { get; set; }
+      
+        [System.Runtime.Serialization.IgnoreDataMember]
         public int Size { get { return neurons.Length; } }
         public Layer(int inputsCount, int neuronsCount, Functions.IActivationFunction function, INeuronInitilizer initializer)
         {

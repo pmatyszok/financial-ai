@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace AI.Neurons
 {
+    [Serializable]
+    [System.Runtime.Serialization.DataContract]
     public class Neuron : AbstractNeuron
     {
+        [System.Runtime.Serialization.DataMember]
         public double threshold { get; set; }
 
         public Neuron(int inputs, Functions.IActivationFunction function, INeuronInitilizer initializer)

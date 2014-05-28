@@ -5,6 +5,10 @@ using AI.Neurons;
 using AI.Functions;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
+
 namespace AITest
 {
     [TestClass]
@@ -176,6 +180,63 @@ namespace AITest
                     writer.WriteLine((aproximated[i]).ToString());
                 }
             }
+        }
+
+        [TestMethod()]
+        public void TestXMLSerialization()
+        {
+            IActivationFunction func = new BipolarSigmoid(2.0);
+            var layerCounts = new List<int>();
+            layerCounts.Add(5);
+            layerCounts.Add(10);
+            layerCounts.Add(1);
+            var network = new Network(5, 3, layerCounts, func, new RandomInitializer());
+
+            var serializer = new DataContractSerializer(typeof(Network),new[]{func.GetType(), typeof(RandomInitializer)});
+
+            var fileName = "serialized_net.xml";
+
+            var settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.IndentChars = "    ";//4 spaces
+
+            using (var writer = XmlWriter.Create(fileName, settings))
+            {
+                serializer.WriteObject(writer, network);
+            }
+
+            var fInfo = new FileInfo(fileName);
+            Assert.IsTrue(fInfo.Exists);
+            Assert.IsTrue(fInfo.Length > 0);
+        }
+
+        [TestMethod()]
+        public void TestXMLSerializationAndDeserialization()
+        {
+            IActivationFunction func = new BipolarSigmoid(2.0);
+            var layerCounts = new List<int>();
+            layerCounts.Add(5);
+            layerCounts.Add(10);
+            layerCounts.Add(1);
+            var network = new Network(5, 3, layerCounts, func, new RandomInitializer());
+
+            var serializer = new DataContractSerializer(typeof(Network), new[] { func.GetType(), typeof(RandomInitializer) });
+
+            var settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.IndentChars = "    ";//4 spaces
+            string file = "serialized_net.xml";
+            using (var writer = XmlWriter.Create(file, settings))
+            {
+                serializer.WriteObject(writer, network);
+            }
+
+            Network newNet = (Network)serializer.ReadObject(XmlReader.Create(file));
+            Assert.IsNotNull(newNet);
+            Assert.AreEqual(5, newNet.Inputs);
+            Assert.AreEqual(3, newNet.LayersCount);
+            Assert.IsTrue(0 < newNet[0][0].Weights[0]);
+            Assert.AreEqual(typeof(BipolarSigmoid), newNet[0][0].ActivationFunction.GetType());
         }
     }
 }

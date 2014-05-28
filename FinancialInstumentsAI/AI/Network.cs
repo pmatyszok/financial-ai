@@ -6,13 +6,24 @@ using System.Threading.Tasks;
 
 namespace AI
 {
+    [Serializable]
+    [System.Runtime.Serialization.DataContract]
     public class Network
     {
+        [System.Runtime.Serialization.DataMember]
         public int Inputs { get; set; }
+        [System.Runtime.Serialization.DataMember]
         public int LayersCount { get; set; }
 
+        [System.Runtime.Serialization.DataMember]
         private Layer[] layers;
+        [System.Runtime.Serialization.DataMember]
         private double[] output;
+
+        public Network()
+        {
+            NetworkInit(0, 0);
+        }
 
         public Network(int inputsCount, int layersCount, List<int> neuronsCountInHiddenLayers,
             Functions.IActivationFunction function, Neurons.INeuronInitilizer initializer )
@@ -30,9 +41,9 @@ namespace AI
             LayersCount = layersCount;
             layers = new Layer[LayersCount];
         }
-
+        [System.Runtime.Serialization.IgnoreDataMember]
         public Layer InputLayer { get { return layers[0]; } }
-
+        [System.Runtime.Serialization.IgnoreDataMember]
         public Layer OutputLayer { get { return layers[layers.Length - 1]; } }
 
         public double[] ComputeOutputVector(double[] input)
