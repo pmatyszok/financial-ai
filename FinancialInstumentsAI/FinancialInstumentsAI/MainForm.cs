@@ -68,5 +68,6 @@ namespace FinancialInstumentsAI
         {
             tcCharts.TabPages.Remove(tcCharts.SelectedTab);
         }
+
     }
 }

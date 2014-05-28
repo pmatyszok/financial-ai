@@ -34,7 +34,7 @@ namespace AI.Neurons
 
         public double Initialize()
         {
-            return random.NextDouble(); //no way to to make it accorging to formula here!
+            return random.NextDouble(); //no way to to make it according to formula here!
         }
     }
 }
