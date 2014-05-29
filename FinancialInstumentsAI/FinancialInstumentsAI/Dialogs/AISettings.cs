@@ -61,8 +61,7 @@ namespace FinancialInstumentsAI.Dialogs
             LearnerRate = (double)rateNumeric.Value;
             LearnerMomentum = (double)momentumNumeric.Value;
 
-            Layer = new List<int>();
-            Layer.Add((int)windowSize.Value);
+            Layer = new List<int> {(int)windowSize.Value};
             if (layerCountCheckBox.Checked)
             {
                 for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
@@ -74,8 +73,7 @@ namespace FinancialInstumentsAI.Dialogs
             {
                 for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
                 {
-                    var neuron = new NeuronCounts();
-                    neuron.Text = "Layer no. " + i + " count";
+                    var neuron = new NeuronCounts {Text = "Layer no. " + i + " count"};
                     DialogResult res = neuron.ShowDialog(this);
                     if (res == DialogResult.OK)
                     {

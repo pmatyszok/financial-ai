@@ -74,7 +74,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private System.Windows.Forms.GroupBox groupBox1;
+        public System.Windows.Forms.DataVisualization.Charting.Chart chart;
     }
 }

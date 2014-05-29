@@ -13,8 +13,6 @@ namespace FinancialInstumentsAI.Controls
 {
     public partial class ChartControl : UserControl
     {
-        public Chart _chart { get { return this.chart; } private set { } }
-
         public ChartControl()
         {
             InitializeComponent();

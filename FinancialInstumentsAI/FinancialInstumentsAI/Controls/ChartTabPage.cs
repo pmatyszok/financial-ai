@@ -26,7 +26,7 @@ namespace FinancialInstumentsAI.Controls
         
         public void Draw(string name)
         {
-            Series seria = chartControl._chart.Series.Add(name);
+            Series seria = chartControl.chart.Series.Add(name);
             seria.ChartType = SeriesChartType.Line;
             foreach (double elem in Data)
             {
@@ -36,9 +36,9 @@ namespace FinancialInstumentsAI.Controls
 
         public void DrawPred(string name, double[] points)
         {
-            if (chartControl._chart.Series.Count > 1)
-                chartControl._chart.Series.RemoveAt(1);
-            Series seria = chartControl._chart.Series.Add(name);
+            if (chartControl.chart.Series.Count > 1)
+                chartControl.chart.Series.RemoveAt(1);
+            Series seria = chartControl.chart.Series.Add(name);
             seria.ChartType = SeriesChartType.Line;
             var toAdd = new double[Data.Length];
             Array.Copy(Data, 0, toAdd, 0, Data.Length - points.Length);

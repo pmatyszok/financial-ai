@@ -55,9 +55,10 @@ namespace FinancialInstumentsAI
         private void LoadExampleSinusData()
         {
             double min = 0, max = 0;
-            double[] data = ReadSinData(ref min, ref max);
+            double[] data = ReadSinData(out min, out max);
 
             var chart = tcCharts.SelectedTab as ChartTabPage;
+            if (chart == null) return;
             chart.Data = data;
             chart.Draw("sin");
         }
@@ -117,6 +118,7 @@ namespace FinancialInstumentsAI
                 if (result == DialogResult.OK)
                 {
                     var chart = tcCharts.SelectedTab as ChartTabPage;
+                    if (chart == null) return;
                     chart.Data = selectTime.ToDoubleTable();
                     chart.Draw(selectedSource);
                 }
@@ -130,7 +132,9 @@ namespace FinancialInstumentsAI
 
         private void Teach()
         {
-            double[] data = (tcCharts.SelectedTab as ChartTabPage).Data;
+            var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
+            if (chartTabPage == null) return;
+            double[] data = chartTabPage.Data;
             double min = data.Min();
             double max = data.Max();
             double range = (max - min);
@@ -178,7 +182,9 @@ namespace FinancialInstumentsAI
 
         private void Predict()
         {
-            double[] data = (tcCharts.SelectedTab as ChartTabPage).Data;
+            var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
+            if (chartTabPage == null) return;
+            double[] data = chartTabPage.Data;
             int pred;
             try
             {
@@ -224,14 +230,15 @@ namespace FinancialInstumentsAI
                 }
             }
 
-            var chart = tcCharts.SelectedTab as ChartTabPage;
+            var chart = chartTabPage;
+            if (chart == null) return;
             chart.DrawPred("pred", aproximated);
         }
 
         private void TeachSinus()
         {
             double min = 0, max = 0;
-            double[] data = ReadSinData(ref min, ref max);
+            double[] data = ReadSinData(out min, out max);
             min = data.Min();
             max = data.Max();
             double range = (max - min);
@@ -278,7 +285,7 @@ namespace FinancialInstumentsAI
         private void PredictSinus()
         {
             double min = 0, max = 0;
-            double[] data = ReadSinData(ref min, ref max);
+            double[] data = ReadSinData(out min, out max);
             min = data.Min();
             max = data.Max();
             double range = (max - min);
@@ -310,6 +317,8 @@ namespace FinancialInstumentsAI
 
             tcCharts.SelectedIndex = 0;
             var chart = tcCharts.SelectedTab as ChartTabPage;
+            if (chart == null) return;
+
             var predData = new double[layer[0] + aproximated.Length];
             for (int i = 0; i < layer[0]; i++)
             {
@@ -360,14 +369,20 @@ namespace FinancialInstumentsAI
             }
         }
 
-        private static double[] ReadSinData(ref double min, ref double max)
+        private static double[] ReadSinData(out double min, out double max)
         {
             var readedData = new double[50];
 
             using (var reader = new StreamReader(File.OpenRead("sinusoid.csv")))
             {
                 int i = 0;
-                readedData[i] = double.Parse(reader.ReadLine(), CultureInfo.InvariantCulture);
+                string line = reader.ReadLine();
+                if (line == null)
+                {
+                    min = max = 0;
+                    return null;
+                }
+                readedData[i] = double.Parse(line, CultureInfo.InvariantCulture);
                 min = readedData[i];
                 max = readedData[i];
 
@@ -375,14 +390,16 @@ namespace FinancialInstumentsAI
                 {
                     for (i = 1; i < 50; i++)
                     {
-                        readedData[i] = double.Parse(reader.ReadLine(), CultureInfo.InvariantCulture);
+                        line = reader.ReadLine();
+                        if (line == null) break;
+                        readedData[i] = double.Parse(line, CultureInfo.InvariantCulture);
                         if (min > readedData[i])
                             min = readedData[i];
                         if (max < readedData[i])
                             max = readedData[i];
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
                 if (i > 0)

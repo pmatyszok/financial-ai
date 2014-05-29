@@ -108,9 +108,8 @@ namespace AITest
                             max = readedData[i];
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                   ;
                 }
                 if (i > 0)
                 {
