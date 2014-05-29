@@ -62,13 +62,13 @@ namespace FinancialInstumentsAI
         {
             if (AISettings.Instance.ShowDialog(this) == DialogResult.OK)
             {                
-                activ = AISettings.activ;
-                init = AISettings.init;
-                layer = AISettings.layer;
+                activ = AISettings.Activ;
+                init = AISettings.Init;
+                layer = AISettings.Layer;
                 network = new Network(layer[0], layer.Count , layer, activ,init);
                 learner = new Teacher(network);
-                rate = AISettings.learnerRate;
-                momentum = AISettings.learnerMomentum;                
+                rate = AISettings.LearnerRate;
+                momentum = AISettings.LearnerMomentum;                
             }
         }
 
@@ -172,9 +172,17 @@ namespace FinancialInstumentsAI
         {
 
             double[] data = (tcCharts.SelectedTab as ChartTabPage).data;
-            double min=0, max=0;
-            double range;
-            int pred = int.Parse(toPred.Text);
+            double min=0.0, max=0.0;
+            double range = 0.0;
+            int pred = 0;
+            try
+            {
+                pred= int.Parse(string.IsNullOrEmpty(toPred.Text) ? "0" : toPred.Text);
+            }
+            catch(System.FormatException)
+            {
+                pred = 0;
+            }
             min = data.Min(); max = data.Max();
             range = (max - min);
 
@@ -330,7 +338,14 @@ namespace FinancialInstumentsAI
         
         private void eraCountText_TextChanged(object sender, EventArgs e)
         {
-            eraCount = int.Parse(eraCountText.Text);
+            try
+            {
+                eraCount = int.Parse(string.IsNullOrEmpty(eraCountText.Text) ? "0" : eraCountText.Text);
+            }
+            catch (FormatException)
+            {
+                eraCount = 1000;
+            }
         }
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)

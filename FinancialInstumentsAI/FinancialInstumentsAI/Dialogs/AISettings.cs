@@ -11,11 +11,13 @@ namespace FinancialInstumentsAI.Dialogs
     {
         private static AISettings instance;
 
-        public static List<int> layer { get; set; }
-        public static INeuronInitilizer init { get; set; }
-        public static IActivationFunction activ { get; set; }
-        public static double learnerRate{get;set;}
-        public static double learnerMomentum{ get; set; }
+        public static List<int> Layer { get; set; }
+        public static INeuronInitilizer Init { get; set; }
+        public static IActivationFunction Activ { get; set; }
+        public static double LearnerRate{get;set;}
+        public static double LearnerMomentum{ get; set; }
+
+        public static int IterationsCount { get; set; }
 
         private AISettings()
         {
@@ -35,38 +37,38 @@ namespace FinancialInstumentsAI.Dialogs
             switch(initFuncComboBox.SelectedIndex)
             {
                 case(0):
-                    init = new RandomInitializer();
+                    Init = new RandomInitializer();
                     break;
                 case (1):
-                    init = new OptimalRangeRandomInitializer(activ = new BipolarSigmoid((double)alphaNumeric.Value));
+                    Init = new OptimalRangeRandomInitializer(Activ = new BipolarSigmoid((double)alphaNumeric.Value));
                    break;
                 case (2):
-                    init = new ConstInitializer(double.Parse(constValueTextBox.Text));
+                    Init = new ConstInitializer(double.Parse(constValueTextBox.Text));
                     break;
                 default:
-                    init = null;
+                    Init = null;
                     break;
             }
 
             if (activFuncComboBox.SelectedIndex == 1)
             {
-                activ = new BipolarSigmoid((double)alphaNumeric.Value);
+                Activ = new BipolarSigmoid((double)alphaNumeric.Value);
             }
             else
             {
-                activ = new Sigmoid((double)alphaNumeric.Value);
+                Activ = new Sigmoid((double)alphaNumeric.Value);
             }
 
-            learnerRate = (double)rateNumeric.Value;
-            learnerMomentum = (double)momentumNumeric.Value;
+            LearnerRate = (double)rateNumeric.Value;
+            LearnerMomentum = (double)momentumNumeric.Value;
 
-            layer = new List<int>();
-            layer.Add((int)windowSize.Value);
+            Layer = new List<int>();
+            Layer.Add((int)windowSize.Value);
             if (layerCountCheckBox.Checked)
             {
                 for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
                 {
-                    layer.Add((int)windowSize.Value * 2);
+                    Layer.Add((int)windowSize.Value * 2);
                 }    
             }
             else
@@ -78,12 +80,19 @@ namespace FinancialInstumentsAI.Dialogs
                     DialogResult res = neuron.ShowDialog(this);
                     if (res == DialogResult.OK)
                     {
-                        layer.Add(neuron.value);
+                        Layer.Add(neuron.value);
                     }
                 }
             }
             
-            layer.Add(1);
+            Layer.Add(1);
+
+            int iterations = 0;
+            if (!int.TryParse(iterationsTextBox.Text, out iterations))
+            {
+                iterations = 1000;
+            }
+            IterationsCount = iterations;
 
             DialogResult = DialogResult.OK;
         }

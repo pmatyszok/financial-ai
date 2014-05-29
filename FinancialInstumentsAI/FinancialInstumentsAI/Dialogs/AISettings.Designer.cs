@@ -53,6 +53,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.initFuncComboBox = new System.Windows.Forms.ComboBox();
             this.layerCountCheckBox = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.iterationsTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.windowSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).BeginInit();
@@ -327,13 +329,28 @@
             // layerCountCheckBox
             // 
             this.layerCountCheckBox.AutoSize = true;
-            this.layerCountCheckBox.Location = new System.Drawing.Point(12, 331);
+            this.layerCountCheckBox.Location = new System.Drawing.Point(7, 352);
             this.layerCountCheckBox.Name = "layerCountCheckBox";
             this.layerCountCheckBox.Size = new System.Drawing.Size(220, 17);
             this.layerCountCheckBox.TabIndex = 5;
             this.layerCountCheckBox.Text = "Choose hidden layer neuron count for me";
             this.layerCountCheckBox.UseVisualStyleBackColor = true;
-
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(20, 323);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(50, 13);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "Iterations";
+            // 
+            // iterationsTextBox
+            // 
+            this.iterationsTextBox.Location = new System.Drawing.Point(86, 320);
+            this.iterationsTextBox.Name = "iterationsTextBox";
+            this.iterationsTextBox.Size = new System.Drawing.Size(128, 20);
+            this.iterationsTextBox.TabIndex = 7;
             // 
             // AISettings
             // 
@@ -342,6 +359,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(232, 397);
+            this.Controls.Add(this.iterationsTextBox);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.layerCountCheckBox);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -397,5 +416,7 @@
         private System.Windows.Forms.NumericUpDown windowSize;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox layerCountCheckBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox iterationsTextBox;
     }
 }
