@@ -62,15 +62,27 @@ namespace FinancialInstumentsAI.Dialogs
 
             layer = new List<int>();
             layer.Add((int)windowSize.Value);
-            for (int i = 0; i < (int)layersNumeric.Value-2; i++)
+            if (layerCountCheckBox.Checked)
             {
-                neuronCounts neuron = new neuronCounts();
-                DialogResult res = neuron.ShowDialog(this);
-                if (res == DialogResult.OK)
+                for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
                 {
-                    layer.Add(neuron.value);
+                    layer.Add((int)windowSize.Value * 2);
+                }    
+            }
+            else
+            {
+                for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
+                {
+                    neuronCounts neuron = new neuronCounts();
+                    neuron.Text = "Layer no. " + i.ToString() + " count";
+                    DialogResult res = neuron.ShowDialog(this);
+                    if (res == DialogResult.OK)
+                    {
+                        layer.Add(neuron.value);
+                    }
                 }
             }
+            
             layer.Add(1);
 
             DialogResult = DialogResult.OK;

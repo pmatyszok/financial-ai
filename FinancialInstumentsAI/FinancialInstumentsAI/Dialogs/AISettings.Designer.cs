@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.windowSize = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.layersNumeric = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -50,9 +52,9 @@
             this.constValueTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.initFuncComboBox = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.windowSize = new System.Windows.Forms.NumericUpDown();
+            this.layerCountCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.windowSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.momentumNumeric)).BeginInit();
@@ -61,7 +63,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.alphaNumeric)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.windowSize)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -76,6 +77,22 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Network";
+            // 
+            // windowSize
+            // 
+            this.windowSize.Location = new System.Drawing.Point(105, 41);
+            this.windowSize.Name = "windowSize";
+            this.windowSize.Size = new System.Drawing.Size(97, 20);
+            this.windowSize.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 43);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Window size";
             // 
             // layersNumeric
             // 
@@ -109,7 +126,17 @@
             // momentumNumeric
             // 
             this.momentumNumeric.DecimalPlaces = 2;
+            this.momentumNumeric.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.momentumNumeric.Location = new System.Drawing.Point(74, 35);
+            this.momentumNumeric.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.momentumNumeric.Name = "momentumNumeric";
             this.momentumNumeric.Size = new System.Drawing.Size(128, 20);
             this.momentumNumeric.TabIndex = 5;
@@ -117,7 +144,17 @@
             // rateNumeric
             // 
             this.rateNumeric.DecimalPlaces = 2;
+            this.rateNumeric.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.rateNumeric.Location = new System.Drawing.Point(74, 14);
+            this.rateNumeric.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.rateNumeric.Name = "rateNumeric";
             this.rateNumeric.Size = new System.Drawing.Size(128, 20);
             this.rateNumeric.TabIndex = 4;
@@ -156,7 +193,17 @@
             // alphaNumeric
             // 
             this.alphaNumeric.DecimalPlaces = 2;
+            this.alphaNumeric.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.alphaNumeric.Location = new System.Drawing.Point(74, 42);
+            this.alphaNumeric.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.alphaNumeric.Name = "alphaNumeric";
             this.alphaNumeric.Size = new System.Drawing.Size(128, 20);
             this.alphaNumeric.TabIndex = 6;
@@ -193,7 +240,7 @@
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 343);
+            this.panel1.Location = new System.Drawing.Point(0, 375);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(232, 22);
             this.panel1.TabIndex = 3;
@@ -277,21 +324,16 @@
             this.initFuncComboBox.TabIndex = 0;
             this.initFuncComboBox.SelectedIndexChanged += new System.EventHandler(this.initFuncComboBox_SelectedIndexChanged);
             // 
-            // label2
+            // layerCountCheckBox
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Window size";
-            // 
-            // windowSize
-            // 
-            this.windowSize.Location = new System.Drawing.Point(105, 41);
-            this.windowSize.Name = "windowSize";
-            this.windowSize.Size = new System.Drawing.Size(97, 20);
-            this.windowSize.TabIndex = 5;
+            this.layerCountCheckBox.AutoSize = true;
+            this.layerCountCheckBox.Location = new System.Drawing.Point(12, 331);
+            this.layerCountCheckBox.Name = "layerCountCheckBox";
+            this.layerCountCheckBox.Size = new System.Drawing.Size(220, 17);
+            this.layerCountCheckBox.TabIndex = 5;
+            this.layerCountCheckBox.Text = "Choose hidden layer neuron count for me";
+            this.layerCountCheckBox.UseVisualStyleBackColor = true;
+
             // 
             // AISettings
             // 
@@ -299,7 +341,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(232, 365);
+            this.ClientSize = new System.Drawing.Size(232, 397);
+            this.Controls.Add(this.layerCountCheckBox);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.panel1);
@@ -310,6 +353,7 @@
             this.Text = "AISettings";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.windowSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -321,8 +365,8 @@
             this.panel1.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.windowSize)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -352,5 +396,6 @@
         private System.Windows.Forms.TextBox constValueTextBox;
         private System.Windows.Forms.NumericUpDown windowSize;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox layerCountCheckBox;
     }
 }

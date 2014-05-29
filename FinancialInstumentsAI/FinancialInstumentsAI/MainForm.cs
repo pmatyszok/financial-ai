@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace FinancialInstumentsAI
 {
     enum Initialization {Random , OptimalRange, Const };
-    enum Activation { Sigmoid, Bipolar };
+    enum Activation { Sigmoid, BipolarSigmoid };
 
     public partial class MainForm : Form
     {
@@ -36,6 +36,12 @@ namespace FinancialInstumentsAI
             tcCharts.TabPages.Add(newTabPage);
             tcCharts.SelectTab(newTabPage);
 
+            LoadExampleSinusData();
+            //---------
+        }
+
+        private void LoadExampleSinusData()
+        {
             double[] data;
             double min = 0, max = 0;
             data = readSinData(ref min, ref max);
@@ -43,7 +49,6 @@ namespace FinancialInstumentsAI
             var chart = tcCharts.SelectedTab as ChartTabPage;
             chart.data = data;
             chart.draw("sin");
-            //---------
         }
 
         public string FinancialFileSearchPattern { get; set; }
