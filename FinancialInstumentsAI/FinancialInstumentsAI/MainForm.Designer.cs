@@ -36,6 +36,9 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.obliczToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eraCountText = new System.Windows.Forms.ToolStripTextBox();
+            this.runButton = new System.Windows.Forms.ToolStripMenuItem();
             this.tcCharts = new System.Windows.Forms.TabControl();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +49,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.splitter = new System.Windows.Forms.Splitter();
-            this.obliczToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.predictToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -97,7 +101,8 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.obliczToolStripMenuItem});
+            this.obliczToolStripMenuItem,
+            this.predictToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -108,6 +113,28 @@
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.settingsToolStripMenuItem.Text = "AI Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // obliczToolStripMenuItem
+            // 
+            this.obliczToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.eraCountText,
+            this.runButton});
+            this.obliczToolStripMenuItem.Name = "obliczToolStripMenuItem";
+            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.obliczToolStripMenuItem.Text = "Teach";
+            // 
+            // eraCountText
+            // 
+            this.eraCountText.Name = "eraCountText";
+            this.eraCountText.Size = new System.Drawing.Size(100, 23);
+            this.eraCountText.TextChanged += new System.EventHandler(this.eraCountText_TextChanged);
+            // 
+            // runButton
+            // 
+            this.runButton.Name = "runButton";
+            this.runButton.Size = new System.Drawing.Size(160, 22);
+            this.runButton.Text = "Run";
+            this.runButton.Click += new System.EventHandler(this.runButton_Click);
             // 
             // tcCharts
             // 
@@ -188,12 +215,20 @@
             this.splitter.TabIndex = 7;
             this.splitter.TabStop = false;
             // 
-            // obliczToolStripMenuItem
+            // predictToolStripMenuItem
             // 
-            this.obliczToolStripMenuItem.Name = "obliczToolStripMenuItem";
-            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.obliczToolStripMenuItem.Text = "oblicz";
-            this.obliczToolStripMenuItem.Click += new System.EventHandler(this.obliczToolStripMenuItem_Click);
+            this.predictToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runToolStripMenuItem});
+            this.predictToolStripMenuItem.Name = "predictToolStripMenuItem";
+            this.predictToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.predictToolStripMenuItem.Text = "Predict";
+            // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runToolStripMenuItem.Text = "Run";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -239,6 +274,10 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem obliczToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox eraCountText;
+        private System.Windows.Forms.ToolStripMenuItem runButton;
+        private System.Windows.Forms.ToolStripMenuItem predictToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
     }
 }
 

@@ -61,7 +61,8 @@ namespace FinancialInstumentsAI.Dialogs
             learnerMomentum = (double)momentumNumeric.Value;
 
             layer = new List<int>();
-            for (int i = 0; i < (int)layersNumeric.Value; i++)
+            layer.Add((int)windowSize.Value);
+            for (int i = 0; i < (int)layersNumeric.Value-2; i++)
             {
                 neuronCounts neuron = new neuronCounts();
                 DialogResult res = neuron.ShowDialog(this);
@@ -70,8 +71,9 @@ namespace FinancialInstumentsAI.Dialogs
                     layer.Add(neuron.value);
                 }
             }
-            
-                DialogResult = DialogResult.OK;
+            layer.Add(1);
+
+            DialogResult = DialogResult.OK;
         }
 
         private void initFuncComboBox_SelectedIndexChanged(object sender, EventArgs e)

@@ -22,6 +22,7 @@ namespace FinancialInstumentsAI
         private IActivationFunction activ;
         private Teacher learner;
         private double rate, momentum;
+        private int eraCount;
 
         public MainForm()
         {
@@ -89,7 +90,7 @@ namespace FinancialInstumentsAI
             tcCharts.TabPages.Remove(tcCharts.SelectedTab);
         }
 
-        private void licz()
+        private void teach()
         {
             double[] readedData = new double[50];
             double[] data;
@@ -125,7 +126,7 @@ namespace FinancialInstumentsAI
                 else return;
             }
             range = (max - min);
-            int learningSamples = data.Length - 5 - 1;
+            int learningSamples = data.Length - layer[0] - 1;
 
             double[][] input = new double[learningSamples][];
             double[][] output = new double[learningSamples][];
@@ -134,14 +135,14 @@ namespace FinancialInstumentsAI
 
             for (int i = 0; i < learningSamples; i++)
             {
-                input[i] = new double[5];
+                input[i] = new double[layer[0]];
                 output[i] = new double[1];
 
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < layer[0]; j++)
                 {
                     input[i][j] = TransformData(data[i + j], min, range);
                 }
-                output[i][0] = TransformData(data[i + 5], min, range);
+                output[i][0] = TransformData(data[i + layer[0]], min, range);
             }
             //double[] input = new double[] { 1,2,3,4,5,6,7,8,9 };
             //double[] output = new double[]{ 0,4,7,9,10,9,7,4,0 };
@@ -149,10 +150,10 @@ namespace FinancialInstumentsAI
             
             learner.Rate = rate;
             learner.Momentum = momentum;
-            var solution = new double[data.Length - 5, 2];
-            var netInput = new double[5];
+            var solution = new double[data.Length - layer[0], 2];
+            var netInput = new double[layer[0]];
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < eraCount; i++)
             {
                 var ins = new List<double[]>();
                 var outs = new List<double[]>();
@@ -162,20 +163,61 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                learner.TeachOnSamples(ins, outs);
-                for (int j = 0; j < data.Length - 5; j++)
+                learner.TeachOnSamples(ins, outs);               
+            }            
+        }
+
+        private void predict()
+        {
+            double[] readedData = new double[50];
+            double[] data;
+            double min, max;
+            double range;
+
+            using (var reader = new StreamReader(File.OpenRead("sinusoid.csv")))
+            {
+                int i = 0;
+                readedData[i] = double.Parse(reader.ReadLine(), System.Globalization.CultureInfo.InvariantCulture);
+                min = readedData[i];
+                max = readedData[i];
+
+                try
                 {
-                    for (int k = 0; k < 5; k++)
+                    for (i = 1; i < 50; i++)
                     {
-                        netInput[k] = TransformData(data[j + k], min, range);
+                        readedData[i] = double.Parse(reader.ReadLine(), System.Globalization.CultureInfo.InvariantCulture);
+                        if (min > readedData[i])
+                            min = readedData[i];
+                        if (max < readedData[i])
+                            max = readedData[i];
                     }
-                    solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);//(network.ComputeOutputVector(netInput)[0]) / range + min;
                 }
+                catch (Exception ex)
+                {
+                    ;
+                }
+                if (i > 0)
+                {
+                    data = new double[i];
+                    Array.Copy(readedData, data, i);
+                }
+                else return;
             }
+            range = (max - min);
+
+            var solution = new double[data.Length - layer[0], 2];
+            var netInput = new double[layer[0]];
 
 
-
-            double[] aproximated = new double[data.Length - 5];
+            for (int j = 0; j < data.Length - layer[0]; j++)
+            {
+                for (int k = 0; k < layer[0]; k++)
+                {
+                    netInput[k] = TransformData(data[j + k], min, range);
+                }
+                solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);//(network.ComputeOutputVector(netInput)[0]) / range + min;
+            }
+            double[] aproximated = new double[data.Length - layer[0]];
             Console.WriteLine("Try those Values in Excel or whatever");
             using (var writer = new StreamWriter("data_dump_time_series.txt"))
             {
@@ -195,13 +237,26 @@ namespace FinancialInstumentsAI
         private double TransformBack(double input, double min, double max)
         { //scale back to original data from -1..1
             return ((input + 1) * (max - min) / 2.0) + min;
-        }
+        }         
 
-        private void obliczToolStripMenuItem_Click(object sender, EventArgs e)
+        private void runButton_Click(object sender, EventArgs e)
         {
             if (network != null)
             {
-                licz();
+                teach();
+            }
+        }
+        
+        private void eraCountText_TextChanged(object sender, EventArgs e)
+        {
+            eraCount = int.Parse(eraCountText.Text);
+        }
+
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (network != null)
+            {
+                predict();
             }
         }
 
