@@ -80,9 +80,9 @@ namespace AI
                     double sum = 0.0;
                     for (int k = 0; k < nextLayer.Size; k++)
                     {
-                        sum += nextError[k] * nextLayer[k].Weights[i];
+                        sum += nextError[k] * nextLayer[k].Weights[j];
                     }
-                    currError[i] = sum * func.DerivativeFromY(lastLayer[i].Output);
+                    currError[j] = sum * func.DerivativeFromY(lastLayer[j].Output);
                 }
             }
             return error;
