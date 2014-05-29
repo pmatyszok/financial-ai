@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace FinancialInstumentsAI.Controls
 {
@@ -19,6 +20,17 @@ namespace FinancialInstumentsAI.Controls
             chartControl.Dock = DockStyle.Fill;
 
             chartControl.SendToBack();
+        }
+
+        public void draw(string name, double[] data)
+        {
+            Series seria = chartControl._chart.Series.Add(name);
+            seria.ChartType = SeriesChartType.Line;
+            foreach (double elem in data)
+            {
+                seria.Points.Add(elem);
+                
+            }
         }
     }
 }

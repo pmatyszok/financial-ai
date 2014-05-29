@@ -28,7 +28,21 @@ namespace FinancialInstumentsAI
         {
             InitializeComponent();
 
-            FinancialFileSearchPattern = "*.mst";            
+            FinancialFileSearchPattern = "*.mst";   
+         
+            //----------
+            var newTabPage = new ChartTabPage("sin") { Name = "sin" };
+
+            tcCharts.TabPages.Add(newTabPage);
+            tcCharts.SelectTab(newTabPage);
+
+            double[] data;
+            double min = 0, max = 0;
+            data = readSinData(ref min, ref max);
+
+            var chart = tcCharts.SelectedTab as ChartTabPage;
+            chart.draw("sin", data);
+            //---------
         }
 
         public string FinancialFileSearchPattern { get; set; }
@@ -82,6 +96,7 @@ namespace FinancialInstumentsAI
 
                 tcCharts.TabPages.Add(newTabPage);
                 tcCharts.SelectTab(newTabPage);
+                
             }
         }
 
@@ -92,39 +107,10 @@ namespace FinancialInstumentsAI
 
         private void teach()
         {
-            double[] readedData = new double[50];
             double[] data;
-            double min, max;
+            double min = 0, max = 0;
             double range;
-            using (var reader = new StreamReader(File.OpenRead("sinusoid.csv")))
-            {
-                int i = 0;
-                readedData[i] = double.Parse(reader.ReadLine(), System.Globalization.CultureInfo.InvariantCulture);
-                min = readedData[i];
-                max = readedData[i];
-
-                try
-                {
-                    for (i = 1; i < 50; i++)
-                    {
-                        readedData[i] = double.Parse(reader.ReadLine(), System.Globalization.CultureInfo.InvariantCulture);
-                        if (min > readedData[i])
-                            min = readedData[i];
-                        if (max < readedData[i])
-                            max = readedData[i];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ;
-                }
-                if (i > 0)
-                {
-                    data = new double[i];
-                    Array.Copy(readedData, data, i);
-                }
-                else return;
-            }
+            data = readSinData(ref min,ref max);
             range = (max - min);
             int learningSamples = data.Length - layer[0] - 1;
 
@@ -169,40 +155,11 @@ namespace FinancialInstumentsAI
 
         private void predict()
         {
-            double[] readedData = new double[50];
+            
             double[] data;
-            double min, max;
+            double min=0, max=0;
             double range;
-
-            using (var reader = new StreamReader(File.OpenRead("sinusoid.csv")))
-            {
-                int i = 0;
-                readedData[i] = double.Parse(reader.ReadLine(), System.Globalization.CultureInfo.InvariantCulture);
-                min = readedData[i];
-                max = readedData[i];
-
-                try
-                {
-                    for (i = 1; i < 50; i++)
-                    {
-                        readedData[i] = double.Parse(reader.ReadLine(), System.Globalization.CultureInfo.InvariantCulture);
-                        if (min > readedData[i])
-                            min = readedData[i];
-                        if (max < readedData[i])
-                            max = readedData[i];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ;
-                }
-                if (i > 0)
-                {
-                    data = new double[i];
-                    Array.Copy(readedData, data, i);
-                }
-                else return;
-            }
+            data = readSinData(ref min,ref max);
             range = (max - min);
 
             var solution = new double[data.Length - layer[0], 2];
@@ -227,6 +184,20 @@ namespace FinancialInstumentsAI
                     writer.WriteLine((aproximated[i]).ToString());
                 }
             }
+
+            //------------
+            if (tcCharts.SelectedIndex != -1)
+            {
+                var chart = tcCharts.SelectedTab as ChartTabPage;
+                double[] predData = new double[layer[0] + aproximated.Length];
+                for (int i = 0; i < layer[0]; i++)
+                {
+                    predData[i] = data[i];
+                }
+                Array.Copy(aproximated, 0, predData, layer[0], aproximated.Length);
+                    chart.draw("pred sin", predData);
+            }
+            //-----------
         }
 
         private double TransformData(double input, double min, double range)
@@ -260,5 +231,41 @@ namespace FinancialInstumentsAI
             }
         }
 
+        private double[] readSinData(ref double min,ref double max)
+        {
+            double[] readedData = new double[50];
+            double[] data;            
+
+            using (var reader = new StreamReader(File.OpenRead("sinusoid.csv")))
+            {
+                int i = 0;
+                readedData[i] = double.Parse(reader.ReadLine(), System.Globalization.CultureInfo.InvariantCulture);
+                min = readedData[i];
+                max = readedData[i];
+
+                try
+                {
+                    for (i = 1; i < 50; i++)
+                    {
+                        readedData[i] = double.Parse(reader.ReadLine(), System.Globalization.CultureInfo.InvariantCulture);
+                        if (min > readedData[i])
+                            min = readedData[i];
+                        if (max < readedData[i])
+                            max = readedData[i];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ;
+                }
+                if (i > 0)
+                {
+                    data = new double[i];
+                    Array.Copy(readedData, data, i);
+                    return data;
+                }
+                else return null;
+            }
+        }
     }
 }
