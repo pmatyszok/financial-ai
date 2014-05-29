@@ -41,7 +41,8 @@ namespace FinancialInstumentsAI
             data = readSinData(ref min, ref max);
 
             var chart = tcCharts.SelectedTab as ChartTabPage;
-            chart.draw("sin", data);
+            chart.data = data;
+            chart.draw("sin");
             //---------
         }
 
@@ -102,7 +103,7 @@ namespace FinancialInstumentsAI
                 {
                     var chart = tcCharts.SelectedTab as ChartTabPage;
                     chart.data = selectTime.toDoubleTable();                    
-                    chart.draw(selectedSource, chart.data);
+                    chart.draw(selectedSource);
                 }
 
             }
@@ -139,6 +140,11 @@ namespace FinancialInstumentsAI
             var solution = new double[data.Length - layer[0], 2];
             var netInput = new double[layer[0]];
 
+            ProgressBar.Value = 0;
+            ProgressBar.Minimum = 0;
+            ProgressBar.Maximum = 100;
+            ProgressBar.Step = 10;
+
             for (int i = 0; i < eraCount; i++)
             {
                 var ins = new List<double[]>();
@@ -149,7 +155,11 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                learner.TeachOnSamples(ins, outs);               
+                learner.TeachOnSamples(ins, outs);
+                if (i % (int)(eraCount / 10) == 0)
+                {
+                    ProgressBar.PerformStep();
+                }
             }            
         }
 
@@ -158,23 +168,24 @@ namespace FinancialInstumentsAI
 
             double[] data = (tcCharts.SelectedTab as ChartTabPage).data;
             double min=0, max=0;
-            double range;           
+            double range;
+            int pred = int.Parse(toPred.Text);
             min = data.Min(); max = data.Max();
             range = (max - min);
 
-            var solution = new double[data.Length - layer[0], 2];
+            var solution = new double[pred, 2];
             var netInput = new double[layer[0]];
 
 
-            for (int j = 0; j < data.Length - layer[0]; j++)
+            for (int j = 0; j < pred; j++)
             {
                 for (int k = 0; k < layer[0]; k++)
                 {
-                    netInput[k] = TransformData(data[j + k], min, range);
+                    netInput[k] = TransformData(data[j+ data.Length - pred-layer[0] + k], min, range);
                 }
                 solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);//(network.ComputeOutputVector(netInput)[0]) / range + min;
             }
-            double[] aproximated = new double[data.Length - layer[0]];
+            double[] aproximated = new double[pred];
             Console.WriteLine("Try those Values in Excel or whatever");
             using (var writer = new StreamWriter("data_dump_time_series.txt"))
             {
@@ -192,7 +203,7 @@ namespace FinancialInstumentsAI
                 predData[i] = data[i];
             }
             Array.Copy(aproximated, 0, predData, layer[0], aproximated.Length);
-            chart.draw("pred", predData);
+            chart.drawPred("pred", predData);
                        
         }
 
@@ -287,7 +298,7 @@ namespace FinancialInstumentsAI
                     predData[i] = data[i];
                 }
                 Array.Copy(aproximated, 0, predData, layer[0], aproximated.Length);
-                chart.draw("pred sin", predData);
+                chart.drawPred("pred sin", predData);
                         
         }
 

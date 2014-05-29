@@ -39,20 +39,21 @@
             this.obliczToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eraCountText = new System.Windows.Forms.ToolStripTextBox();
             this.runButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.predictToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.predic = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSinToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toPred = new System.Windows.Forms.ToolStripTextBox();
             this.tcCharts = new System.Windows.Forms.TabControl();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbSourceList = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.splitter = new System.Windows.Forms.Splitter();
-            this.runSinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runSinToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -104,7 +105,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
             this.obliczToolStripMenuItem,
-            this.predictToolStripMenuItem});
+            this.predic});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -112,7 +113,7 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.settingsToolStripMenuItem.Text = "AI Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -123,7 +124,7 @@
             this.runButton,
             this.runSinToolStripMenuItem});
             this.obliczToolStripMenuItem.Name = "obliczToolStripMenuItem";
-            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.obliczToolStripMenuItem.Text = "Teach";
             // 
             // eraCountText
@@ -139,21 +140,41 @@
             this.runButton.Text = "Run";
             this.runButton.Click += new System.EventHandler(this.runButton_Click);
             // 
-            // predictToolStripMenuItem
+            // runSinToolStripMenuItem
             // 
-            this.predictToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runSinToolStripMenuItem.Name = "runSinToolStripMenuItem";
+            this.runSinToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.runSinToolStripMenuItem.Text = "RunSin";
+            this.runSinToolStripMenuItem.Click += new System.EventHandler(this.runSinToolStripMenuItem_Click);
+            // 
+            // predic
+            // 
+            this.predic.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runToolStripMenuItem,
-            this.runSinToolStripMenuItem1});
-            this.predictToolStripMenuItem.Name = "predictToolStripMenuItem";
-            this.predictToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.predictToolStripMenuItem.Text = "Predict";
+            this.runSinToolStripMenuItem1,
+            this.toPred});
+            this.predic.Name = "predic";
+            this.predic.Size = new System.Drawing.Size(130, 22);
+            this.predic.Text = "Predict";
             // 
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            // 
+            // runSinToolStripMenuItem1
+            // 
+            this.runSinToolStripMenuItem1.Name = "runSinToolStripMenuItem1";
+            this.runSinToolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
+            this.runSinToolStripMenuItem1.Text = "RunSin";
+            this.runSinToolStripMenuItem1.Click += new System.EventHandler(this.runSinToolStripMenuItem1_Click);
+            // 
+            // toPred
+            // 
+            this.toPred.Name = "toPred";
+            this.toPred.Size = new System.Drawing.Size(100, 23);
             // 
             // tcCharts
             // 
@@ -182,7 +203,7 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1,
+            this.ProgressBar,
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 317);
             this.statusStrip1.Name = "statusStrip1";
@@ -190,10 +211,10 @@
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip";
             // 
-            // toolStripProgressBar1
+            // ProgressBar
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(200, 16);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(200, 16);
             // 
             // toolStripStatusLabel1
             // 
@@ -234,20 +255,6 @@
             this.splitter.TabIndex = 7;
             this.splitter.TabStop = false;
             // 
-            // runSinToolStripMenuItem
-            // 
-            this.runSinToolStripMenuItem.Name = "runSinToolStripMenuItem";
-            this.runSinToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.runSinToolStripMenuItem.Text = "RunSin";
-            this.runSinToolStripMenuItem.Click += new System.EventHandler(this.runSinToolStripMenuItem_Click);
-            // 
-            // runSinToolStripMenuItem1
-            // 
-            this.runSinToolStripMenuItem1.Name = "runSinToolStripMenuItem1";
-            this.runSinToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.runSinToolStripMenuItem1.Text = "RunSin";
-            this.runSinToolStripMenuItem1.Click += new System.EventHandler(this.runSinToolStripMenuItem1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,7 +290,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.TabControl tcCharts;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ListBox lbSourceList;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -294,10 +301,11 @@
         private System.Windows.Forms.ToolStripMenuItem obliczToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox eraCountText;
         private System.Windows.Forms.ToolStripMenuItem runButton;
-        private System.Windows.Forms.ToolStripMenuItem predictToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem predic;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runSinToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runSinToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripTextBox toPred;
     }
 }
 
