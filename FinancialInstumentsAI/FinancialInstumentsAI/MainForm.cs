@@ -115,10 +115,94 @@ namespace FinancialInstumentsAI
 
         private void teach()
         {
+            double[] data = (tcCharts.SelectedTab as ChartTabPage).data;
+            double min = 0, max = 0;
+            double range;
+            min = data.Min(); max = data.Max();
+            range = (max - min);
+            int learningSamples = data.Length - layer[0] - 1;
+            double[][] input = new double[learningSamples][];
+            double[][] output = new double[learningSamples][];
+            for (int i = 0; i < learningSamples; i++)
+            {
+                input[i] = new double[layer[0]];
+                output[i] = new double[1];
+
+                for (int j = 0; j < layer[0]; j++)
+                {
+                    input[i][j] = TransformData(data[i + j], min, range);
+                }
+                output[i][0] = TransformData(data[i + layer[0]], min, range);
+            } 
+            learner.Rate = rate;
+            learner.Momentum = momentum;
+            var solution = new double[data.Length - layer[0], 2];
+            var netInput = new double[layer[0]];
+
+            for (int i = 0; i < eraCount; i++)
+            {
+                var ins = new List<double[]>();
+                var outs = new List<double[]>();
+
+                for (int ii = 0; ii < input.Length; ii++)
+                {
+                    ins.Add(input[ii]);
+                    outs.Add(output[ii]);
+                }
+                learner.TeachOnSamples(ins, outs);               
+            }            
+        }
+
+        private void predict()
+        {
+
+            double[] data = (tcCharts.SelectedTab as ChartTabPage).data;
+            double min=0, max=0;
+            double range;           
+            min = data.Min(); max = data.Max();
+            range = (max - min);
+
+            var solution = new double[data.Length - layer[0], 2];
+            var netInput = new double[layer[0]];
+
+
+            for (int j = 0; j < data.Length - layer[0]; j++)
+            {
+                for (int k = 0; k < layer[0]; k++)
+                {
+                    netInput[k] = TransformData(data[j + k], min, range);
+                }
+                solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);//(network.ComputeOutputVector(netInput)[0]) / range + min;
+            }
+            double[] aproximated = new double[data.Length - layer[0]];
+            Console.WriteLine("Try those Values in Excel or whatever");
+            using (var writer = new StreamWriter("data_dump_time_series.txt"))
+            {
+                for (int i = 0; i < aproximated.Length; i++)
+                {
+                    aproximated[i] = solution[i, 1];
+                    writer.WriteLine((aproximated[i]).ToString());
+                }
+            }                       
+            
+            var chart = tcCharts.SelectedTab as ChartTabPage;
+            double[] predData = new double[layer[0] + aproximated.Length];
+            for (int i = 0; i < layer[0]; i++)
+            {
+                predData[i] = data[i];
+            }
+            Array.Copy(aproximated, 0, predData, layer[0], aproximated.Length);
+            chart.draw("pred", predData);
+                       
+        }
+
+        private void teachSinus()
+        {
             double[] data;
             double min = 0, max = 0;
             double range;
             data = readSinData(ref min,ref max);
+            min = data.Min(); max = data.Max();
             range = (max - min);
             int learningSamples = data.Length - layer[0] - 1;
 
@@ -141,7 +225,7 @@ namespace FinancialInstumentsAI
             //double[] input = new double[] { 1,2,3,4,5,6,7,8,9 };
             //double[] output = new double[]{ 0,4,7,9,10,9,7,4,0 };
             // learner = new Teacher(network);
-            
+
             learner.Rate = rate;
             learner.Momentum = momentum;
             var solution = new double[data.Length - layer[0], 2];
@@ -157,17 +241,18 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                learner.TeachOnSamples(ins, outs);               
-            }            
+                learner.TeachOnSamples(ins, outs);
+            }
         }
 
-        private void predict()
+        private void predictSinus()
         {
-            
+
             double[] data;
-            double min=0, max=0;
+            double min = 0, max = 0;
             double range;
             data = readSinData(ref min,ref max);
+            min = data.Min(); max = data.Max();
             range = (max - min);
 
             var solution = new double[data.Length - layer[0], 2];
@@ -193,9 +278,8 @@ namespace FinancialInstumentsAI
                 }
             }
 
-            //------------
-            if (tcCharts.SelectedIndex != -1)
-            {
+            
+            tcCharts.SelectedIndex = 0;
                 var chart = tcCharts.SelectedTab as ChartTabPage;
                 double[] predData = new double[layer[0] + aproximated.Length];
                 for (int i = 0; i < layer[0]; i++)
@@ -203,10 +287,10 @@ namespace FinancialInstumentsAI
                     predData[i] = data[i];
                 }
                 Array.Copy(aproximated, 0, predData, layer[0], aproximated.Length);
-                    chart.draw("pred sin", predData);
-            }
-            //-----------
+                chart.draw("pred sin", predData);
+                        
         }
+
 
         private double TransformData(double input, double min, double range)
         { //scale to -1..1
@@ -273,6 +357,22 @@ namespace FinancialInstumentsAI
                     return data;
                 }
                 else return null;
+            }
+        }
+
+        private void runSinToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (network != null)
+            {
+                predictSinus();
+            }
+        }
+
+        private void runSinToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (network != null)
+            {
+                teachSinus();
             }
         }
     }

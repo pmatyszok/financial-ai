@@ -39,6 +39,8 @@
             this.obliczToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eraCountText = new System.Windows.Forms.ToolStripTextBox();
             this.runButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.predictToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tcCharts = new System.Windows.Forms.TabControl();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,8 +51,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.splitter = new System.Windows.Forms.Splitter();
-            this.predictToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSinToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -118,7 +120,8 @@
             // 
             this.obliczToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.eraCountText,
-            this.runButton});
+            this.runButton,
+            this.runSinToolStripMenuItem});
             this.obliczToolStripMenuItem.Name = "obliczToolStripMenuItem";
             this.obliczToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.obliczToolStripMenuItem.Text = "Teach";
@@ -135,6 +138,22 @@
             this.runButton.Size = new System.Drawing.Size(160, 22);
             this.runButton.Text = "Run";
             this.runButton.Click += new System.EventHandler(this.runButton_Click);
+            // 
+            // predictToolStripMenuItem
+            // 
+            this.predictToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runToolStripMenuItem,
+            this.runSinToolStripMenuItem1});
+            this.predictToolStripMenuItem.Name = "predictToolStripMenuItem";
+            this.predictToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.predictToolStripMenuItem.Text = "Predict";
+            // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runToolStripMenuItem.Text = "Run";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
             // tcCharts
             // 
@@ -215,20 +234,19 @@
             this.splitter.TabIndex = 7;
             this.splitter.TabStop = false;
             // 
-            // predictToolStripMenuItem
+            // runSinToolStripMenuItem
             // 
-            this.predictToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runToolStripMenuItem});
-            this.predictToolStripMenuItem.Name = "predictToolStripMenuItem";
-            this.predictToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.predictToolStripMenuItem.Text = "Predict";
+            this.runSinToolStripMenuItem.Name = "runSinToolStripMenuItem";
+            this.runSinToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.runSinToolStripMenuItem.Text = "RunSin";
+            this.runSinToolStripMenuItem.Click += new System.EventHandler(this.runSinToolStripMenuItem_Click);
             // 
-            // runToolStripMenuItem
+            // runSinToolStripMenuItem1
             // 
-            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.runToolStripMenuItem.Text = "Run";
-            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            this.runSinToolStripMenuItem1.Name = "runSinToolStripMenuItem1";
+            this.runSinToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.runSinToolStripMenuItem1.Text = "RunSin";
+            this.runSinToolStripMenuItem1.Click += new System.EventHandler(this.runSinToolStripMenuItem1_Click);
             // 
             // MainForm
             // 
@@ -278,6 +296,8 @@
         private System.Windows.Forms.ToolStripMenuItem runButton;
         private System.Windows.Forms.ToolStripMenuItem predictToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runSinToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runSinToolStripMenuItem1;
     }
 }
 

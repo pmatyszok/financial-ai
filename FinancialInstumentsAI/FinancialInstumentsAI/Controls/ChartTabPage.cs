@@ -25,12 +25,13 @@ namespace FinancialInstumentsAI.Controls
 
         public void draw(string name, double[] data)
         {
+            if(chartControl._chart.Series.Count >1)
+                chartControl._chart.Series.RemoveAt(1);
             Series seria = chartControl._chart.Series.Add(name);
             seria.ChartType = SeriesChartType.Line;
             foreach (double elem in data)
             {
-                seria.Points.Add(elem);
-                var p =seria.Points;               
+                seria.Points.Add(elem);                               
             }
         }
     }
