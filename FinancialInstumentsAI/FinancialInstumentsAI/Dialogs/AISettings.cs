@@ -1,9 +1,8 @@
-﻿using AI;
-using AI.Functions;
-using AI.Neurons;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using AI.Functions;
+using AI.Neurons;
 
 namespace FinancialInstumentsAI.Dialogs
 {
@@ -14,8 +13,8 @@ namespace FinancialInstumentsAI.Dialogs
         public static List<int> Layer { get; set; }
         public static INeuronInitilizer Init { get; set; }
         public static IActivationFunction Activ { get; set; }
-        public static double LearnerRate{get;set;}
-        public static double LearnerMomentum{ get; set; }
+        public static double LearnerRate { get; set; }
+        public static double LearnerMomentum { get; set; }
 
         public static int IterationsCount { get; set; }
 
@@ -26,7 +25,7 @@ namespace FinancialInstumentsAI.Dialogs
             activFuncComboBox.DataSource = Enum.GetNames(typeof(Activation));
             constValueTextBox.Enabled = false;
         }
-
+        
         public static AISettings Instance
         {
             get { return instance ?? (instance = new AISettings()); }
@@ -34,14 +33,14 @@ namespace FinancialInstumentsAI.Dialogs
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            switch(initFuncComboBox.SelectedIndex)
+            switch (initFuncComboBox.SelectedIndex)
             {
-                case(0):
+                case (0):
                     Init = new RandomInitializer();
                     break;
                 case (1):
                     Init = new OptimalRangeRandomInitializer(Activ = new BipolarSigmoid((double)alphaNumeric.Value));
-                   break;
+                    break;
                 case (2):
                     Init = new ConstInitializer(double.Parse(constValueTextBox.Text));
                     break;
@@ -69,25 +68,25 @@ namespace FinancialInstumentsAI.Dialogs
                 for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
                 {
                     Layer.Add((int)windowSize.Value * 2);
-                }    
+                }
             }
             else
             {
                 for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
                 {
-                    neuronCounts neuron = new neuronCounts();
-                    neuron.Text = "Layer no. " + i.ToString() + " count";
+                    var neuron = new NeuronCounts();
+                    neuron.Text = "Layer no. " + i + " count";
                     DialogResult res = neuron.ShowDialog(this);
                     if (res == DialogResult.OK)
                     {
-                        Layer.Add(neuron.value);
+                        Layer.Add(neuron.Value);
                     }
                 }
             }
-            
+
             Layer.Add(1);
 
-            int iterations = 0;
+            int iterations;
             if (!int.TryParse(iterationsTextBox.Text, out iterations))
             {
                 iterations = 1000;
@@ -112,7 +111,7 @@ namespace FinancialInstumentsAI.Dialogs
             {
                 constValueTextBox.Enabled = true;
             }
-            else 
+            else
             {
                 constValueTextBox.Enabled = false;
             }

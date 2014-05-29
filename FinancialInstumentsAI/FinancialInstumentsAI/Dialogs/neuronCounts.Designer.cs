@@ -1,6 +1,6 @@
 ﻿namespace FinancialInstumentsAI.Dialogs
 {
-    partial class neuronCounts
+    partial class NeuronCounts
     {
         /// <summary>
         /// Required designer variable.

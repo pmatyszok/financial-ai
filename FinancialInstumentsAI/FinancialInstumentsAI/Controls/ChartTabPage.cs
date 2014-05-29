@@ -7,7 +7,7 @@ namespace FinancialInstumentsAI.Controls
 {
     public partial class ChartTabPage : TabPage
     {
-        public double[] data { get; set; }
+        public double[] Data { get; set; }
         public ChartTabPage(string text = null) : base(text)
         {
             InitializeComponent();
@@ -23,26 +23,26 @@ namespace FinancialInstumentsAI.Controls
 
             chartControl.SendToBack();
         }
-
-        public void draw(string name)
-        {            
+        
+        public void Draw(string name)
+        {
             Series seria = chartControl._chart.Series.Add(name);
             seria.ChartType = SeriesChartType.Line;
-            foreach (double elem in data)
+            foreach (double elem in Data)
             {
-                seria.Points.Add(elem);                               
+                seria.Points.Add(elem);
             }
         }
-        
-        public void drawPred(string name, double[] points)
+
+        public void DrawPred(string name, double[] points)
         {
             if (chartControl._chart.Series.Count > 1)
                 chartControl._chart.Series.RemoveAt(1);
             Series seria = chartControl._chart.Series.Add(name);
             seria.ChartType = SeriesChartType.Line;
-            double[] toAdd = new double[data.Length];
-            Array.Copy(data,0,toAdd,0,data.Length-points.Length);
-            Array.Copy(points, 0, toAdd, data.Length - points.Length,points.Length);
+            var toAdd = new double[Data.Length];
+            Array.Copy(Data, 0, toAdd, 0, Data.Length - points.Length);
+            Array.Copy(points, 0, toAdd, Data.Length - points.Length, points.Length);
             foreach (double elem in toAdd)
             {
                 seria.Points.Add(elem);

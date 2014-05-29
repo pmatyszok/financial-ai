@@ -1,6 +1,6 @@
 ﻿namespace FinancialInstumentsAI.Dialogs
 {
-    partial class selectData
+    partial class SelectData
     {
         /// <summary>
         /// Required designer variable.
