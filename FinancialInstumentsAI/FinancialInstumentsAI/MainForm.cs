@@ -96,7 +96,15 @@ namespace FinancialInstumentsAI
 
                 tcCharts.TabPages.Add(newTabPage);
                 tcCharts.SelectTab(newTabPage);
-                
+                var selectTime = new selectData(folderBrowserDialog.SelectedPath+"\\"+selectedSource);
+                DialogResult result = selectTime.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    var chart = tcCharts.SelectedTab as ChartTabPage;
+                    chart.data = selectTime.toDoubleTable();                    
+                    chart.draw(selectedSource, chart.data);
+                }
+
             }
         }
 

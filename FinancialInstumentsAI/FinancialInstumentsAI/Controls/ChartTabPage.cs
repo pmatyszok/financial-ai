@@ -6,6 +6,7 @@ namespace FinancialInstumentsAI.Controls
 {
     public partial class ChartTabPage : TabPage
     {
+        public double[] data { get; set; }
         public ChartTabPage(string text = null) : base(text)
         {
             InitializeComponent();
@@ -29,7 +30,7 @@ namespace FinancialInstumentsAI.Controls
             foreach (double elem in data)
             {
                 seria.Points.Add(elem);
-                
+                var p =seria.Points;               
             }
         }
     }
