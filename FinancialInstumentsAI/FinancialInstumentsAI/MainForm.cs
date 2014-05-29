@@ -176,6 +176,10 @@ namespace FinancialInstumentsAI
             var solution = new double[pred, 2];
             var netInput = new double[layer[0]];
 
+            ProgressBar.Value = 0;
+            ProgressBar.Minimum = 0;
+            ProgressBar.Maximum = 100;
+            ProgressBar.Step = 10;
 
             for (int j = 0; j < pred; j++)
             {
@@ -184,6 +188,10 @@ namespace FinancialInstumentsAI
                     netInput[k] = TransformData(data[j+ data.Length - pred-layer[0] + k], min, range);
                 }
                 solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);//(network.ComputeOutputVector(netInput)[0]) / range + min;
+                if (j % (int)(pred / 10) == 0)
+                {
+                    ProgressBar.PerformStep();
+                }
             }
             double[] aproximated = new double[pred];
             Console.WriteLine("Try those Values in Excel or whatever");
@@ -196,14 +204,8 @@ namespace FinancialInstumentsAI
                 }
             }                       
             
-            var chart = tcCharts.SelectedTab as ChartTabPage;
-            double[] predData = new double[layer[0] + aproximated.Length];
-            for (int i = 0; i < layer[0]; i++)
-            {
-                predData[i] = data[i];
-            }
-            Array.Copy(aproximated, 0, predData, layer[0], aproximated.Length);
-            chart.drawPred("pred", predData);
+            var chart = tcCharts.SelectedTab as ChartTabPage;            
+            chart.drawPred("pred", aproximated);
                        
         }
 
