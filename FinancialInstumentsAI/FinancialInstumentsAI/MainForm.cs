@@ -9,6 +9,7 @@ using AI.Functions;
 using AI.Neurons;
 using FinancialInstumentsAI.Controls;
 using FinancialInstumentsAI.Dialogs;
+using FinancialInstumentsAI.FinancialParser;
 
 namespace FinancialInstumentsAI
 {
@@ -52,6 +53,8 @@ namespace FinancialInstumentsAI
             //---------
         }
 
+        public string FinancialFileSearchPattern { get; set; }
+
         private void LoadExampleSinusData()
         {
             double min = 0, max = 0;
@@ -62,7 +65,6 @@ namespace FinancialInstumentsAI
             chart.Data = data;
             chart.Draw("sin");
         }
-        public string FinancialFileSearchPattern { get; set; }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -113,13 +115,34 @@ namespace FinancialInstumentsAI
 
                 tcCharts.TabPages.Add(newTabPage);
                 tcCharts.SelectTab(newTabPage);
-                var selectTime = new SelectData(folderBrowserDialog.SelectedPath + "\\" + selectedSource);
-                DialogResult result = selectTime.ShowDialog();
-                if (result == DialogResult.OK)
+                var selectTime = new SelectData();
+
+                if (selectTime.ShowDialog() == DialogResult.OK)
                 {
                     var chart = tcCharts.SelectedTab as ChartTabPage;
                     if (chart == null) return;
-                    chart.Data = selectTime.ToDoubleTable();
+
+                    KeyValuePair<DateTime, double>[] data =
+                        MstFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
+                                                     selectedSource + ".mst");
+
+                    if ((data == null) || (data.Count() == 0))
+                        return;
+
+                    var selectedData = new Stack<double>();
+
+                    foreach (var d in data.Where(d => (d.Key >= selectTime.DateFrom) && (d.Key <= selectTime.DateTo)))
+                    {
+                        selectedData.Push(d.Value);
+                    }
+
+                    if (!selectedData.Any())
+                    {
+                        MessageBox.Show("Brak danych w podanym zakresie.");
+                        return;
+                    }
+
+                    chart.Data = selectedData.ToArray();
                     chart.Draw(selectedSource);
                 }
             }
@@ -230,7 +253,7 @@ namespace FinancialInstumentsAI
                 }
             }
 
-            var chart = chartTabPage;
+            ChartTabPage chart = chartTabPage;
             if (chart == null) return;
             chart.DrawPred("pred", aproximated);
         }
