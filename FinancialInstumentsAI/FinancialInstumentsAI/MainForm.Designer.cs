@@ -37,12 +37,14 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.obliczToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.run100ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runButton = new System.Windows.Forms.ToolStripMenuItem();
             this.runSinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.predic = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runSinToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toPred = new System.Windows.Forms.ToolStripTextBox();
+            this.oneValue = new System.Windows.Forms.ToolStripMenuItem();
             this.tcCharts = new System.Windows.Forms.TabControl();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,8 +55,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.splitter = new System.Windows.Forms.Splitter();
-            this.run100ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oneValue = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -128,17 +130,24 @@
             this.obliczToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.obliczToolStripMenuItem.Text = "Teach";
             // 
+            // run100ToolStripMenuItem
+            // 
+            this.run100ToolStripMenuItem.Name = "run100ToolStripMenuItem";
+            this.run100ToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.run100ToolStripMenuItem.Text = "Run(100%)";
+            this.run100ToolStripMenuItem.Click += new System.EventHandler(this.run100ToolStripMenuItem_Click);
+            // 
             // runButton
             // 
             this.runButton.Name = "runButton";
-            this.runButton.Size = new System.Drawing.Size(152, 22);
+            this.runButton.Size = new System.Drawing.Size(131, 22);
             this.runButton.Text = "Run(70%)";
             this.runButton.Click += new System.EventHandler(this.runButton_Click);
             // 
             // runSinToolStripMenuItem
             // 
             this.runSinToolStripMenuItem.Name = "runSinToolStripMenuItem";
-            this.runSinToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runSinToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.runSinToolStripMenuItem.Text = "RunSin";
             this.runSinToolStripMenuItem.Click += new System.EventHandler(this.runSinToolStripMenuItem_Click);
             // 
@@ -171,6 +180,12 @@
             // 
             this.toPred.Name = "toPred";
             this.toPred.Size = new System.Drawing.Size(100, 23);
+            // 
+            // oneValue
+            // 
+            this.oneValue.Name = "oneValue";
+            this.oneValue.Size = new System.Drawing.Size(160, 22);
+            this.oneValue.Text = "One Value";
             // 
             // tcCharts
             // 
@@ -251,24 +266,31 @@
             this.splitter.TabIndex = 7;
             this.splitter.TabStop = false;
             // 
-            // run100ToolStripMenuItem
+            // label1
             // 
-            this.run100ToolStripMenuItem.Name = "run100ToolStripMenuItem";
-            this.run100ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.run100ToolStripMenuItem.Text = "Run(100%)";
-            this.run100ToolStripMenuItem.Click += new System.EventHandler(this.run100ToolStripMenuItem_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(520, 325);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Teach error";
             // 
-            // oneValue
+            // label2
             // 
-            this.oneValue.Name = "oneValue";
-            this.oneValue.Size = new System.Drawing.Size(160, 22);
-            this.oneValue.Text = "One Value";          
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(588, 326);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(28, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "0.00";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(672, 339);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tcCharts);
             this.Controls.Add(this.splitter);
             this.Controls.Add(this.groupBox1);
@@ -316,6 +338,8 @@
         private System.Windows.Forms.ToolStripTextBox toPred;
         private System.Windows.Forms.ToolStripMenuItem run100ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oneValue;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

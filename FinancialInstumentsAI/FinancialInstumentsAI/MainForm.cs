@@ -76,7 +76,8 @@ namespace FinancialInstumentsAI
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AISettings.Instance.Show(this);           
+            if(AISettings.Instance.Visible == false)
+                AISettings.Instance.Show(this);           
         }
 
         public void setSettings()
@@ -212,7 +213,7 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                learner.TeachOnSamples(ins, outs);
+                label2.Text = learner.TeachOnSamples(ins, outs).ToString("F6");                
                 if (i % (eraCount / 100) == 0)
                 {
                     ProgressBar.PerformStep();
@@ -428,7 +429,7 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                learner.TeachOnSamples(ins, outs);
+                label2.Text = learner.TeachOnSamples(ins, outs).ToString("F6"); ;
             }
         }
 
