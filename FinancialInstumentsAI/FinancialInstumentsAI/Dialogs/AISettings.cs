@@ -15,7 +15,6 @@ namespace FinancialInstumentsAI.Dialogs
         public static IActivationFunction Activ { get; set; }
         public static double LearnerRate { get; set; }
         public static double LearnerMomentum { get; set; }
-
         public static int IterationsCount { get; set; }
 
         private AISettings()
@@ -32,6 +31,44 @@ namespace FinancialInstumentsAI.Dialogs
         }
 
         private void btnOK_Click(object sender, EventArgs e)
+        {
+            assignValue();
+            var a = this.Owner as MainForm;
+            if (a != null)
+                a.setSettings();
+            this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            assignValue();
+            var a = this.Owner as MainForm;
+            if (a != null)
+                a.setSettings();
+        }
+
+        private void initFuncComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (initFuncComboBox.SelectedIndex == 1)
+            {
+                activFuncComboBox.SelectedIndex = 1;
+                activFuncComboBox.Enabled = false;
+            }
+            else
+            {
+                activFuncComboBox.Enabled = true;
+            }
+            if (initFuncComboBox.SelectedIndex == 2)
+            {
+                constValueTextBox.Enabled = true;
+            }
+            else
+            {
+                constValueTextBox.Enabled = false;
+            }
+        }        
+
+        private void assignValue()
         {
             switch (initFuncComboBox.SelectedIndex)
             {
@@ -61,7 +98,7 @@ namespace FinancialInstumentsAI.Dialogs
             LearnerRate = (double)rateNumeric.Value;
             LearnerMomentum = (double)momentumNumeric.Value;
 
-            Layer = new List<int> {(int)windowSize.Value};
+            Layer = new List<int> { (int)windowSize.Value };
             if (layerCountCheckBox.Checked)
             {
                 for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
@@ -73,7 +110,7 @@ namespace FinancialInstumentsAI.Dialogs
             {
                 for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
                 {
-                    var neuron = new NeuronCounts {Text = "Layer no. " + i + " count"};
+                    var neuron = new NeuronCounts { Text = "Layer no. " + i + " count" };
                     DialogResult res = neuron.ShowDialog(this);
                     if (res == DialogResult.OK)
                     {
@@ -90,29 +127,6 @@ namespace FinancialInstumentsAI.Dialogs
                 iterations = 1000;
             }
             IterationsCount = iterations;
-
-            DialogResult = DialogResult.OK;
-        }
-
-        private void initFuncComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (initFuncComboBox.SelectedIndex == 1)
-            {
-                activFuncComboBox.SelectedIndex = 1;
-                activFuncComboBox.Enabled = false;
-            }
-            else
-            {
-                activFuncComboBox.Enabled = true;
-            }
-            if (initFuncComboBox.SelectedIndex == 2)
-            {
-                constValueTextBox.Enabled = true;
-            }
-            else
-            {
-                constValueTextBox.Enabled = false;
-            }
         }
     }
 }

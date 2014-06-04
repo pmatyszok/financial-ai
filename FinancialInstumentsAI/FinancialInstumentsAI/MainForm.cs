@@ -36,12 +36,14 @@ namespace FinancialInstumentsAI
         private double momentum;
         private Network network;
         private double rate;
+        
+        private bool teach100, predOneValue;
 
         public MainForm()
         {
             InitializeComponent();
-
-            FinancialFileSearchPattern = "*.mst";
+            oneValue.CheckOnClick = true;
+            oneValue.CheckState = CheckState.Checked;
 
             //----------
             var newTabPage = new ChartTabPage("sin") {Name = "sin"};
@@ -50,6 +52,7 @@ namespace FinancialInstumentsAI
             tcCharts.SelectTab(newTabPage);
 
             LoadExampleSinusData();
+
             //---------
         }
 
@@ -73,16 +76,19 @@ namespace FinancialInstumentsAI
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AISettings.Instance.ShowDialog(this) == DialogResult.OK)
-            {
-                activ = AISettings.Activ;
-                init = AISettings.Init;
-                layer = AISettings.Layer;
-                network = new Network(layer[0], layer.Count, layer, activ, init);
-                learner = new Teacher(network);
-                rate = AISettings.LearnerRate;
-                momentum = AISettings.LearnerMomentum;
-            }
+            AISettings.Instance.Show(this);           
+        }
+
+        public void setSettings()
+        {
+            activ = AISettings.Activ;
+            init = AISettings.Init;
+            layer = AISettings.Layer;
+            network = new Network(layer[0], layer.Count, layer, activ, init);
+            learner = new Teacher(network);
+            rate = AISettings.LearnerRate;
+            momentum = AISettings.LearnerMomentum;
+            eraCount = AISettings.IterationsCount;            
         }
 
         private void setSourceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -92,8 +98,9 @@ namespace FinancialInstumentsAI
                 lbSourceList.Items.Clear();
                 foreach (
                     string file in
-                        Directory.GetFiles(folderBrowserDialog.SelectedPath, FinancialFileSearchPattern)
-                            .Select(Path.GetFileNameWithoutExtension))
+                        Directory.GetFiles(folderBrowserDialog.SelectedPath, "*.*")
+                        .Where(file => file.ToLower().EndsWith("mst") || file.ToLower().EndsWith("prn"))
+                        .Select(Path.GetFileName))
                 {
                     lbSourceList.Items.Add(file);
                 }
@@ -124,7 +131,7 @@ namespace FinancialInstumentsAI
 
                     KeyValuePair<DateTime, double>[] data =
                         MstFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
-                                                     selectedSource + ".mst");
+                                                     selectedSource);
 
                     if ((data == null) || (data.Count() == 0))
                         return;
@@ -153,11 +160,21 @@ namespace FinancialInstumentsAI
             tcCharts.TabPages.Remove(tcCharts.SelectedTab);
         }
 
-        private void Teach()
+        private void Teach(bool full = true)
         {
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
             if (chartTabPage == null) return;
-            double[] data = chartTabPage.Data;
+            double[] data;
+            if (full)
+            {
+                data = chartTabPage.Data;
+            }
+            else
+            {
+                int toTeach = (int)(chartTabPage.Data.Length * 0.7);
+                data = new double[toTeach];
+                Array.Copy(chartTabPage.Data, data, toTeach);
+            }
             double min = data.Min();
             double max = data.Max();
             double range = (max - min);
@@ -183,7 +200,7 @@ namespace FinancialInstumentsAI
             ProgressBar.Value = 0;
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = 100;
-            ProgressBar.Step = 10;
+            ProgressBar.Step = 1;
 
             for (int i = 0; i < eraCount; i++)
             {
@@ -196,29 +213,50 @@ namespace FinancialInstumentsAI
                     outs.Add(output[ii]);
                 }
                 learner.TeachOnSamples(ins, outs);
-                if (i % (eraCount / 10) == 0)
+                if (i % (eraCount / 100) == 0)
                 {
                     ProgressBar.PerformStep();
                 }
             }
         }
 
-        private void Predict()
+        private void Predict(bool full= true,bool predictOneValue = true)
         {
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
             if (chartTabPage == null) return;
-            double[] data = chartTabPage.Data;
-            int pred;
+            double[] data = null;
+            int pred= 0;
             try
             {
                 pred = int.Parse(string.IsNullOrEmpty(toPred.Text) ? "0" : toPred.Text);
             }
             catch (FormatException)
             {
-                pred = 0;
+                pred = (int)(chartTabPage.Data.Length * 0.3);
             }
-            double min = data.Min();
-            double max = data.Max();
+            if (predictOneValue)
+            {
+                if (full)
+                {
+                    if (pred > chartTabPage.Data.Length - layer[0])
+                        pred = chartTabPage.Data.Length - layer[0];
+                    data = chartTabPage.Data;
+                }
+                else
+                {
+                    pred = (int)(chartTabPage.Data.Length * 0.3);
+                    data = new double[layer[0] + pred];
+                    Array.Copy(chartTabPage.Data, chartTabPage.Data.Length - pred - layer[0], data, 0, layer[0] + pred);
+                }
+            }
+            else
+            {
+                pred = (int)(chartTabPage.Data.Length * 0.3);
+                data = new double[layer[0] + pred];
+                Array.Copy(chartTabPage.Data, chartTabPage.Data.Length - pred - layer[0], data, 0, layer[0]);
+            }            
+            double min = chartTabPage.Data.Min();
+            double max = chartTabPage.Data.Max();
             double range = (max - min);
 
             var solution = new double[pred, 2];
@@ -236,7 +274,10 @@ namespace FinancialInstumentsAI
                     netInput[k] = TransformData(data[j + data.Length - pred - layer[0] + k], min, range);
                 }
                 solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);
-                //(network.ComputeOutputVector(netInput)[0]) / range + min;
+                if (!predictOneValue)
+                {
+                    data[layer[0] + j] = solution[j, 1];
+                }
                 if (j % (pred / 10) == 0)
                 {
                     ProgressBar.PerformStep();
@@ -256,6 +297,92 @@ namespace FinancialInstumentsAI
             ChartTabPage chart = chartTabPage;
             if (chart == null) return;
             chart.DrawPred("pred", aproximated);
+        }  
+
+        private double TransformData(double input, double min, double range)
+        {
+            //scale to -1..1
+            return (((input - min) * 2.0) / range) - 1.0;
+        }
+
+        private double TransformBack(double input, double min, double max)
+        {
+            //scale back to original data from -1..1
+            return ((input + 1) * (max - min) / 2.0) + min;
+        }
+
+        private void runButton_Click(object sender, EventArgs e)
+        {
+            if (network != null)
+            {
+                Teach(false);
+                teach100 = false;
+            }
+        }
+
+        private void run100ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (network != null)
+            {
+                Teach();
+                teach100 = true;
+            }
+        }      
+
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (network != null)
+            {
+                bool one = false;
+                if (oneValue.CheckState == CheckState.Checked)
+                    one = true;
+                Predict(teach100, one);
+            }
+        }
+
+        //------------------------------------
+        //for sinus       
+        private static double[] ReadSinData(out double min, out double max)
+        {
+            var readedData = new double[50];
+
+            using (var reader = new StreamReader(File.OpenRead("sinusoid.csv")))
+            {
+                int i = 0;
+                string line = reader.ReadLine();
+                if (line == null)
+                {
+                    min = max = 0;
+                    return null;
+                }
+                readedData[i] = double.Parse(line, CultureInfo.InvariantCulture);
+                min = readedData[i];
+                max = readedData[i];
+
+                try
+                {
+                    for (i = 1; i < 50; i++)
+                    {
+                        line = reader.ReadLine();
+                        if (line == null) break;
+                        readedData[i] = double.Parse(line, CultureInfo.InvariantCulture);
+                        if (min > readedData[i])
+                            min = readedData[i];
+                        if (max < readedData[i])
+                            max = readedData[i];
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                if (i > 0)
+                {
+                    var data = new double[i];
+                    Array.Copy(readedData, data, i);
+                    return data;
+                }
+                return null;
+            }
         }
 
         private void TeachSinus()
@@ -351,94 +478,10 @@ namespace FinancialInstumentsAI
             chart.DrawPred("pred sin", predData);
         }
 
-
-        private double TransformData(double input, double min, double range)
-        {
-            //scale to -1..1
-            return (((input - min) * 2.0) / range) - 1.0;
-        }
-
-        private double TransformBack(double input, double min, double max)
-        {
-            //scale back to original data from -1..1
-            return ((input + 1) * (max - min) / 2.0) + min;
-        }
-
-        private void runButton_Click(object sender, EventArgs e)
-        {
-            if (network != null)
-            {
-                Teach();
-            }
-        }
-
-        private void eraCountText_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                eraCount = int.Parse(string.IsNullOrEmpty(eraCountText.Text) ? "0" : eraCountText.Text);
-            }
-            catch (FormatException)
-            {
-                eraCount = 1000;
-            }
-        }
-
-        private void runToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (network != null)
-            {
-                Predict();
-            }
-        }
-
-        private static double[] ReadSinData(out double min, out double max)
-        {
-            var readedData = new double[50];
-
-            using (var reader = new StreamReader(File.OpenRead("sinusoid.csv")))
-            {
-                int i = 0;
-                string line = reader.ReadLine();
-                if (line == null)
-                {
-                    min = max = 0;
-                    return null;
-                }
-                readedData[i] = double.Parse(line, CultureInfo.InvariantCulture);
-                min = readedData[i];
-                max = readedData[i];
-
-                try
-                {
-                    for (i = 1; i < 50; i++)
-                    {
-                        line = reader.ReadLine();
-                        if (line == null) break;
-                        readedData[i] = double.Parse(line, CultureInfo.InvariantCulture);
-                        if (min > readedData[i])
-                            min = readedData[i];
-                        if (max < readedData[i])
-                            max = readedData[i];
-                    }
-                }
-                catch (Exception)
-                {
-                }
-                if (i > 0)
-                {
-                    var data = new double[i];
-                    Array.Copy(readedData, data, i);
-                    return data;
-                }
-                return null;
-            }
-        }
-
         private void runSinToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (network != null)
-            {
+            {               
                 PredictSinus();
             }
         }
@@ -449,6 +492,7 @@ namespace FinancialInstumentsAI
             {
                 TeachSinus();
             }
-        }
+        }     
+        //-------------------------------
     }
 }

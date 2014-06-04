@@ -13,8 +13,19 @@ namespace FinancialInstumentsAI.FinancialParser
         public static KeyValuePair<DateTime, double>[] ParseFile(string source)
         {
             string extension = Path.GetExtension(source);
-            if (extension == null || !File.Exists(source) || (extension.ToLower() != ".mst")) return null;
-
+            if (extension == null || !File.Exists(source)) return null;
+            int dateIndex = 0;
+            int valueIndex = 0;
+            if (extension.ToLower() == ".mst")
+            {
+                dateIndex = 1;
+                valueIndex = 5;
+            }
+            else
+            {
+                dateIndex = 2;
+                valueIndex = 4;
+            }
             var data = new Stack<KeyValuePair<DateTime, double>>();
 
             using (var reader = new StreamReader(File.OpenRead(source)))
@@ -26,14 +37,14 @@ namespace FinancialInstumentsAI.FinancialParser
                     if (line == null) break;
 
                     string[] values = line.Split(',');
-                    if (values.Count() != 7) break;
+                    //if (values.Count() != 7) break;
 
                     DateTime date;
-                    if (!DateTime.TryParseExact(values[1], DateFormat, CultureInfo.InvariantCulture,
+                    if (!DateTime.TryParseExact(values[dateIndex], DateFormat, CultureInfo.InvariantCulture,
                         DateTimeStyles.None, out date)) return null;
 
                     double value;
-                    if (!double.TryParse(values[5], NumberStyles.Number, CultureInfo.InvariantCulture, out value))
+                    if (!double.TryParse(values[valueIndex], NumberStyles.Number, CultureInfo.InvariantCulture, out value))
                         return null;
 
                     data.Push(new KeyValuePair<DateTime, double>(date, value));
