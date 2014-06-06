@@ -92,10 +92,10 @@ namespace FinancialInstumentsAI.Indicators
             {
                 macd[1] = ema2[i] / ema1[i];
             }
-            toReturn[0] = macd[0] * (2 / (period + 1));
+            toReturn[0] = macd[0] * (2.0 / (period + 1));
             for (int i = 1; i < predValueIndex; i++)
             {
-                toReturn[i] = (macd[i] * (2 / (period + 1))) + (toReturn[i - 1] * (1 - ((2 / (period + 1)))));
+                toReturn[i] = (macd[i] * (2.0 / (period + 1.0))) + (toReturn[i - 1] * (1.0 - ((2.0 / (period + 1.0)))));
             }
             return toReturn;
         }
