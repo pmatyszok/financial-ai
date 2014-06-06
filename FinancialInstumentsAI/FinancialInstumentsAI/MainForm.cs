@@ -198,8 +198,6 @@ namespace FinancialInstumentsAI
                 }
                 output[i][0] = TransformData(data[i + layer[0]- indicator.Count], min, range);
             }
-
-
             double[][] indicatorValue = indicatorsData(data.Length);
             for (int i = 0; i < learningSamples; i++)
             {
@@ -209,9 +207,8 @@ namespace FinancialInstumentsAI
                         , indicatorValue[j - layer[0] + indicator.Count].Min()
                         , indicatorValue[j - layer[0] + indicator.Count].Max() - indicatorValue[j - layer[0] + indicator.Count].Min());
                 }                
-            }
-
-
+            }   
+         
             learner.Rate = rate;
             learner.Momentum = momentum;  
             ProgressBar.Value = 0;
@@ -282,28 +279,19 @@ namespace FinancialInstumentsAI
             ProgressBar.Maximum = 100;
             ProgressBar.Step = 10;
 
-
             double[][] indicatorValue = indicatorsData(data.Length);
-
-
-
             for (int j = 0; j < pred; j++)
             {
                 for (int k = 0; k < layer[0]- indicator.Count; k++)
                 {
                     netInput[k] = TransformData(data[j + data.Length - pred - layer[0] + k], min, range);
                 }
-
-
                 for (int l = layer[0] - indicator.Count; l < layer[0]; l++)
                 {
                     netInput[l] = TransformData(indicatorValue[l - layer[0] + indicator.Count][j + data.Length - pred]
                         , indicatorValue[l - layer[0] + indicator.Count].Min()
                         , indicatorValue[l - layer[0] + indicator.Count].Max() - indicatorValue[l - layer[0] + indicator.Count].Min());
                 }  
-
-
-
                 solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);
                 if (!predictOneValue)
                 {
@@ -324,7 +312,7 @@ namespace FinancialInstumentsAI
                     writer.WriteLine((aproximated[i]).ToString());
                 }
             }
-
+            predErrorLabel.Text = "Predict value RMS error: " + RMS(data, aproximated).ToString("F6");
             ChartTabPage chart = chartTabPage;
             if (chart == null) return;
             chart.DrawPred("predicted", aproximated);
@@ -383,6 +371,17 @@ namespace FinancialInstumentsAI
             return toReturn;
         }
 
+        private double RMS(double[] data, double[] pedictData)
+        {
+            double error = 0;
+            for (int i = 0; i < pedictData.Length; i++)
+            {
+                error += Math.Pow(pedictData[i] - data[data.Length - pedictData.Length + i], 2);   
+            }
+            error /= pedictData.Length;
+            error = Math.Sqrt(error);
+            return error;
+        }
         //------------------------------------
         //for sinus       
         private static double[] ReadSinData(out double min, out double max)
