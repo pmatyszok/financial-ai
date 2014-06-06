@@ -76,6 +76,7 @@
       <DependentUpon>SelectData.cs</DependentUpon>
     </Compile>
     <Compile Include="FinancialParser\MstFinancialParser.cs" />
+    <Compile Include="Indicators\Indicators.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +124,7 @@
     <None Include="sinusoid.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="wig20.prn" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

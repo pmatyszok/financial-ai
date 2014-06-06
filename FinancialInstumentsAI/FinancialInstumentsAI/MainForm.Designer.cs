@@ -55,8 +55,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.splitter = new System.Windows.Forms.Splitter();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.te = new System.Windows.Forms.ToolStripStatusLabel();
+            this.predErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.predLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -116,7 +117,7 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.settingsToolStripMenuItem.Text = "AI Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -127,7 +128,7 @@
             this.runButton,
             this.runSinToolStripMenuItem});
             this.obliczToolStripMenuItem.Name = "obliczToolStripMenuItem";
-            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.obliczToolStripMenuItem.Text = "Teach";
             // 
             // run100ToolStripMenuItem
@@ -159,7 +160,7 @@
             this.toPred,
             this.oneValue});
             this.predic.Name = "predic";
-            this.predic.Size = new System.Drawing.Size(152, 22);
+            this.predic.Size = new System.Drawing.Size(130, 22);
             this.predic.Text = "Predict";
             // 
             // runToolStripMenuItem
@@ -215,7 +216,10 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProgressBar,
-            this.toolStripStatusLabel1});
+            this.toolStripStatusLabel1,
+            this.te,
+            this.predErrorLabel,
+            this.predLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 317);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(672, 22);
@@ -266,31 +270,29 @@
             this.splitter.TabIndex = 7;
             this.splitter.TabStop = false;
             // 
-            // label1
+            // te
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(520, 325);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Teach error";
+            this.te.Name = "te";
+            this.te.Size = new System.Drawing.Size(94, 17);
+            this.te.Text = "Teach error: 0.00";
             // 
-            // label2
+            // predErrorLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(588, 326);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(28, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "0.00";
+            this.predErrorLabel.Name = "predErrorLabel";
+            this.predErrorLabel.Size = new System.Drawing.Size(157, 17);
+            this.predErrorLabel.Text = "Predict value RMS error: 0.00";
+            // 
+            // predLabel
+            // 
+            this.predLabel.Name = "predLabel";
+            this.predLabel.Size = new System.Drawing.Size(56, 17);
+            this.predLabel.Text = "Predict: 0";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(672, 339);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.tcCharts);
             this.Controls.Add(this.splitter);
             this.Controls.Add(this.groupBox1);
@@ -338,8 +340,9 @@
         private System.Windows.Forms.ToolStripTextBox toPred;
         private System.Windows.Forms.ToolStripMenuItem run100ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oneValue;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripStatusLabel te;
+        private System.Windows.Forms.ToolStripStatusLabel predErrorLabel;
+        private System.Windows.Forms.ToolStripStatusLabel predLabel;
     }
 }
 

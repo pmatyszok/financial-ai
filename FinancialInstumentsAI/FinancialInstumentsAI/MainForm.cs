@@ -25,6 +25,8 @@ namespace FinancialInstumentsAI
         Sigmoid,
         BipolarSigmoid
     };
+    
+    public delegate double[] Indi(double[][] data, int period, int predValueIndex);
 
     public partial class MainForm : Form
     {
@@ -38,6 +40,8 @@ namespace FinancialInstumentsAI
         private double rate;
         
         private bool teach100, predOneValue;
+        private List<KeyValuePair<Indi, int>> indicator = new List<KeyValuePair<Indi, int>>();
+       
 
         public MainForm()
         {
@@ -89,7 +93,8 @@ namespace FinancialInstumentsAI
             learner = new Teacher(network);
             rate = AISettings.LearnerRate;
             momentum = AISettings.LearnerMomentum;
-            eraCount = AISettings.IterationsCount;            
+            eraCount = AISettings.IterationsCount;
+            indicator = AISettings.indicator;
         }
 
         private void setSourceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -130,14 +135,14 @@ namespace FinancialInstumentsAI
                     var chart = tcCharts.SelectedTab as ChartTabPage;
                     if (chart == null) return;
 
-                    KeyValuePair<DateTime, double>[] data =
+                    KeyValuePair<DateTime, double[]>[] data =
                         MstFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
                                                      selectedSource);
 
                     if ((data == null) || (data.Count() == 0))
                         return;
 
-                    var selectedData = new Stack<double>();
+                    var selectedData = new Stack<double[]>();
 
                     foreach (var d in data.Where(d => (d.Key >= selectTime.DateFrom) && (d.Key <= selectTime.DateTo)))
                     {
@@ -150,7 +155,7 @@ namespace FinancialInstumentsAI
                         return;
                     }
 
-                    chart.Data = selectedData.ToArray();
+                    chart.FullData = selectedData.ToArray();
                     chart.Draw(selectedSource);
                 }
             }
@@ -179,7 +184,7 @@ namespace FinancialInstumentsAI
             double min = data.Min();
             double max = data.Max();
             double range = (max - min);
-            int learningSamples = data.Length - layer[0] - 1;
+            int learningSamples = data.Length - layer[0] + indicator.Count - 1;
             var input = new double[learningSamples][];
             var output = new double[learningSamples][];
             for (int i = 0; i < learningSamples; i++)
@@ -187,17 +192,28 @@ namespace FinancialInstumentsAI
                 input[i] = new double[layer[0]];
                 output[i] = new double[1];
 
-                for (int j = 0; j < layer[0]; j++)
+                for (int j = 0; j < layer[0] - indicator.Count; j++)
                 {
                     input[i][j] = TransformData(data[i + j], min, range);
                 }
                 output[i][0] = TransformData(data[i + layer[0]], min, range);
             }
-            learner.Rate = rate;
-            learner.Momentum = momentum;
-            var solution = new double[data.Length - layer[0], 2];
-            var netInput = new double[layer[0]];
 
+
+            double[][] indicatorValue = indicatorsData(data.Length);
+            for (int i = 0; i < learningSamples; i++)
+            {
+                for (int j = layer[0] - indicator.Count; j < layer[0]; j++)
+                {
+                    input[i][j] = TransformData(indicatorValue[j - layer[0] + indicator.Count][i + layer[0] - indicator.Count]
+                        , indicatorValue[j - layer[0] + indicator.Count].Min()
+                        , indicatorValue[j - layer[0] + indicator.Count].Max() - indicatorValue[j - layer[0] + indicator.Count].Min());
+                }                
+            }
+
+
+            learner.Rate = rate;
+            learner.Momentum = momentum;  
             ProgressBar.Value = 0;
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = 100;
@@ -213,7 +229,7 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                label2.Text = learner.TeachOnSamples(ins, outs).ToString("F6");                
+                te.Text ="Teach error: " + learner.TeachOnSamples(ins, outs).ToString("F6");                
                 if (i % (eraCount / 100) == 0)
                 {
                     ProgressBar.PerformStep();
@@ -225,7 +241,7 @@ namespace FinancialInstumentsAI
         {
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
             if (chartTabPage == null) return;
-            double[] data = null;
+            double[] data = chartTabPage.Data;
             int pred= 0;
             try
             {
@@ -240,22 +256,20 @@ namespace FinancialInstumentsAI
                 if (full)
                 {
                     if (pred > chartTabPage.Data.Length - layer[0])
-                        pred = chartTabPage.Data.Length - layer[0];
-                    data = chartTabPage.Data;
+                        pred = chartTabPage.Data.Length - layer[0];                    
                 }
                 else
                 {
                     pred = (int)(chartTabPage.Data.Length * 0.3);
-                    data = new double[layer[0] + pred];
-                    Array.Copy(chartTabPage.Data, chartTabPage.Data.Length - pred - layer[0], data, 0, layer[0] + pred);
+                    
                 }
             }
             else
             {
-                pred = (int)(chartTabPage.Data.Length * 0.3);
-                data = new double[layer[0] + pred];
-                Array.Copy(chartTabPage.Data, chartTabPage.Data.Length - pred - layer[0], data, 0, layer[0]);
-            }            
+                pred = (int)(chartTabPage.Data.Length * 0.3);               
+            }
+            predLabel.Text = "Predict: " + pred.ToString();
+
             double min = chartTabPage.Data.Min();
             double max = chartTabPage.Data.Max();
             double range = (max - min);
@@ -268,16 +282,32 @@ namespace FinancialInstumentsAI
             ProgressBar.Maximum = 100;
             ProgressBar.Step = 10;
 
+
+            double[][] indicatorValue = indicatorsData(data.Length);
+
+
+
             for (int j = 0; j < pred; j++)
             {
-                for (int k = 0; k < layer[0]; k++)
+                for (int k = 0; k < layer[0]- indicator.Count; k++)
                 {
                     netInput[k] = TransformData(data[j + data.Length - pred - layer[0] + k], min, range);
                 }
+
+
+                for (int l = layer[0] - indicator.Count; l < layer[0]; l++)
+                {
+                    netInput[l] = TransformData(indicatorValue[l - layer[0] + indicator.Count][j + data.Length - pred]
+                        , indicatorValue[l - layer[0] + indicator.Count].Min()
+                        , indicatorValue[l - layer[0] + indicator.Count].Max() - indicatorValue[l - layer[0] + indicator.Count].Min());
+                }  
+
+
+
                 solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);
                 if (!predictOneValue)
                 {
-                    data[layer[0] + j] = solution[j, 1];
+                    data[data.Length - pred + j] = solution[j, 1];
                 }
                 if (j % (pred / 10) == 0)
                 {
@@ -297,7 +327,7 @@ namespace FinancialInstumentsAI
 
             ChartTabPage chart = chartTabPage;
             if (chart == null) return;
-            chart.DrawPred("pred", aproximated);
+            chart.DrawPred("predicted", aproximated);
         }  
 
         private double TransformData(double input, double min, double range)
@@ -339,6 +369,18 @@ namespace FinancialInstumentsAI
                     one = true;
                 Predict(teach100, one);
             }
+        }
+
+        private double [][] indicatorsData(int count)
+        {
+            double[][] toReturn = new double[indicator.Count][];
+            var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
+            if (chartTabPage == null) return null;
+            for (int i = 0; i < indicator.Count; i++)
+            {
+                toReturn[i] = indicator[i].Key(chartTabPage.FullData,indicator[i].Value,count);
+            }
+            return toReturn;
         }
 
         //------------------------------------
@@ -429,7 +471,7 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                label2.Text = learner.TeachOnSamples(ins, outs).ToString("F6"); ;
+                te.Text = "Teach error: " + learner.TeachOnSamples(ins, outs).ToString("F6"); ;
             }
         }
 

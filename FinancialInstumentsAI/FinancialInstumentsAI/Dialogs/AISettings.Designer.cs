@@ -55,6 +55,18 @@
             this.layerCountCheckBox = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.iterationsTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.macdPeriod = new System.Windows.Forms.NumericUpDown();
+            this.rocPeriod = new System.Windows.Forms.NumericUpDown();
+            this.emaPeriod = new System.Windows.Forms.NumericUpDown();
+            this.wmaPeriod = new System.Windows.Forms.NumericUpDown();
+            this.smaPeriod = new System.Windows.Forms.NumericUpDown();
+            this.oscill = new System.Windows.Forms.CheckBox();
+            this.macd = new System.Windows.Forms.CheckBox();
+            this.roc = new System.Windows.Forms.CheckBox();
+            this.ema = new System.Windows.Forms.CheckBox();
+            this.wma = new System.Windows.Forms.CheckBox();
+            this.sma = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.windowSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).BeginInit();
@@ -65,6 +77,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.alphaNumeric)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.macdPeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rocPeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emaPeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wmaPeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.smaPeriod)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -244,13 +262,13 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 375);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(232, 22);
+            this.panel1.Size = new System.Drawing.Size(382, 22);
             this.panel1.TabIndex = 3;
             // 
             // btnOK
             // 
             this.btnOK.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOK.Location = new System.Drawing.Point(7, 0);
+            this.btnOK.Location = new System.Drawing.Point(157, 0);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 22);
             this.btnOK.TabIndex = 2;
@@ -261,7 +279,7 @@
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button2.Location = new System.Drawing.Point(82, 0);
+            this.button2.Location = new System.Drawing.Point(232, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 22);
             this.button2.TabIndex = 1;
@@ -273,7 +291,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnCancel.Location = new System.Drawing.Point(157, 0);
+            this.btnCancel.Location = new System.Drawing.Point(307, 0);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 22);
             this.btnCancel.TabIndex = 0;
@@ -353,13 +371,129 @@
             this.iterationsTextBox.Size = new System.Drawing.Size(128, 20);
             this.iterationsTextBox.TabIndex = 7;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.macdPeriod);
+            this.groupBox5.Controls.Add(this.rocPeriod);
+            this.groupBox5.Controls.Add(this.emaPeriod);
+            this.groupBox5.Controls.Add(this.wmaPeriod);
+            this.groupBox5.Controls.Add(this.smaPeriod);
+            this.groupBox5.Controls.Add(this.oscill);
+            this.groupBox5.Controls.Add(this.macd);
+            this.groupBox5.Controls.Add(this.roc);
+            this.groupBox5.Controls.Add(this.ema);
+            this.groupBox5.Controls.Add(this.wma);
+            this.groupBox5.Controls.Add(this.sma);
+            this.groupBox5.Location = new System.Drawing.Point(226, 12);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(145, 186);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Indicators";
+            // 
+            // macdPeriod
+            // 
+            this.macdPeriod.Location = new System.Drawing.Point(94, 120);
+            this.macdPeriod.Name = "macdPeriod";
+            this.macdPeriod.Size = new System.Drawing.Size(39, 20);
+            this.macdPeriod.TabIndex = 10;
+            // 
+            // rocPeriod
+            // 
+            this.rocPeriod.Location = new System.Drawing.Point(93, 94);
+            this.rocPeriod.Name = "rocPeriod";
+            this.rocPeriod.Size = new System.Drawing.Size(40, 20);
+            this.rocPeriod.TabIndex = 9;
+            // 
+            // emaPeriod
+            // 
+            this.emaPeriod.Location = new System.Drawing.Point(93, 69);
+            this.emaPeriod.Name = "emaPeriod";
+            this.emaPeriod.Size = new System.Drawing.Size(40, 20);
+            this.emaPeriod.TabIndex = 8;
+            // 
+            // wmaPeriod
+            // 
+            this.wmaPeriod.Location = new System.Drawing.Point(93, 43);
+            this.wmaPeriod.Name = "wmaPeriod";
+            this.wmaPeriod.Size = new System.Drawing.Size(40, 20);
+            this.wmaPeriod.TabIndex = 7;
+            // 
+            // smaPeriod
+            // 
+            this.smaPeriod.Location = new System.Drawing.Point(94, 20);
+            this.smaPeriod.Name = "smaPeriod";
+            this.smaPeriod.Size = new System.Drawing.Size(39, 20);
+            this.smaPeriod.TabIndex = 6;
+            // 
+            // oscill
+            // 
+            this.oscill.AutoSize = true;
+            this.oscill.Location = new System.Drawing.Point(8, 146);
+            this.oscill.Name = "oscill";
+            this.oscill.Size = new System.Drawing.Size(69, 17);
+            this.oscill.TabIndex = 5;
+            this.oscill.Text = "Oscillator";
+            this.oscill.UseVisualStyleBackColor = true;
+            // 
+            // macd
+            // 
+            this.macd.AutoSize = true;
+            this.macd.Location = new System.Drawing.Point(8, 121);
+            this.macd.Name = "macd";
+            this.macd.Size = new System.Drawing.Size(57, 17);
+            this.macd.TabIndex = 4;
+            this.macd.Text = "MACD";
+            this.macd.UseVisualStyleBackColor = true;
+            // 
+            // roc
+            // 
+            this.roc.AutoSize = true;
+            this.roc.Location = new System.Drawing.Point(8, 95);
+            this.roc.Name = "roc";
+            this.roc.Size = new System.Drawing.Size(49, 17);
+            this.roc.TabIndex = 3;
+            this.roc.Text = "ROC";
+            this.roc.UseVisualStyleBackColor = true;
+            // 
+            // ema
+            // 
+            this.ema.AutoSize = true;
+            this.ema.Location = new System.Drawing.Point(8, 70);
+            this.ema.Name = "ema";
+            this.ema.Size = new System.Drawing.Size(49, 17);
+            this.ema.TabIndex = 2;
+            this.ema.Text = "EMA";
+            this.ema.UseVisualStyleBackColor = true;
+            // 
+            // wma
+            // 
+            this.wma.AutoSize = true;
+            this.wma.Location = new System.Drawing.Point(8, 44);
+            this.wma.Name = "wma";
+            this.wma.Size = new System.Drawing.Size(53, 17);
+            this.wma.TabIndex = 1;
+            this.wma.Text = "WMA";
+            this.wma.UseVisualStyleBackColor = true;
+            // 
+            // sma
+            // 
+            this.sma.AutoSize = true;
+            this.sma.Location = new System.Drawing.Point(8, 21);
+            this.sma.Name = "sma";
+            this.sma.Size = new System.Drawing.Size(49, 17);
+            this.sma.TabIndex = 0;
+            this.sma.Text = "SMA";
+            this.sma.UseVisualStyleBackColor = true;
+            // 
             // AISettings
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(232, 397);
+            this.ClientSize = new System.Drawing.Size(382, 397);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.iterationsTextBox);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.layerCountCheckBox);
@@ -385,6 +519,13 @@
             this.panel1.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.macdPeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rocPeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emaPeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.wmaPeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.smaPeriod)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -419,5 +560,17 @@
         private System.Windows.Forms.CheckBox layerCountCheckBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox iterationsTextBox;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.NumericUpDown macdPeriod;
+        private System.Windows.Forms.NumericUpDown rocPeriod;
+        private System.Windows.Forms.NumericUpDown emaPeriod;
+        private System.Windows.Forms.NumericUpDown wmaPeriod;
+        private System.Windows.Forms.NumericUpDown smaPeriod;
+        private System.Windows.Forms.CheckBox oscill;
+        private System.Windows.Forms.CheckBox macd;
+        private System.Windows.Forms.CheckBox roc;
+        private System.Windows.Forms.CheckBox ema;
+        private System.Windows.Forms.CheckBox wma;
+        private System.Windows.Forms.CheckBox sma;
     }
 }

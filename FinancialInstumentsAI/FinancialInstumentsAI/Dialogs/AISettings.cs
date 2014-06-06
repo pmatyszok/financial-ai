@@ -16,6 +16,7 @@ namespace FinancialInstumentsAI.Dialogs
         public static double LearnerRate { get; set; }
         public static double LearnerMomentum { get; set; }
         public static int IterationsCount { get; set; }
+        public static List<KeyValuePair<Indi, int>> indicator = new List<KeyValuePair<Indi, int>>();
 
         private AISettings()
         {
@@ -48,7 +49,7 @@ namespace FinancialInstumentsAI.Dialogs
         }
 
         private void initFuncComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        {            
             if (initFuncComboBox.SelectedIndex == 1)
             {
                 activFuncComboBox.SelectedIndex = 1;
@@ -69,7 +70,7 @@ namespace FinancialInstumentsAI.Dialogs
         }        
 
         private void assignValue()
-        {
+        {           
             switch (initFuncComboBox.SelectedIndex)
             {
                 case (0):
@@ -98,7 +99,11 @@ namespace FinancialInstumentsAI.Dialogs
             LearnerRate = (double)rateNumeric.Value;
             LearnerMomentum = (double)momentumNumeric.Value;
 
-            Layer = new List<int> { (int)windowSize.Value };
+
+            int firstLayer = (int)windowSize.Value;
+            firstLayer += addIndicators();
+
+            Layer = new List<int> { firstLayer };
             if (layerCountCheckBox.Checked)
             {
                 for (int i = 0; i < (int)layersNumeric.Value - 2; i++)
@@ -127,6 +132,49 @@ namespace FinancialInstumentsAI.Dialogs
                 iterations = 1000;
             }
             IterationsCount = iterations;
+        }
+
+        private int addIndicators()
+        {
+            int toAddForFirstLayer = 0;
+            indicator.Clear();
+            if (sma.CheckState == CheckState.Checked)
+            {                 
+                indicator.Add(new KeyValuePair<Indi, int>(new Indi(Indicators.Indicators.SMA), (int)smaPeriod.Value));
+                toAddForFirstLayer++;
+            }
+
+            if (wma.CheckState == CheckState.Checked)
+            {
+                indicator.Add(new KeyValuePair<Indi, int>(new Indi(Indicators.Indicators.WMA), (int)wmaPeriod.Value));
+                toAddForFirstLayer++;
+            }
+
+            if (ema.CheckState == CheckState.Checked)
+            {
+                indicator.Add(new KeyValuePair<Indi, int>(new Indi(Indicators.Indicators.EMA), (int)emaPeriod.Value));
+                toAddForFirstLayer++;
+            }
+
+            if (roc.CheckState == CheckState.Checked)
+            {
+                indicator.Add(new KeyValuePair<Indi, int>(new Indi(Indicators.Indicators.ROC), (int)rocPeriod.Value));
+                toAddForFirstLayer++;
+            }
+
+            if (macd.CheckState == CheckState.Checked)
+            {
+                indicator.Add(new KeyValuePair<Indi, int>(new Indi(Indicators.Indicators.MACD), (int)macdPeriod.Value));
+                toAddForFirstLayer++;
+            }
+
+            if (oscill.CheckState == CheckState.Checked)
+            {
+                indicator.Add(new KeyValuePair<Indi, int>(new Indi(Indicators.Indicators.Oscillator), 0));
+                toAddForFirstLayer++;
+            }
+
+            return toAddForFirstLayer;
         }
     }
 }
