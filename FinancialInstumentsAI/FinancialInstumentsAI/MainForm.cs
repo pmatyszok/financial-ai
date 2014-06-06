@@ -136,7 +136,7 @@ namespace FinancialInstumentsAI
                     if (chart == null) return;
 
                     KeyValuePair<DateTime, double>[] data =
-                        MstFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
+                        PrnFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
                                                      selectedSource);
 
                     if ((data == null) || (data.Count() == 0))

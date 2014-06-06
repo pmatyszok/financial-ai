@@ -75,6 +75,7 @@
     <Compile Include="Dialogs\SelectData.Designer.cs">
       <DependentUpon>SelectData.cs</DependentUpon>
     </Compile>
+    <Compile Include="FinancialParser\PrnFinancialParser.cs" />
     <Compile Include="FinancialParser\MstFinancialParser.cs" />
     <Compile Include="Indicators\Indicators.cs" />
     <Compile Include="MainForm.cs">

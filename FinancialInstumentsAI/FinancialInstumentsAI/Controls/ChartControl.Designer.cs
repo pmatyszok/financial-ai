@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbFixedSeries = new System.Windows.Forms.CheckBox();
             this.cbPredictedSeries = new System.Windows.Forms.CheckBox();
+            this.cbFixedSeries = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // chart
             // 
-            chartArea5.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea5);
+            chartArea1.Name = "ChartArea";
+            this.chart.ChartAreas.Add(chartArea1);
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend5.Name = "Legend1";
-            this.chart.Legends.Add(legend5);
+            legend1.Name = "Legend1";
+            this.chart.Legends.Add(legend1);
             this.chart.Location = new System.Drawing.Point(124, 0);
             this.chart.Name = "chart";
             this.chart.Size = new System.Drawing.Size(540, 324);
@@ -64,19 +64,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chart settings";
             // 
-            // cbFixedSeries
-            // 
-            this.cbFixedSeries.AutoSize = true;
-            this.cbFixedSeries.Checked = true;
-            this.cbFixedSeries.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbFixedSeries.Location = new System.Drawing.Point(6, 19);
-            this.cbFixedSeries.Name = "cbFixedSeries";
-            this.cbFixedSeries.Size = new System.Drawing.Size(81, 17);
-            this.cbFixedSeries.TabIndex = 0;
-            this.cbFixedSeries.Text = "Fixed series";
-            this.cbFixedSeries.UseVisualStyleBackColor = true;
-            this.cbFixedSeries.CheckedChanged += new System.EventHandler(this.cbFixedSeries_CheckedChanged);
-            // 
             // cbPredictedSeries
             // 
             this.cbPredictedSeries.AutoSize = true;
@@ -89,6 +76,19 @@
             this.cbPredictedSeries.Text = "Predicted series";
             this.cbPredictedSeries.UseVisualStyleBackColor = true;
             this.cbPredictedSeries.CheckedChanged += new System.EventHandler(this.cbPredictedSeries_CheckedChanged);
+            // 
+            // cbFixedSeries
+            // 
+            this.cbFixedSeries.AutoSize = true;
+            this.cbFixedSeries.Checked = true;
+            this.cbFixedSeries.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbFixedSeries.Location = new System.Drawing.Point(6, 19);
+            this.cbFixedSeries.Name = "cbFixedSeries";
+            this.cbFixedSeries.Size = new System.Drawing.Size(81, 17);
+            this.cbFixedSeries.TabIndex = 0;
+            this.cbFixedSeries.Text = "Fixed series";
+            this.cbFixedSeries.UseVisualStyleBackColor = true;
+            this.cbFixedSeries.CheckedChanged += new System.EventHandler(this.cbFixedSeries_CheckedChanged);
             // 
             // ChartControl
             // 
@@ -108,8 +108,8 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        public System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private System.Windows.Forms.CheckBox cbPredictedSeries;
         private System.Windows.Forms.CheckBox cbFixedSeries;
+        public System.Windows.Forms.DataVisualization.Charting.Chart chart;
     }
 }

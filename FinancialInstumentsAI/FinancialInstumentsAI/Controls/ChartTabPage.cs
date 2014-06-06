@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -30,12 +31,26 @@ namespace FinancialInstumentsAI.Controls
         public KeyValuePair<DateTime, double>[] FixedValues { get; set; }
         public KeyValuePair<DateTime, double>[] PredictedValues { get; set; }
 
+        private double GetMinValue()
+        {
+            double min1 = double.MaxValue, min2 = double.MaxValue;
+            if (FixedValues != null)
+                min1 = FixedValues.Min(pair => pair.Value);
+            if (PredictedValues != null)
+                min2 = PredictedValues.Min(pair => pair.Value);
+            return min1 < min2 ? min1 : min2;
+        }
+
         public void UpdateFixedSeries(string name)
         {
+            if (FixedValues == null) return;
+
             chartControl.FixedSeries.Name = name;
             chartControl.FixedSeries.Enabled = true;
 
             chartControl.FixedSeries.Points.Clear();
+
+            chartControl.chart.ChartAreas[0].AxisY.Minimum = GetMinValue();
 
             foreach (var value in FixedValues)
             {
@@ -45,10 +60,14 @@ namespace FinancialInstumentsAI.Controls
 
         public void UpdatePredictedSeries(string name)
         {
+            if (PredictedValues == null) return;
+
             chartControl.PredictedSeries.Name = name;
             chartControl.PredictedSeries.Enabled = true;
 
             chartControl.PredictedSeries.Points.Clear();
+
+            chartControl.chart.ChartAreas[0].AxisY.Minimum = GetMinValue();
 
             foreach (var value in PredictedValues)
             {
