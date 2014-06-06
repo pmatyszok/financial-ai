@@ -57,10 +57,10 @@ namespace FinancialInstumentsAI.Indicators
         public static double[] EMA(double[] data, int period, int predValueIndex)
         {
             double[] toReturn = new double[predValueIndex];
-            toReturn[0] = data[0] * (2 / (period + 1));
+            toReturn[0] = data[0] * (2.0 / (period + 1.0));
             for (int i = 1; i < predValueIndex; i++)
             {
-                toReturn[i] = (data[i] * (2 / (period + 1))) + (toReturn[i-1]*(1-((2 / (period + 1)))));
+                toReturn[i] = (data[i] * (2.0 / (period + 1.0))) + (toReturn[i-1]*(1.0-((2.0 / (period + 1.0)))));
             }
             return toReturn;
         }

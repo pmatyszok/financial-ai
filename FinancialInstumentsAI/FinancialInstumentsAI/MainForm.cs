@@ -196,7 +196,7 @@ namespace FinancialInstumentsAI
                 {
                     input[i][j] = TransformData(data[i + j], min, range);
                 }
-                output[i][0] = TransformData(data[i + layer[0]], min, range);
+                output[i][0] = TransformData(data[i + layer[0]- indicator.Count], min, range);
             }
 
 
