@@ -39,7 +39,7 @@ namespace FinancialInstumentsAI
         private Network network;
         private double rate;
         
-        private bool teach100, predOneValue;
+        private bool teach100;
         private List<KeyValuePair<Indi, int>> indicator = new List<KeyValuePair<Indi, int>>();
        
 
@@ -64,7 +64,7 @@ namespace FinancialInstumentsAI
 
         private void LoadExampleSinusData()
         {
-            double min = 0, max = 0;
+            double min, max;
             double[] data = ReadSinData(out min, out max);
 
             var chart = tcCharts.SelectedTab as ChartTabPage;
@@ -84,7 +84,7 @@ namespace FinancialInstumentsAI
                 AISettings.Instance.Show(this);           
         }
 
-        public void setSettings()
+        public void SetSettings()
         {
             activ = AISettings.Activ;
             init = AISettings.Init;
@@ -94,7 +94,7 @@ namespace FinancialInstumentsAI
             rate = AISettings.LearnerRate;
             momentum = AISettings.LearnerMomentum;
             eraCount = AISettings.IterationsCount;
-            indicator = AISettings.indicator;
+            indicator = AISettings.Indicator;
         }
 
         private void setSourceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -198,7 +198,7 @@ namespace FinancialInstumentsAI
                 }
                 output[i][0] = TransformData(data[i + layer[0]- indicator.Count], min, range);
             }
-            double[][] indicatorValue = indicatorsData(data.Length);
+            double[][] indicatorValue = IndicatorsData(data.Length);
             for (int i = 0; i < learningSamples; i++)
             {
                 for (int j = layer[0] - indicator.Count; j < layer[0]; j++)
@@ -239,7 +239,7 @@ namespace FinancialInstumentsAI
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
             if (chartTabPage == null) return;
             double[] data = chartTabPage.Data;
-            int pred= 0;
+            int pred;
             try
             {
                 pred = int.Parse(string.IsNullOrEmpty(toPred.Text) ? "0" : toPred.Text);
@@ -279,7 +279,7 @@ namespace FinancialInstumentsAI
             ProgressBar.Maximum = 100;
             ProgressBar.Step = 10;
 
-            double[][] indicatorValue = indicatorsData(data.Length);
+            double[][] indicatorValue = IndicatorsData(data.Length);
             for (int j = 0; j < pred; j++)
             {
                 for (int k = 0; k < layer[0]- indicator.Count; k++)
@@ -314,7 +314,6 @@ namespace FinancialInstumentsAI
             }
             predErrorLabel.Text = "Predict value RMS error: " + RMS(data, aproximated).ToString("F6");
             ChartTabPage chart = chartTabPage;
-            if (chart == null) return;
             chart.DrawPred("predicted", aproximated);
         }  
 
@@ -352,14 +351,12 @@ namespace FinancialInstumentsAI
         {
             if (network != null)
             {
-                bool one = false;
-                if (oneValue.CheckState == CheckState.Checked)
-                    one = true;
+                bool one = oneValue.CheckState == CheckState.Checked;
                 Predict(teach100, one);
             }
         }
 
-        private double [][] indicatorsData(int count)
+        private double [][] IndicatorsData(int count)
         {
             double[][] toReturn = new double[indicator.Count][];
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
@@ -373,11 +370,7 @@ namespace FinancialInstumentsAI
 
         private double RMS(double[] data, double[] pedictData)
         {
-            double error = 0;
-            for (int i = 0; i < pedictData.Length; i++)
-            {
-                error += Math.Pow(pedictData[i] - data[data.Length - pedictData.Length + i], 2);   
-            }
+            double error = pedictData.Select((t, i) => Math.Pow(t - data[data.Length - pedictData.Length + i], 2)).Sum();
             error /= pedictData.Length;
             error = Math.Sqrt(error);
             return error;
@@ -429,7 +422,7 @@ namespace FinancialInstumentsAI
 
         private void TeachSinus()
         {
-            double min = 0, max = 0;
+            double min, max;
             double[] data = ReadSinData(out min, out max);
             min = data.Min();
             max = data.Max();
@@ -457,8 +450,6 @@ namespace FinancialInstumentsAI
 
             learner.Rate = rate;
             learner.Momentum = momentum;
-            var solution = new double[data.Length - layer[0], 2];
-            var netInput = new double[layer[0]];
 
             for (int i = 0; i < eraCount; i++)
             {
@@ -470,13 +461,13 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                te.Text = "Teach error: " + learner.TeachOnSamples(ins, outs).ToString("F6"); ;
+                te.Text = "Teach error: " + learner.TeachOnSamples(ins, outs).ToString("F6");
             }
         }
 
         private void PredictSinus()
         {
-            double min = 0, max = 0;
+            double min, max;
             double[] data = ReadSinData(out min, out max);
             min = data.Min();
             max = data.Max();

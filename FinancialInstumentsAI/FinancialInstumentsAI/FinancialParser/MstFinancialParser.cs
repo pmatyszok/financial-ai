@@ -13,8 +13,8 @@ namespace FinancialInstumentsAI.FinancialParser
         {
             string extension = Path.GetExtension(source);
             if (extension == null || !File.Exists(source)) return null;
-            int dateIndex = 0;
-            int valueIndex = 0;
+            int dateIndex;
+            int valueIndex;
             if (extension.ToLower() == ".mst")
             {
                 dateIndex = 1;

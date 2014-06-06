@@ -42,11 +42,9 @@ namespace FinancialInstumentsAI.Indicators
                 else
                 {
                     double sum = 0;
-                    double wSum = 0;
                     for (int j = 0; j < period; j++)
                     {
                         sum += data[i - j]*(period-j);
-                        wSum += (period - j);
                     }
                     toReturn[i] = sum / period;
                 }
@@ -109,13 +107,13 @@ namespace FinancialInstumentsAI.Indicators
                 if (i < period)
                 {
                     double[] sub = SubArray<double>(data, 0, i);
-                    if (sub.Max() != sub.Min())
+                    if (Math.Abs(sub.Max() - sub.Min()) > 0.001)
                         toReturn[i] = (data[i] - sub.Min()) / (sub.Max() - sub.Min()) * 100;
                 }
                 else
                 {
                     double[] sub = SubArray<double>(data, i - period, period);
-                    if (sub.Max() != sub.Min())
+                    if (Math.Abs(sub.Max() - sub.Min()) > 0.001)
                         toReturn[i]= (data[i]- sub.Min())/(sub.Max() - sub.Min()) * 100;
                 }
             }
