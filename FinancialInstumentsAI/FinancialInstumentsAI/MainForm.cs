@@ -142,11 +142,11 @@ namespace FinancialInstumentsAI
                     if ((data == null) || (data.Count() == 0))
                         return;
 
-                    var selectedData = new Stack<double>();
+                    var selectedData = new Stack<KeyValuePair<DateTime, double>>();
 
                     foreach (var d in data.Where(d => (d.Key >= selectTime.DateFrom) && (d.Key <= selectTime.DateTo)))
                     {
-                        selectedData.Push(d.Value);
+                        selectedData.Push(d);
                     }
 
                     if (!selectedData.Any())
@@ -155,8 +155,8 @@ namespace FinancialInstumentsAI
                         return;
                     }
 
-                    chart.Data = selectedData.ToArray();
-                    chart.Draw(selectedSource);
+                    chart.FixedValues = selectedData.ToArray();
+                    chart.UpdateFixedSeries(selectedSource);
                 }
             }
         }
