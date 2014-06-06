@@ -67,6 +67,7 @@
             this.ema = new System.Windows.Forms.CheckBox();
             this.wma = new System.Windows.Forms.CheckBox();
             this.sma = new System.Windows.Forms.CheckBox();
+            this.oscillValue = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.windowSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).BeginInit();
@@ -83,6 +84,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.emaPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.wmaPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smaPeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.oscillValue)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -373,6 +375,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.oscillValue);
             this.groupBox5.Controls.Add(this.macdPeriod);
             this.groupBox5.Controls.Add(this.rocPeriod);
             this.groupBox5.Controls.Add(this.emaPeriod);
@@ -429,7 +432,7 @@
             // oscill
             // 
             this.oscill.AutoSize = true;
-            this.oscill.Location = new System.Drawing.Point(8, 146);
+            this.oscill.Location = new System.Drawing.Point(8, 149);
             this.oscill.Name = "oscill";
             this.oscill.Size = new System.Drawing.Size(69, 17);
             this.oscill.TabIndex = 5;
@@ -486,6 +489,13 @@
             this.sma.Text = "SMA";
             this.sma.UseVisualStyleBackColor = true;
             // 
+            // oscillValue
+            // 
+            this.oscillValue.Location = new System.Drawing.Point(93, 146);
+            this.oscillValue.Name = "oscillValue";
+            this.oscillValue.Size = new System.Drawing.Size(39, 20);
+            this.oscillValue.TabIndex = 11;
+            // 
             // AISettings
             // 
             this.AcceptButton = this.btnOK;
@@ -526,6 +536,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.emaPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.wmaPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.smaPeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.oscillValue)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -572,5 +583,6 @@
         private System.Windows.Forms.CheckBox ema;
         private System.Windows.Forms.CheckBox wma;
         private System.Windows.Forms.CheckBox sma;
+        private System.Windows.Forms.NumericUpDown oscillValue;
     }
 }

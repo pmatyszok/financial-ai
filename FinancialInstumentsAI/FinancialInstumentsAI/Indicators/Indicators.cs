@@ -8,21 +8,21 @@ namespace FinancialInstumentsAI.Indicators
 {
     internal static class Indicators
     {
-        public static double[] SMA(double[][] data, int period, int predValueIndex)
+        public static double[] SMA(double[] data, int period, int predValueIndex)
         {
             double[] toReturn = new double[predValueIndex];
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < predValueIndex; i++)
             {
                 if (i < period)
                 {
-                    toReturn[i] = data[i][data[0].Length];
+                    toReturn[i] = data[i];
                 }
                 else
                 {
                     double sum = 0;
                     for (int j = 0; j < period; j++)
                     {
-                        sum += data[i - j][data[0].Length];
+                        sum += data[i - j];
                     }
                     toReturn[i] = sum / period;
                 }
@@ -30,29 +30,103 @@ namespace FinancialInstumentsAI.Indicators
             return toReturn;
         }
 
-        public static double[] WMA(double[][] data, int period, int predValueIndex)
+        public static double[] WMA(double[] data, int period, int predValueIndex)
         {
-            return new double[] { 22, 2, 2 };
+            double[] toReturn = new double[predValueIndex];
+            for (int i = 0; i < predValueIndex; i++)
+            {
+                if (i < period)
+                {
+                    toReturn[i] = data[i];
+                }
+                else
+                {
+                    double sum = 0;
+                    double wSum = 0;
+                    for (int j = 0; j < period; j++)
+                    {
+                        sum += data[i - j]*(period-j);
+                        wSum += (period - j);
+                    }
+                    toReturn[i] = sum / period;
+                }
+            }
+            return toReturn;
         }
 
-        public static double[] EMA(double[][] data, int period, int predValueIndex)
+        public static double[] EMA(double[] data, int period, int predValueIndex)
         {
-            return new double[] { 62, 2, 2 };
+            double[] toReturn = new double[predValueIndex];
+            toReturn[0] = data[0] * (2 / (period + 1));
+            for (int i = 1; i < predValueIndex; i++)
+            {
+                toReturn[i] = (data[i] * (2 / (period + 1))) + (toReturn[i-1]*(1-((2 / (period + 1)))));
+            }
+            return toReturn;
         }
 
-        public static double[] ROC(double[][] data, int period, int predValueIndex)
+        public static double[] ROC(double[] data, int period, int predValueIndex)
         {
-            return new double[] { 12, 2, 2 };
+            double[] toReturn = new double[predValueIndex];
+            for (int i = 0; i < predValueIndex; i++)
+            {
+                if (i < period)
+                {
+                    toReturn[i] = data[i] / data[i] - 1;
+                }
+                else
+                {
+                    toReturn[i] = data[i] / data[i-period] - 1;
+                }
+            }
+            return toReturn;
         }
 
-        public static double[] MACD(double[][] data, int period, int predValueIndex)
+        public static double[] MACD(double[] data, int period, int predValueIndex)
         {
-            return new double[] { 2, 22, 2 };
+            double[] ema1 = EMA(data,period,predValueIndex);
+            double[] ema2 = EMA(data, period/2, predValueIndex);
+            double[] macd = new double[predValueIndex];
+            double[] toReturn = new double[predValueIndex];
+            for (int i = 0; i < predValueIndex; i++)
+            {
+                macd[1] = ema2[i] / ema1[i];
+            }
+            toReturn[0] = macd[0] * (2 / (period + 1));
+            for (int i = 1; i < predValueIndex; i++)
+            {
+                toReturn[i] = (macd[i] * (2 / (period + 1))) + (toReturn[i - 1] * (1 - ((2 / (period + 1)))));
+            }
+            return toReturn;
         }
 
-        public static double[] Oscillator(double[][] data, int irrelevant, int predValueIndex)
+        public static double[] Oscillator(double[] data, int period, int predValueIndex)
         {
-            return new double[] { 2, 2, 42 };
+            double[] toReturn = new double[predValueIndex];
+            toReturn[0] = 0;
+            for (int i = 1; i < predValueIndex; i++)
+            {
+                if (i < period)
+                {
+                    double[] sub = SubArray<double>(data, 0, i);
+                    if (sub.Max() != sub.Min())
+                        toReturn[i] = (data[i] - sub.Min()) / (sub.Max() - sub.Min()) * 100;
+                }
+                else
+                {
+                    double[] sub = SubArray<double>(data, i - period, period);
+                    if (sub.Max() != sub.Min())
+                        toReturn[i]= (data[i]- sub.Min())/(sub.Max() - sub.Min()) * 100;
+                }
+            }
+            return toReturn;
+        }
+
+        public static T[] SubArray<T>(this T[] data, int index, int length)
+        {
+            T[] result = new T[length];
+            Array.Copy(data, index, result, 0, length);
+            return result;
         }
     }
 }

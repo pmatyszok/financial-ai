@@ -170,7 +170,7 @@ namespace FinancialInstumentsAI.Dialogs
 
             if (oscill.CheckState == CheckState.Checked)
             {
-                indicator.Add(new KeyValuePair<Indi, int>(new Indi(Indicators.Indicators.Oscillator), 0));
+                indicator.Add(new KeyValuePair<Indi, int>(new Indi(Indicators.Indicators.Oscillator), (int)oscillValue.Value));
                 toAddForFirstLayer++;
             }
 

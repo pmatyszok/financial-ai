@@ -7,8 +7,7 @@ namespace FinancialInstumentsAI.Controls
 {
     public partial class ChartTabPage : TabPage
     {
-        public double[] Data { get; set; }
-        public double[][] FullData { get; set; }
+        public double[] Data { get; set; }        
         public ChartTabPage(string text = null) : base(text)
         {
             InitializeComponent();
@@ -26,8 +25,7 @@ namespace FinancialInstumentsAI.Controls
         }
         
         public void Draw(string name)
-        {
-            setPartialData();
+        {           
             Series seria = chartControl.chart.Series.Add(name);
             seria.ChartType = SeriesChartType.Line;
             foreach (double elem in Data)
@@ -49,18 +47,6 @@ namespace FinancialInstumentsAI.Controls
             {
                 seria.Points.Add(elem);
             }
-        }
-
-        public void setPartialData()
-        {
-            if (FullData != null)
-            {
-                Data = new double[FullData.Length];
-                for (int i = 0; i < FullData.Length; i++)
-                {
-                    Data[i] = FullData[i][3];
-                }
-            }
-        }
+        }        
     }
 }

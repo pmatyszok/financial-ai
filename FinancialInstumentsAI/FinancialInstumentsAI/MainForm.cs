@@ -26,7 +26,7 @@ namespace FinancialInstumentsAI
         BipolarSigmoid
     };
     
-    public delegate double[] Indi(double[][] data, int period, int predValueIndex);
+    public delegate double[] Indi(double[] data, int period, int predValueIndex);
 
     public partial class MainForm : Form
     {
@@ -135,14 +135,14 @@ namespace FinancialInstumentsAI
                     var chart = tcCharts.SelectedTab as ChartTabPage;
                     if (chart == null) return;
 
-                    KeyValuePair<DateTime, double[]>[] data =
+                    KeyValuePair<DateTime, double>[] data =
                         MstFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
                                                      selectedSource);
 
                     if ((data == null) || (data.Count() == 0))
                         return;
 
-                    var selectedData = new Stack<double[]>();
+                    var selectedData = new Stack<double>();
 
                     foreach (var d in data.Where(d => (d.Key >= selectTime.DateFrom) && (d.Key <= selectTime.DateTo)))
                     {
@@ -155,7 +155,7 @@ namespace FinancialInstumentsAI
                         return;
                     }
 
-                    chart.FullData = selectedData.ToArray();
+                    chart.Data = selectedData.ToArray();
                     chart.Draw(selectedSource);
                 }
             }
@@ -378,7 +378,7 @@ namespace FinancialInstumentsAI
             if (chartTabPage == null) return null;
             for (int i = 0; i < indicator.Count; i++)
             {
-                toReturn[i] = indicator[i].Key(chartTabPage.FullData,indicator[i].Value,count);
+                toReturn[i] = indicator[i].Key(chartTabPage.Data,indicator[i].Value,count);
             }
             return toReturn;
         }
