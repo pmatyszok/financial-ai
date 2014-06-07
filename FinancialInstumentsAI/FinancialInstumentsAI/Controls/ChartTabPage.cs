@@ -89,8 +89,7 @@ namespace FinancialInstumentsAI.Controls
         [Obsolete("Draw is used only for draw sinus predictions, please use UpdatePredictedSeries instead.")]
         public void DrawPred(string name, double[] points)
         {
-            if (chartControl.chart.Series.Count > 1)
-                chartControl.chart.Series.RemoveAt(1);
+            chartControl.chart.Series.Remove(chartControl.chart.Series.FindByName(name));
             Series seria = chartControl.chart.Series.Add(name);
             seria.ChartType = SeriesChartType.Line;
             var toAdd = new double[Data.Length];

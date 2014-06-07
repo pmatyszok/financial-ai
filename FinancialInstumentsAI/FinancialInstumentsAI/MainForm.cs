@@ -25,23 +25,23 @@ namespace FinancialInstumentsAI
         Sigmoid,
         BipolarSigmoid
     };
-    
+
     public delegate double[] Indi(double[] data, int period, int predValueIndex);
 
     public partial class MainForm : Form
     {
         private IActivationFunction activ;
         private int eraCount;
+        private List<KeyValuePair<Indi, int>> indicator = new List<KeyValuePair<Indi, int>>();
         private INeuronInitilizer init;
         private List<int> layer;
         private Teacher learner;
         private double momentum;
         private Network network;
         private double rate;
-        
+
         private bool teach100;
-        private List<KeyValuePair<Indi, int>> indicator = new List<KeyValuePair<Indi, int>>();
-       
+
 
         public MainForm()
         {
@@ -80,8 +80,8 @@ namespace FinancialInstumentsAI
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(AISettings.Instance.Visible == false)
-                AISettings.Instance.Show(this);           
+            if (AISettings.Instance.Visible == false)
+                AISettings.Instance.Show(this);
         }
 
         public void SetSettings()
@@ -105,8 +105,8 @@ namespace FinancialInstumentsAI
                 foreach (
                     string file in
                         Directory.GetFiles(folderBrowserDialog.SelectedPath, "*.*")
-                        .Where(file => file.ToLower().EndsWith("mst") || file.ToLower().EndsWith("prn"))
-                        .Select(Path.GetFileName))
+                            .Where(file => file.ToLower().EndsWith("mst") || file.ToLower().EndsWith("prn"))
+                            .Select(Path.GetFileName))
                 {
                     lbSourceList.Items.Add(file);
                 }
@@ -169,18 +169,14 @@ namespace FinancialInstumentsAI
         private void Teach(bool full = true)
         {
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
-            if (chartTabPage == null) return;
-            double[] data;
-            if (full)
-            {
-                data = chartTabPage.Data;
-            }
-            else
-            {
-                int toTeach = (int)(chartTabPage.Data.Length * 0.7);
-                data = new double[toTeach];
-                Array.Copy(chartTabPage.Data, data, toTeach);
-            }
+            if ((chartTabPage == null) || (chartTabPage.FixedValues == null)) return;
+            int toTeach = chartTabPage.FixedValues.Length;
+            if (!full) toTeach = (int)(toTeach * 0.7);
+
+            var data = new double[toTeach];
+            for (int i = 0; i < data.Count(); i++)
+                data[i] = chartTabPage.FixedValues[i].Value;
+
             double min = data.Min();
             double max = data.Max();
             double range = (max - min);
@@ -196,21 +192,24 @@ namespace FinancialInstumentsAI
                 {
                     input[i][j] = TransformData(data[i + j], min, range);
                 }
-                output[i][0] = TransformData(data[i + layer[0]- indicator.Count], min, range);
+                output[i][0] = TransformData(data[i + layer[0] - indicator.Count], min, range);
             }
             double[][] indicatorValue = IndicatorsData(data.Length);
             for (int i = 0; i < learningSamples; i++)
             {
                 for (int j = layer[0] - indicator.Count; j < layer[0]; j++)
                 {
-                    input[i][j] = TransformData(indicatorValue[j - layer[0] + indicator.Count][i + layer[0] - indicator.Count]
-                        , indicatorValue[j - layer[0] + indicator.Count].Min()
-                        , indicatorValue[j - layer[0] + indicator.Count].Max() - indicatorValue[j - layer[0] + indicator.Count].Min());
-                }                
-            }   
-         
+                    input[i][j] =
+                        TransformData(indicatorValue[j - layer[0] + indicator.Count][i + layer[0] - indicator.Count]
+                            , indicatorValue[j - layer[0] + indicator.Count].Min()
+                            ,
+                            indicatorValue[j - layer[0] + indicator.Count].Max() -
+                            indicatorValue[j - layer[0] + indicator.Count].Min());
+                }
+            }
+
             learner.Rate = rate;
-            learner.Momentum = momentum;  
+            learner.Momentum = momentum;
             ProgressBar.Value = 0;
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = 100;
@@ -226,19 +225,23 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                te.Text ="Teach error: " + learner.TeachOnSamples(ins, outs).ToString("F6");                
-                if (i % (eraCount / 100) == 0)
+                te.Text = "Teach error: " + learner.TeachOnSamples(ins, outs).ToString("F6");
+                if ((eraCount / 100) > 0 && i % (eraCount / 100) == 0)
                 {
                     ProgressBar.PerformStep();
                 }
             }
         }
 
-        private void Predict(bool full= true,bool predictOneValue = true)
+        private void Predict(bool full = true, bool predictOneValue = true)
         {
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
-            if (chartTabPage == null) return;
-            double[] data = chartTabPage.Data;
+            if ((chartTabPage == null) || (chartTabPage.FixedValues == null)) return;
+
+            var data = new double[chartTabPage.FixedValues.Length];
+            for (int i = 0; i < data.Count(); i++)
+                data[i] = chartTabPage.FixedValues[i].Value;
+
             int pred;
             try
             {
@@ -246,29 +249,28 @@ namespace FinancialInstumentsAI
             }
             catch (FormatException)
             {
-                pred = (int)(chartTabPage.Data.Length * 0.3);
+                pred = (int)(chartTabPage.FixedValues.Length * 0.3);
             }
             if (predictOneValue)
             {
                 if (full)
                 {
-                    if (pred > chartTabPage.Data.Length - layer[0])
-                        pred = chartTabPage.Data.Length - layer[0];                    
+                    if (pred > chartTabPage.FixedValues.Length - layer[0])
+                        pred = chartTabPage.FixedValues.Length - layer[0];
                 }
                 else
                 {
-                    pred = (int)(chartTabPage.Data.Length * 0.3);
-                    
+                    pred = (int)(chartTabPage.FixedValues.Length * 0.3);
                 }
             }
             else
             {
-                pred = (int)(chartTabPage.Data.Length * 0.3);               
+                pred = (int)(chartTabPage.FixedValues.Length * 0.3);
             }
-            predLabel.Text = "Predict: " + pred.ToString();
+            predLabel.Text = "Predict: " + pred;
 
-            double min = chartTabPage.Data.Min();
-            double max = chartTabPage.Data.Max();
+            double min = chartTabPage.FixedValues.Min(pair => pair.Value);
+            double max = chartTabPage.FixedValues.Max(pair => pair.Value);
             double range = (max - min);
 
             var solution = new double[pred, 2];
@@ -282,7 +284,7 @@ namespace FinancialInstumentsAI
             double[][] indicatorValue = IndicatorsData(data.Length);
             for (int j = 0; j < pred; j++)
             {
-                for (int k = 0; k < layer[0]- indicator.Count; k++)
+                for (int k = 0; k < layer[0] - indicator.Count; k++)
                 {
                     netInput[k] = TransformData(data[j + data.Length - pred - layer[0] + k], min, range);
                 }
@@ -290,8 +292,10 @@ namespace FinancialInstumentsAI
                 {
                     netInput[l] = TransformData(indicatorValue[l - layer[0] + indicator.Count][j + data.Length - pred]
                         , indicatorValue[l - layer[0] + indicator.Count].Min()
-                        , indicatorValue[l - layer[0] + indicator.Count].Max() - indicatorValue[l - layer[0] + indicator.Count].Min());
-                }  
+                        ,
+                        indicatorValue[l - layer[0] + indicator.Count].Max() -
+                        indicatorValue[l - layer[0] + indicator.Count].Min());
+                }
                 solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);
                 if (!predictOneValue)
                 {
@@ -314,8 +318,20 @@ namespace FinancialInstumentsAI
             }
             predErrorLabel.Text = "Predict value RMS error: " + RMS(data, aproximated).ToString("F6");
             ChartTabPage chart = chartTabPage;
-            chart.DrawPred("predicted", aproximated);
-        }  
+            chart.PredictedValues = new KeyValuePair<DateTime, double>[chart.FixedValues.Length];
+
+            int predStartIndex = chart.FixedValues.Length - aproximated.Length;
+
+            Array.Copy(chart.FixedValues, chart.PredictedValues, predStartIndex);
+
+            for (int i = 0; i < aproximated.Length; i++)
+            {
+                chart.PredictedValues[predStartIndex + i] =
+                    new KeyValuePair<DateTime, double>(chart.FixedValues[predStartIndex + i].Key, aproximated[i]);
+            }
+
+            chart.UpdatePredictedSeries("predicted");
+        }
 
         private double TransformData(double input, double min, double range)
         {
@@ -345,7 +361,7 @@ namespace FinancialInstumentsAI
                 Teach();
                 teach100 = true;
             }
-        }      
+        }
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -356,14 +372,14 @@ namespace FinancialInstumentsAI
             }
         }
 
-        private double [][] IndicatorsData(int count)
+        private double[][] IndicatorsData(int count)
         {
-            double[][] toReturn = new double[indicator.Count][];
+            var toReturn = new double[indicator.Count][];
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
             if (chartTabPage == null) return null;
             for (int i = 0; i < indicator.Count; i++)
             {
-                toReturn[i] = indicator[i].Key(chartTabPage.Data,indicator[i].Value,count);
+                toReturn[i] = indicator[i].Key(chartTabPage.Data, indicator[i].Value, count);
             }
             return toReturn;
         }
@@ -375,6 +391,7 @@ namespace FinancialInstumentsAI
             error = Math.Sqrt(error);
             return error;
         }
+
         //------------------------------------
         //for sinus       
         private static double[] ReadSinData(out double min, out double max)
@@ -514,7 +531,7 @@ namespace FinancialInstumentsAI
         private void runSinToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (network != null)
-            {               
+            {
                 PredictSinus();
             }
         }
@@ -525,7 +542,8 @@ namespace FinancialInstumentsAI
             {
                 TeachSinus();
             }
-        }     
+        }
+
         //-------------------------------
     }
 }
