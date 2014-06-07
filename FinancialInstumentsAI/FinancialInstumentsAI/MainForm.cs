@@ -201,7 +201,7 @@ namespace FinancialInstumentsAI
                 for (int j = layer[0] - indicator.Count; j < layer[0]; j++)
                 {
                     input[i][j] =
-                        TransformData(indicatorValue[j - layer[0] + indicator.Count][i + layer[0] - indicator.Count]
+                        TransformData(indicatorValue[j - layer[0] + indicator.Count][i + layer[0] - indicator.Count-1]
                             , indicatorValue[j - layer[0] + indicator.Count].Min()
                             ,
                             indicatorValue[j - layer[0] + indicator.Count].Max() -
@@ -266,7 +266,9 @@ namespace FinancialInstumentsAI
             }
             else
             {
-                pred = (int)(chartTabPage.FixedValues.Length * 0.3);
+                int maxi = (int)(chartTabPage.FixedValues.Length * 0.3);
+                if (pred > maxi || pred ==0)
+                    pred = maxi;                
             }
             predLabel.Text = "Predict: " + pred;
 
@@ -291,7 +293,7 @@ namespace FinancialInstumentsAI
                 }
                 for (int l = layer[0] - indicator.Count; l < layer[0]; l++)
                 {
-                    netInput[l] = TransformData(indicatorValue[l - layer[0] + indicator.Count][j + data.Length - pred]
+                    netInput[l] = TransformData(indicatorValue[l - layer[0] + indicator.Count][j + data.Length - pred-1]
                         , indicatorValue[l - layer[0] + indicator.Count].Min()
                         ,
                         indicatorValue[l - layer[0] + indicator.Count].Max() -
@@ -303,7 +305,7 @@ namespace FinancialInstumentsAI
                     data[data.Length - pred + j] = solution[j, 1];
                     indicatorValue = IndicatorsData(data, data.Length);
                 }
-                if (j % (pred / 10) == 0)
+                if (pred >10 && j % (pred / 10) == 0)
                 {
                     ProgressBar.PerformStep();
                 }
