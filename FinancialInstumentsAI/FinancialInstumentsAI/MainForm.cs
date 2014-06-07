@@ -157,6 +157,7 @@ namespace FinancialInstumentsAI
 
                     chart.FixedValues = selectedData.ToArray();
                     chart.UpdateFixedSeries(selectedSource);
+                    valueCount.Text = "Value count: " + chart.FixedValues.Length;
                 }
             }
         }
@@ -194,7 +195,7 @@ namespace FinancialInstumentsAI
                 }
                 output[i][0] = TransformData(data[i + layer[0] - indicator.Count], min, range);
             }
-            double[][] indicatorValue = IndicatorsData(data.Length);
+            double[][] indicatorValue = IndicatorsData(data,data.Length);
             for (int i = 0; i < learningSamples; i++)
             {
                 for (int j = layer[0] - indicator.Count; j < layer[0]; j++)
@@ -281,7 +282,7 @@ namespace FinancialInstumentsAI
             ProgressBar.Maximum = 100;
             ProgressBar.Step = 10;
 
-            double[][] indicatorValue = IndicatorsData(data.Length);
+            double[][] indicatorValue = IndicatorsData(data,data.Length);
             for (int j = 0; j < pred; j++)
             {
                 for (int k = 0; k < layer[0] - indicator.Count; k++)
@@ -300,6 +301,7 @@ namespace FinancialInstumentsAI
                 if (!predictOneValue)
                 {
                     data[data.Length - pred + j] = solution[j, 1];
+                    indicatorValue = IndicatorsData(data, data.Length);
                 }
                 if (j % (pred / 10) == 0)
                 {
@@ -316,7 +318,7 @@ namespace FinancialInstumentsAI
                     writer.WriteLine((aproximated[i]).ToString());
                 }
             }
-            predErrorLabel.Text = "Predict value RMS error: " + RMS(data, aproximated).ToString("F6");
+            predErrorLabel.Text = "Predict value RMS error: " + RMS(chartTabPage.FixedValues, aproximated).ToString("F6");
             ChartTabPage chart = chartTabPage;
             chart.PredictedValues = new KeyValuePair<DateTime, double>[chart.FixedValues.Length];
 
@@ -372,20 +374,21 @@ namespace FinancialInstumentsAI
             }
         }
 
-        private double[][] IndicatorsData(int count)
+        private double[][] IndicatorsData(double[] data,int count)
         {
-            var toReturn = new double[indicator.Count][];
-            var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
-            if (chartTabPage == null) return null;
+            var toReturn = new double[indicator.Count][];            
             for (int i = 0; i < indicator.Count; i++)
             {
-                toReturn[i] = indicator[i].Key(chartTabPage.Data, indicator[i].Value, count);
+                toReturn[i] = indicator[i].Key(data, indicator[i].Value, count);
             }
             return toReturn;
         }
 
-        private double RMS(double[] data, double[] pedictData)
+        private double RMS(KeyValuePair<DateTime,double>[] values, double[] pedictData)
         {
+            var data = new double[values.Length];
+            for (int i = 0; i < data.Count(); i++)
+                data[i] = values[i].Value;
             double error = pedictData.Select((t, i) => Math.Pow(t - data[data.Length - pedictData.Length + i], 2)).Sum();
             error /= pedictData.Length;
             error = Math.Sqrt(error);

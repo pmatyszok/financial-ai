@@ -56,6 +56,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.iterationsTextBox = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.oscillValue = new System.Windows.Forms.NumericUpDown();
             this.macdPeriod = new System.Windows.Forms.NumericUpDown();
             this.rocPeriod = new System.Windows.Forms.NumericUpDown();
             this.emaPeriod = new System.Windows.Forms.NumericUpDown();
@@ -67,7 +68,6 @@
             this.ema = new System.Windows.Forms.CheckBox();
             this.wma = new System.Windows.Forms.CheckBox();
             this.sma = new System.Windows.Forms.CheckBox();
-            this.oscillValue = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.windowSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).BeginInit();
@@ -79,12 +79,12 @@
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.oscillValue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.macdPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rocPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emaPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.wmaPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smaPeriod)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.oscillValue)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -299,6 +299,7 @@
             this.btnCancel.TabIndex = 0;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // groupBox4
             // 
@@ -393,6 +394,13 @@
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Indicators";
+            // 
+            // oscillValue
+            // 
+            this.oscillValue.Location = new System.Drawing.Point(93, 146);
+            this.oscillValue.Name = "oscillValue";
+            this.oscillValue.Size = new System.Drawing.Size(39, 20);
+            this.oscillValue.TabIndex = 11;
             // 
             // macdPeriod
             // 
@@ -489,13 +497,6 @@
             this.sma.Text = "SMA";
             this.sma.UseVisualStyleBackColor = true;
             // 
-            // oscillValue
-            // 
-            this.oscillValue.Location = new System.Drawing.Point(93, 146);
-            this.oscillValue.Name = "oscillValue";
-            this.oscillValue.Size = new System.Drawing.Size(39, 20);
-            this.oscillValue.TabIndex = 11;
-            // 
             // AISettings
             // 
             this.AcceptButton = this.btnOK;
@@ -531,12 +532,12 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.oscillValue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.macdPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rocPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emaPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.wmaPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.smaPeriod)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.oscillValue)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

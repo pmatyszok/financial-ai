@@ -177,5 +177,10 @@ namespace FinancialInstumentsAI.Dialogs
 
             return toAddForFirstLayer;
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Hide();
+        }
     }
 }

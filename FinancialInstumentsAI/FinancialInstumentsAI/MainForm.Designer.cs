@@ -51,13 +51,14 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.te = new System.Windows.Forms.ToolStripStatusLabel();
+            this.predErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.predLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbSourceList = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.splitter = new System.Windows.Forms.Splitter();
-            this.te = new System.Windows.Forms.ToolStripStatusLabel();
-            this.predErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.predLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.valueCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -219,7 +220,8 @@
             this.toolStripStatusLabel1,
             this.te,
             this.predErrorLabel,
-            this.predLabel});
+            this.predLabel,
+            this.valueCount});
             this.statusStrip1.Location = new System.Drawing.Point(0, 317);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(672, 22);
@@ -236,6 +238,24 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(37, 17);
             this.toolStripStatusLabel1.Text = "info...";
+            // 
+            // te
+            // 
+            this.te.Name = "te";
+            this.te.Size = new System.Drawing.Size(94, 17);
+            this.te.Text = "Teach error: 0.00";
+            // 
+            // predErrorLabel
+            // 
+            this.predErrorLabel.Name = "predErrorLabel";
+            this.predErrorLabel.Size = new System.Drawing.Size(157, 17);
+            this.predErrorLabel.Text = "Predict value RMS error: 0.00";
+            // 
+            // predLabel
+            // 
+            this.predLabel.Name = "predLabel";
+            this.predLabel.Size = new System.Drawing.Size(56, 17);
+            this.predLabel.Text = "Predict: 0";
             // 
             // lbSourceList
             // 
@@ -270,23 +290,11 @@
             this.splitter.TabIndex = 7;
             this.splitter.TabStop = false;
             // 
-            // te
+            // valueCount
             // 
-            this.te.Name = "te";
-            this.te.Size = new System.Drawing.Size(94, 17);
-            this.te.Text = "Teach error: 0.00";
-            // 
-            // predErrorLabel
-            // 
-            this.predErrorLabel.Name = "predErrorLabel";
-            this.predErrorLabel.Size = new System.Drawing.Size(157, 17);
-            this.predErrorLabel.Text = "Predict value RMS error: 0.00";
-            // 
-            // predLabel
-            // 
-            this.predLabel.Name = "predLabel";
-            this.predLabel.Size = new System.Drawing.Size(56, 17);
-            this.predLabel.Text = "Predict: 0";
+            this.valueCount.Name = "valueCount";
+            this.valueCount.Size = new System.Drawing.Size(76, 17);
+            this.valueCount.Text = "Value count: ";
             // 
             // MainForm
             // 
@@ -343,6 +351,7 @@
         private System.Windows.Forms.ToolStripStatusLabel te;
         private System.Windows.Forms.ToolStripStatusLabel predErrorLabel;
         private System.Windows.Forms.ToolStripStatusLabel predLabel;
+        private System.Windows.Forms.ToolStripStatusLabel valueCount;
     }
 }
 
