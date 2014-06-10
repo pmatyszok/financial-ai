@@ -45,7 +45,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnOK = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.apply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -68,6 +68,7 @@
             this.ema = new System.Windows.Forms.CheckBox();
             this.wma = new System.Windows.Forms.CheckBox();
             this.sma = new System.Windows.Forms.CheckBox();
+            this.runTests = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.windowSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).BeginInit();
@@ -259,7 +260,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.btnOK);
-            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.apply);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 375);
@@ -278,16 +279,16 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // button2
+            // apply
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button2.Location = new System.Drawing.Point(232, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 22);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Apply";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.apply.Dock = System.Windows.Forms.DockStyle.Right;
+            this.apply.Location = new System.Drawing.Point(232, 0);
+            this.apply.Name = "apply";
+            this.apply.Size = new System.Drawing.Size(75, 22);
+            this.apply.TabIndex = 1;
+            this.apply.Text = "Apply";
+            this.apply.UseVisualStyleBackColor = true;
+            this.apply.Click += new System.EventHandler(this.apply_Click);
             // 
             // btnCancel
             // 
@@ -497,6 +498,16 @@
             this.sma.Text = "SMA";
             this.sma.UseVisualStyleBackColor = true;
             // 
+            // runTests
+            // 
+            this.runTests.Location = new System.Drawing.Point(307, 260);
+            this.runTests.Name = "runTests";
+            this.runTests.Size = new System.Drawing.Size(75, 23);
+            this.runTests.TabIndex = 8;
+            this.runTests.Text = "run tests";
+            this.runTests.UseVisualStyleBackColor = true;
+            this.runTests.Click += new System.EventHandler(this.runTests_Click);
+            // 
             // AISettings
             // 
             this.AcceptButton = this.btnOK;
@@ -504,6 +515,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(382, 397);
+            this.Controls.Add(this.runTests);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.iterationsTextBox);
             this.Controls.Add(this.label9);
@@ -552,7 +564,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button apply;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
@@ -585,5 +597,6 @@
         private System.Windows.Forms.CheckBox wma;
         private System.Windows.Forms.CheckBox sma;
         private System.Windows.Forms.NumericUpDown oscillValue;
+        private System.Windows.Forms.Button runTests;
     }
 }

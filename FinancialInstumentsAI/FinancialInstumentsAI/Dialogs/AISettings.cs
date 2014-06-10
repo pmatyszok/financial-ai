@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AI.Functions;
 using AI.Neurons;
+using System.IO;
 
 namespace FinancialInstumentsAI.Dialogs
 {
@@ -41,7 +42,7 @@ namespace FinancialInstumentsAI.Dialogs
             this.Hide();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void apply_Click(object sender, EventArgs e)
         {
             AssignValue();
             var a = this.Owner as MainForm;
@@ -181,6 +182,248 @@ namespace FinancialInstumentsAI.Dialogs
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Hide();
+        }
+
+        private void tests()
+        {
+            Init = new OptimalRangeRandomInitializer(Activ = new BipolarSigmoid(2.0));
+            //Activ = new BipolarSigmoid((double)2.0);
+            LearnerRate = 0.3;
+            LearnerMomentum = 0.0;
+            IterationsCount = 500;
+            
+            using (var writer = new StreamWriter("2hidelayer.txt"))
+            {
+                string column = "window|hide layer 1|hide layer 2|teach error|predic error 30%|10 values|5 |1|predic error 30%|10 values|5 |1";
+                writer.WriteLine(column);
+                for (int j = 2; j < 10; j++)
+                {
+                    for (int i = 1; i < 21; i++)
+                    {
+                        for (int k = 1; k < 21; k++)
+                        {
+                            string toFile = j + "|" + i + "|" + k + "|";
+                            Layer = new List<int> { j };
+                            Layer.Add(i);
+                            Layer.Add(k);
+                            Layer.Add(1);
+                            var a = this.Owner as MainForm;
+                            if (a != null)
+                            {
+                                a.SetSettings();
+                                toFile += a.Teach(false).ToString("F6") + "|";
+                                toFile += a.Predict(false, true).ToString("F6") + "|";
+                                toFile += a.Predict(false, true, 10).ToString("F6") + "|";
+                                toFile += a.Predict(false, true, 5).ToString("F6") + "|";
+                                toFile += a.Predict(false, true, 1).ToString("F6") + "|";
+                                toFile += a.Predict(false, false).ToString("F6") + "|";
+                                toFile += a.Predict(false, false, 10).ToString("F6") + "|";
+                                toFile += a.Predict(false, false, 5).ToString("F6") + "|";
+                                toFile += a.Predict(false, false, 1).ToString("F6");
+                            }
+                            writer.WriteLine(toFile);
+                        }
+                    }
+                }
+            }
+
+            using (var writer = new StreamWriter("1hidelayer.txt"))
+            {
+                string column = "window|hide layer 1|teach error|predic error 30%|10 values|5 |1|predic error 30%|10 values|5 |1";
+                writer.WriteLine(column);
+                for (int j = 2; j < 10; j++)
+                {
+                    for (int i = 1; i < 21; i++)
+                    {
+                       
+                            string toFile = j + "|" + i + "|";
+                            Layer = new List<int> { j };
+                            Layer.Add(i);                           
+                            Layer.Add(1);
+                            var a = this.Owner as MainForm;
+                            if (a != null)
+                            {
+                                a.SetSettings();
+                                toFile += a.Teach(false).ToString("F6") + "|";
+                                toFile += a.Predict(false, true).ToString("F6") + "|";
+                                toFile += a.Predict(false, true, 10).ToString("F6") + "|";
+                                toFile += a.Predict(false, true, 5).ToString("F6") + "|";
+                                toFile += a.Predict(false, true, 1).ToString("F6") + "|";
+                                toFile += a.Predict(false, false).ToString("F6") + "|";
+                                toFile += a.Predict(false, false, 10).ToString("F6") + "|";
+                                toFile += a.Predict(false, false, 5).ToString("F6") + "|";
+                                toFile += a.Predict(false, false, 1).ToString("F6");
+                            }
+                            writer.WriteLine(toFile);
+                        
+                    }
+                }
+            }
+
+            using (var writer = new StreamWriter("wskazniki.txt"))
+            {
+                Init = new OptimalRangeRandomInitializer(Activ = new BipolarSigmoid(2.0));
+                ////Activ = new BipolarSigmoid((double)2.0);
+                LearnerRate = 0.3;
+                LearnerMomentum = 0.0;
+                IterationsCount = 500;
+                writer.WriteLine("indicators|argument|teach error|predic error 30%|10 values|5 |1|predic error 30%|10 values|5 |1");
+                
+                    for (int j = 0; j < 6; j++)
+                    {
+                        for (int i = 0; i < 30; i++)
+                        {
+                        string toFile = "";
+                        switch (j)
+                        {
+                            case 0:
+                                Indicator.Clear();
+                                Indicator.Add(new KeyValuePair<Indi, int>(Indicators.Indicators.SMA, i));
+                                toFile += "sma|";
+                                break;
+                            case 1:
+                                Indicator.Clear();
+                                Indicator.Add(new KeyValuePair<Indi, int>(Indicators.Indicators.WMA, i));
+                                toFile += "wma|";
+                                break;
+                            case 2:
+                                Indicator.Clear();
+                                Indicator.Add(new KeyValuePair<Indi, int>(Indicators.Indicators.EMA, i));
+                                toFile += "ema|";
+                                break;
+                            case 3:
+                                Indicator.Clear();
+                                Indicator.Add(new KeyValuePair<Indi, int>(Indicators.Indicators.ROC, i));
+                                toFile += "roc|";
+                                break;
+                            case 4:
+                                Indicator.Clear();
+                                Indicator.Add(new KeyValuePair<Indi, int>(Indicators.Indicators.MACD, i));
+                                toFile += "macd|";
+                                break;
+                            case 5:
+                                Indicator.Clear();
+                                Indicator.Add(new KeyValuePair<Indi, int>(Indicators.Indicators.Oscillator, 3 + i));
+                                toFile += "oscil|";
+                                break;
+                        }
+                        toFile += i + "|";
+                        Layer = new List<int> { 4 };
+                        Layer.Add(12);
+                        Layer.Add(1);
+                        var a = this.Owner as MainForm;
+                        if (a != null)
+                        {
+                            a.SetSettings();
+                            toFile += a.Teach(false).ToString("F6") + "|";
+                            toFile += a.Predict(false, true).ToString("F6") + "|";
+                            toFile += a.Predict(false, true, 10).ToString("F6") + "|";
+                            toFile += a.Predict(false, true, 5).ToString("F6") + "|";
+                            toFile += a.Predict(false, true, 1).ToString("F6") + "|";
+                            toFile += a.Predict(false, false).ToString("F6") + "|";
+                            toFile += a.Predict(false, false, 10).ToString("F6") + "|";
+                            toFile += a.Predict(false, false, 5).ToString("F6") + "|";
+                            toFile += a.Predict(false, false, 1).ToString("F6");
+                        }
+                        writer.WriteLine(toFile);
+                        }
+                    
+                }
+            }
+            using (var writer = new StreamWriter("parametry.txt"))
+            {
+                writer.WriteLine("rate|momentum|alpha|teach error|predic error 30%|10 values|5 |1|predic error 30%|10 values|5 |1");
+                double alpha = 0;
+                LearnerRate = 0.0;
+                LearnerMomentum = 0.0;
+                IterationsCount = 500;
+                for (int j = 0; j < 50; j++)
+                {
+                    Init = new OptimalRangeRandomInitializer(Activ = new BipolarSigmoid(2.0));
+                    //Activ = new BipolarSigmoid((double)2.0);
+
+                    string toFile = LearnerRate + "|" + LearnerMomentum + "|2.0|";
+                    Layer = new List<int> { 3 };
+                    Layer.Add(12);
+                    Layer.Add(1);
+                    var a = this.Owner as MainForm;
+                    if (a != null)
+                    {
+                        a.SetSettings();
+                        toFile += a.Teach(false).ToString("F6") + "|";
+                        toFile += a.Predict(false, true).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 10).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 5).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 1).ToString("F6") + "|";
+                        toFile += a.Predict(false, false).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 10).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 5).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 1).ToString("F6");
+                    }
+                    writer.WriteLine(toFile);
+                    LearnerRate += 0.05;
+                }
+                for (int j = 0; j < 50; j++)
+                {
+                    Init = new OptimalRangeRandomInitializer(Activ = new BipolarSigmoid(2.0));
+                    //Activ = new BipolarSigmoid((double)2.0);
+                    LearnerRate = 0.3;
+                    string toFile = LearnerRate + "|" + LearnerMomentum + "|2.0|";
+                    Layer = new List<int> { 3 };
+                    Layer.Add(12);
+                    Layer.Add(1);
+                    var a = this.Owner as MainForm;
+                    if (a != null)
+                    {
+                        a.SetSettings();
+                        toFile += a.Teach(false).ToString("F6") + "|";
+                        toFile += a.Predict(false, true).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 10).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 5).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 1).ToString("F6") + "|";
+                        toFile += a.Predict(false, false).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 10).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 5).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 1).ToString("F6");
+                    }
+                    writer.WriteLine(toFile);
+
+                    LearnerMomentum += 0.05;
+                }
+                for (int j = 0; j < 50; j++)
+                {
+                    Init = new OptimalRangeRandomInitializer(Activ = new BipolarSigmoid(alpha));
+                    //Activ = new BipolarSigmoid((double)2.0);
+                    LearnerRate = 0.3;
+                    LearnerMomentum = 0.0;
+                    string toFile = LearnerRate + "|" + LearnerMomentum + "|" + alpha + "|";
+                    Layer = new List<int> { 3 };
+                    Layer.Add(12);
+                    Layer.Add(1);
+                    var a = this.Owner as MainForm;
+                    if (a != null)
+                    {
+                        a.SetSettings();
+                        toFile += a.Teach(false).ToString("F6") + "|";
+                        toFile += a.Predict(false, true).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 10).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 5).ToString("F6") + "|";
+                        toFile += a.Predict(false, true, 1).ToString("F6") + "|";
+                        toFile += a.Predict(false, false).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 10).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 5).ToString("F6") + "|";
+                        toFile += a.Predict(false, false, 1).ToString("F6");
+                    }
+                    writer.WriteLine(toFile);
+                    alpha += 0.1;
+                }
+            }
+           
+        }
+
+        private void runTests_Click(object sender, EventArgs e)
+        {
+            tests();
         }
     }
 }

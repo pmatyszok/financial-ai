@@ -134,10 +134,17 @@ namespace FinancialInstumentsAI
                 {
                     var chart = tcCharts.SelectedTab as ChartTabPage;
                     if (chart == null) return;
-
-                    KeyValuePair<DateTime, double>[] data =
-                        PrnFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
-                                                     selectedSource);
+                    KeyValuePair<DateTime, double>[] data;
+                    if (!(Path.GetExtension(selectedSource) == ".mst"))
+                    {
+                         data = PrnFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
+                                                         selectedSource);
+                    }
+                    else
+                    {
+                        data = MstFinancialParser.ParseFile(folderBrowserDialog.SelectedPath + "\\" +
+                                                                                 selectedSource);
+                    }
 
                     if ((data == null) || (data.Count() == 0))
                         return;
@@ -145,7 +152,7 @@ namespace FinancialInstumentsAI
                     var selectedData = new Stack<KeyValuePair<DateTime, double>>();
 
                     foreach (var d in data.Where(d => (d.Key >= selectTime.DateFrom) && (d.Key <= selectTime.DateTo)))
-                    {
+                    {                       
                         selectedData.Push(d);
                     }
 
@@ -167,10 +174,10 @@ namespace FinancialInstumentsAI
             tcCharts.TabPages.Remove(tcCharts.SelectedTab);
         }
 
-        private void Teach(bool full = true)
+        public double Teach(bool full = true)
         {
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
-            if ((chartTabPage == null) || (chartTabPage.FixedValues == null)) return;
+            if ((chartTabPage == null) || (chartTabPage.FixedValues == null)) return -1;
             int toTeach = chartTabPage.FixedValues.Length;
             if (!full) toTeach = (int)(toTeach * 0.7);
 
@@ -216,6 +223,7 @@ namespace FinancialInstumentsAI
             ProgressBar.Maximum = 100;
             ProgressBar.Step = 1;
 
+            double error = 0;
             for (int i = 0; i < eraCount; i++)
             {
                 var ins = new List<double[]>();
@@ -226,49 +234,56 @@ namespace FinancialInstumentsAI
                     ins.Add(input[ii]);
                     outs.Add(output[ii]);
                 }
-                te.Text = "Teach error: " + learner.TeachOnSamples(ins, outs).ToString("F6");
+                error = learner.TeachOnSamples(ins, outs);
                 if ((eraCount / 100) > 0 && i % (eraCount / 100) == 0)
                 {
                     ProgressBar.PerformStep();
                 }
             }
+            te.Text = "Teach error: " + error.ToString("F6");
+            return error;
         }
 
-        private void Predict(bool full = true, bool predictOneValue = true)
+        public double Predict(bool full = true, bool predictOneValue = true,int pred = 0)
         {
             var chartTabPage = tcCharts.SelectedTab as ChartTabPage;
-            if ((chartTabPage == null) || (chartTabPage.FixedValues == null)) return;
+            if ((chartTabPage == null) || (chartTabPage.FixedValues == null)) return -1;
 
             var data = new double[chartTabPage.FixedValues.Length];
             for (int i = 0; i < data.Count(); i++)
                 data[i] = chartTabPage.FixedValues[i].Value;
 
-            int pred;
-            try
+            //int pred;
+            if (pred == 0)
             {
-                pred = int.Parse(string.IsNullOrEmpty(toPred.Text) ? "0" : toPred.Text);
-            }
-            catch (FormatException)
-            {
-                pred = (int)(chartTabPage.FixedValues.Length * 0.3);
-            }
-            if (predictOneValue)
-            {
-                if (full)
+                try
                 {
-                    if (pred > chartTabPage.FixedValues.Length - layer[0])
-                        pred = chartTabPage.FixedValues.Length - layer[0];
+                    pred = int.Parse(string.IsNullOrEmpty(toPred.Text) ? "0" : toPred.Text);
                 }
-                else
+                catch (FormatException)
                 {
                     pred = (int)(chartTabPage.FixedValues.Length * 0.3);
                 }
-            }
-            else
-            {
-                int maxi = (int)(chartTabPage.FixedValues.Length * 0.3);
-                if (pred > maxi || pred ==0)
-                    pred = maxi;                
+                if (predictOneValue)
+                {
+                    if (full)
+                    {
+                        if (pred > chartTabPage.FixedValues.Length - layer[0])
+                            pred = chartTabPage.FixedValues.Length - layer[0];
+                    }
+                    else
+                    {
+                        int maxi = (int)(chartTabPage.FixedValues.Length * 0.3);
+                        if (pred > maxi || pred == 0)
+                            pred = maxi;
+                    }
+                }
+                else
+                {
+                    int maxi = (int)(chartTabPage.FixedValues.Length * 0.3);
+                    if (pred > maxi || pred == 0)
+                        pred = maxi;
+                }
             }
             predLabel.Text = "Predict: " + pred;
 
@@ -320,7 +335,8 @@ namespace FinancialInstumentsAI
                     writer.WriteLine((aproximated[i]).ToString());
                 }
             }
-            predErrorLabel.Text = "Predict value RMS error: " + RMS(chartTabPage.FixedValues, aproximated).ToString("F6");
+            double error = RMS(chartTabPage.FixedValues, aproximated);
+            predErrorLabel.Text = "Predict value RMS error: " + error.ToString("F6");
             ChartTabPage chart = chartTabPage;
             chart.PredictedValues = new KeyValuePair<DateTime, double>[chart.FixedValues.Length];
 
@@ -335,6 +351,8 @@ namespace FinancialInstumentsAI
             }
 
             chart.UpdatePredictedSeries("predicted");
+
+            return error;
         }
 
         private double TransformData(double input, double min, double range)
