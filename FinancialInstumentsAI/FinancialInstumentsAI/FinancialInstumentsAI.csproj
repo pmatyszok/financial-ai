@@ -146,10 +146,14 @@
     <Content Include="badania\1000iteracji%28od 30.4%29\warstwy_1ukryta_v2.txt" />
     <Content Include="badania\1000iteracji%28od 30.4%29\warstwy_2ukryte.txt" />
     <Content Include="badania\1000iteracji%28od 30.4%29\wskazniki.txt" />
+    <Content Include="badania\1hidelayerConstInit.txt" />
+    <Content Include="badania\1hidelayerRandomInit.txt" />
+    <Content Include="badania\1hidelayerSigmoid.txt" />
     <Content Include="badania\500 iteracji%28od 26.05%29\1hidelayer.txt" />
     <Content Include="badania\500 iteracji%28od 26.05%29\2hidelayer.txt" />
     <Content Include="badania\500 iteracji%28od 26.05%29\parametry.txt" />
     <Content Include="badania\500 iteracji%28od 26.05%29\wskazniki.txt" />
+    <Content Include="badania\opis.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
