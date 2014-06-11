@@ -1,3 +1,3 @@
 ﻿gdzie nie pisze parametrow sa one równe rate = 0.3 , momentum 0.0, alpha = 2,0
 gdzie nie pisze jaka siec jest to 3 wej 12 w ukrytej  
-dla 1000 iteracji próbki z wig20.prn od 30.4.14 reszta 26.5.14 do 30.05.14
+dla 1000 iteracji próbki z wig20.prn od 30.4.14 reszta 12.5.14 do 30.05.14
