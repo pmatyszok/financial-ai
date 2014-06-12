@@ -68,7 +68,6 @@
             this.ema = new System.Windows.Forms.CheckBox();
             this.wma = new System.Windows.Forms.CheckBox();
             this.sma = new System.Windows.Forms.CheckBox();
-            this.runTests = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.windowSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layersNumeric)).BeginInit();
@@ -498,16 +497,6 @@
             this.sma.Text = "SMA";
             this.sma.UseVisualStyleBackColor = true;
             // 
-            // runTests
-            // 
-            this.runTests.Location = new System.Drawing.Point(307, 260);
-            this.runTests.Name = "runTests";
-            this.runTests.Size = new System.Drawing.Size(75, 23);
-            this.runTests.TabIndex = 8;
-            this.runTests.Text = "run tests";
-            this.runTests.UseVisualStyleBackColor = true;
-            this.runTests.Click += new System.EventHandler(this.runTests_Click);
-            // 
             // AISettings
             // 
             this.AcceptButton = this.btnOK;
@@ -515,7 +504,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(382, 397);
-            this.Controls.Add(this.runTests);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.iterationsTextBox);
             this.Controls.Add(this.label9);
@@ -597,6 +585,5 @@
         private System.Windows.Forms.CheckBox wma;
         private System.Windows.Forms.CheckBox sma;
         private System.Windows.Forms.NumericUpDown oscillValue;
-        private System.Windows.Forms.Button runTests;
     }
 }

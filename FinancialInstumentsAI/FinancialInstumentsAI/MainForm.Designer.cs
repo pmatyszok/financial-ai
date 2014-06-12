@@ -39,10 +39,8 @@
             this.obliczToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.run100ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.runSinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.predic = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runSinToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toPred = new System.Windows.Forms.ToolStripTextBox();
             this.oneValue = new System.Windows.Forms.ToolStripMenuItem();
             this.tcCharts = new System.Windows.Forms.TabControl();
@@ -54,11 +52,11 @@
             this.te = new System.Windows.Forms.ToolStripStatusLabel();
             this.predErrorLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.predLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.valueCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbSourceList = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.splitter = new System.Windows.Forms.Splitter();
-            this.valueCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -118,7 +116,7 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.settingsToolStripMenuItem.Text = "AI Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -126,42 +124,33 @@
             // 
             this.obliczToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.run100ToolStripMenuItem,
-            this.runButton,
-            this.runSinToolStripMenuItem});
+            this.runButton});
             this.obliczToolStripMenuItem.Name = "obliczToolStripMenuItem";
-            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.obliczToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.obliczToolStripMenuItem.Text = "Teach";
             // 
             // run100ToolStripMenuItem
             // 
             this.run100ToolStripMenuItem.Name = "run100ToolStripMenuItem";
-            this.run100ToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.run100ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.run100ToolStripMenuItem.Text = "Run(100%)";
             this.run100ToolStripMenuItem.Click += new System.EventHandler(this.run100ToolStripMenuItem_Click);
             // 
             // runButton
             // 
             this.runButton.Name = "runButton";
-            this.runButton.Size = new System.Drawing.Size(131, 22);
+            this.runButton.Size = new System.Drawing.Size(152, 22);
             this.runButton.Text = "Run(70%)";
             this.runButton.Click += new System.EventHandler(this.runButton_Click);
-            // 
-            // runSinToolStripMenuItem
-            // 
-            this.runSinToolStripMenuItem.Name = "runSinToolStripMenuItem";
-            this.runSinToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.runSinToolStripMenuItem.Text = "RunSin";
-            this.runSinToolStripMenuItem.Click += new System.EventHandler(this.runSinToolStripMenuItem_Click);
             // 
             // predic
             // 
             this.predic.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runToolStripMenuItem,
-            this.runSinToolStripMenuItem1,
             this.toPred,
             this.oneValue});
             this.predic.Name = "predic";
-            this.predic.Size = new System.Drawing.Size(130, 22);
+            this.predic.Size = new System.Drawing.Size(152, 22);
             this.predic.Text = "Predict";
             // 
             // runToolStripMenuItem
@@ -170,13 +159,6 @@
             this.runToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
-            // 
-            // runSinToolStripMenuItem1
-            // 
-            this.runSinToolStripMenuItem1.Name = "runSinToolStripMenuItem1";
-            this.runSinToolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
-            this.runSinToolStripMenuItem1.Text = "RunSin";
-            this.runSinToolStripMenuItem1.Click += new System.EventHandler(this.runSinToolStripMenuItem1_Click);
             // 
             // toPred
             // 
@@ -257,6 +239,12 @@
             this.predLabel.Size = new System.Drawing.Size(56, 17);
             this.predLabel.Text = "Predict: 0";
             // 
+            // valueCount
+            // 
+            this.valueCount.Name = "valueCount";
+            this.valueCount.Size = new System.Drawing.Size(76, 17);
+            this.valueCount.Text = "Value count: ";
+            // 
             // lbSourceList
             // 
             this.lbSourceList.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -289,12 +277,6 @@
             this.splitter.Size = new System.Drawing.Size(3, 293);
             this.splitter.TabIndex = 7;
             this.splitter.TabStop = false;
-            // 
-            // valueCount
-            // 
-            this.valueCount.Name = "valueCount";
-            this.valueCount.Size = new System.Drawing.Size(76, 17);
-            this.valueCount.Text = "Value count: ";
             // 
             // MainForm
             // 
@@ -339,19 +321,17 @@
         private System.Windows.Forms.Splitter splitter;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem obliczToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem runButton;
         private System.Windows.Forms.ToolStripMenuItem predic;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem runSinToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem runSinToolStripMenuItem1;
         private System.Windows.Forms.ToolStripTextBox toPred;
-        private System.Windows.Forms.ToolStripMenuItem run100ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oneValue;
         private System.Windows.Forms.ToolStripStatusLabel te;
         private System.Windows.Forms.ToolStripStatusLabel predErrorLabel;
         private System.Windows.Forms.ToolStripStatusLabel predLabel;
         private System.Windows.Forms.ToolStripStatusLabel valueCount;
+        private System.Windows.Forms.ToolStripMenuItem obliczToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem run100ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runButton;
     }
 }
 

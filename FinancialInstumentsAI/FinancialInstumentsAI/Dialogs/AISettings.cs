@@ -184,6 +184,7 @@ namespace FinancialInstumentsAI.Dialogs
             Hide();
         }
 
+        #region researchMethod        
         private void tests()
         {
            
@@ -580,5 +581,7 @@ namespace FinancialInstumentsAI.Dialogs
         {
             tests();
         }
+        #endregion
+
     }
 }

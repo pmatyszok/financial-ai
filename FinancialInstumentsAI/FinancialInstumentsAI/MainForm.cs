@@ -48,30 +48,10 @@ namespace FinancialInstumentsAI
             InitializeComponent();
             oneValue.CheckOnClick = true;
             oneValue.CheckState = CheckState.Checked;
-
-            //----------
-            var newTabPage = new ChartTabPage("sin") {Name = "sin"};
-
-            tcCharts.TabPages.Add(newTabPage);
-            tcCharts.SelectTab(newTabPage);
-
-            LoadExampleSinusData();
-
-            //---------
+            
         }
 
         public string FinancialFileSearchPattern { get; set; }
-
-        private void LoadExampleSinusData()
-        {
-            double min, max;
-            double[] data = ReadSinData(out min, out max);
-
-            var chart = tcCharts.SelectedTab as ChartTabPage;
-            if (chart == null) return;
-            chart.Data = data;
-            chart.Draw("sin");
-        }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -252,8 +232,7 @@ namespace FinancialInstumentsAI
             var data = new double[chartTabPage.FixedValues.Length];
             for (int i = 0; i < data.Count(); i++)
                 data[i] = chartTabPage.FixedValues[i].Value;
-
-            //int pred;
+            
             if (pred == 0)
             {
                 try
@@ -413,160 +392,6 @@ namespace FinancialInstumentsAI
             error /= pedictData.Length;
             error = Math.Sqrt(error);
             return error;
-        }
-
-        //------------------------------------
-        //for sinus       
-        private static double[] ReadSinData(out double min, out double max)
-        {
-            var readedData = new double[50];
-
-            using (var reader = new StreamReader(File.OpenRead("sinusoid.csv")))
-            {
-                int i = 0;
-                string line = reader.ReadLine();
-                if (line == null)
-                {
-                    min = max = 0;
-                    return null;
-                }
-                readedData[i] = double.Parse(line, CultureInfo.InvariantCulture);
-                min = readedData[i];
-                max = readedData[i];
-
-                try
-                {
-                    for (i = 1; i < 50; i++)
-                    {
-                        line = reader.ReadLine();
-                        if (line == null) break;
-                        readedData[i] = double.Parse(line, CultureInfo.InvariantCulture);
-                        if (min > readedData[i])
-                            min = readedData[i];
-                        if (max < readedData[i])
-                            max = readedData[i];
-                    }
-                }
-                catch (Exception)
-                {
-                }
-                if (i > 0)
-                {
-                    var data = new double[i];
-                    Array.Copy(readedData, data, i);
-                    return data;
-                }
-                return null;
-            }
-        }
-
-        private void TeachSinus()
-        {
-            double min, max;
-            double[] data = ReadSinData(out min, out max);
-            min = data.Min();
-            max = data.Max();
-            double range = (max - min);
-            int learningSamples = data.Length - layer[0] - 1;
-
-            var input = new double[learningSamples][];
-            var output = new double[learningSamples][];
-
-
-            for (int i = 0; i < learningSamples; i++)
-            {
-                input[i] = new double[layer[0]];
-                output[i] = new double[1];
-
-                for (int j = 0; j < layer[0]; j++)
-                {
-                    input[i][j] = TransformData(data[i + j], min, range);
-                }
-                output[i][0] = TransformData(data[i + layer[0]], min, range);
-            }
-            //double[] input = new double[] { 1,2,3,4,5,6,7,8,9 };
-            //double[] output = new double[]{ 0,4,7,9,10,9,7,4,0 };
-            // learner = new Teacher(network);
-
-            learner.Rate = rate;
-            learner.Momentum = momentum;
-
-            for (int i = 0; i < eraCount; i++)
-            {
-                var ins = new List<double[]>();
-                var outs = new List<double[]>();
-
-                for (int ii = 0; ii < input.Length; ii++)
-                {
-                    ins.Add(input[ii]);
-                    outs.Add(output[ii]);
-                }
-                te.Text = "Teach error: " + learner.TeachOnSamples(ins, outs).ToString("F6");
-            }
-        }
-
-        private void PredictSinus()
-        {
-            double min, max;
-            double[] data = ReadSinData(out min, out max);
-            min = data.Min();
-            max = data.Max();
-            double range = (max - min);
-
-            var solution = new double[data.Length - layer[0], 2];
-            var netInput = new double[layer[0]];
-
-
-            for (int j = 0; j < data.Length - layer[0]; j++)
-            {
-                for (int k = 0; k < layer[0]; k++)
-                {
-                    netInput[k] = TransformData(data[j + k], min, range);
-                }
-                solution[j, 1] = TransformBack(network.ComputeOutputVector(netInput)[0], min, max);
-                //(network.ComputeOutputVector(netInput)[0]) / range + min;
-            }
-            var aproximated = new double[data.Length - layer[0]];
-            Console.WriteLine("Try those Values in Excel or whatever");
-            using (var writer = new StreamWriter("data_dump_time_series.txt"))
-            {
-                for (int i = 0; i < aproximated.Length; i++)
-                {
-                    aproximated[i] = solution[i, 1];
-                    writer.WriteLine((aproximated[i]).ToString());
-                }
-            }
-
-
-            tcCharts.SelectedIndex = 0;
-            var chart = tcCharts.SelectedTab as ChartTabPage;
-            if (chart == null) return;
-
-            var predData = new double[layer[0] + aproximated.Length];
-            for (int i = 0; i < layer[0]; i++)
-            {
-                predData[i] = data[i];
-            }
-            Array.Copy(aproximated, 0, predData, layer[0], aproximated.Length);
-            chart.DrawPred("pred sin", predData);
-        }
-
-        private void runSinToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (network != null)
-            {
-                PredictSinus();
-            }
-        }
-
-        private void runSinToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (network != null)
-            {
-                TeachSinus();
-            }
-        }
-
-        //-------------------------------
+        }      
     }
 }
